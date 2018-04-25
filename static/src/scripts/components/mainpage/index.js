@@ -4,23 +4,20 @@ import Header from './../header/index';
 import Footer from './../footer/index';
 import Form from './../form/index';
 
-class InstaShop extends Component {
+class Mainpage extends Component {
 
     constructor(props) {
-        super(props);  
-        this.state = {
-            menushown: true,
-        };        
+        super(props); 
     }   
     render() {
         return (
             <div>            
-                <Header/>    
-                <Form/>
-                <Footer/>          
+                <Header />    
+                <Form />
+                <Footer />          
             </div>
         );
     }
 }
 
-export default InstaShop;
+export default Mainpage;

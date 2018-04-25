@@ -42,9 +42,8 @@ class Footer extends Component {
                     <div className="row">
                         <div className="col-md-12">                       
                             <footer className="shop_footer">
-                            footer
                                 <div className={'scrollToTop ' + (this.state.scrollToTopIsShowen === true ? 'active' : '')} 
-                                    onClick={this.scrollToTop}>zzz</div>
+                                    onClick={this.scrollToTop}></div>
                             </footer>
                         </div>
                     </div>

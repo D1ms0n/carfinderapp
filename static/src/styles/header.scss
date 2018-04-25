@@ -24,11 +24,17 @@
     }
 }
 
+html{
+    height: 100%;
+}
+
 body{
     font-size: $font_16;
     font-family: $font_reg;
 }
+
 header{
+    margin-bottom: 20px;
     .header_top{
         height: 40px;
         width: 100%;
@@ -95,6 +101,10 @@ header{
     margin-top: 10px;
     float: right;
     cursor: pointer;
+    display: none;
+    @media screen and (max-width: 500px){
+        display: block;
+    }
     span{
         position: relative;
         display: block;
@@ -127,7 +137,7 @@ header{
     }
 }
 
-.menu{
+.snoops{
     clear: both;
     padding: 20px 0;
     border-bottom: 1px solid $menu_border_color;
@@ -150,8 +160,34 @@ header{
                 color: $menu_links_color;
                 font-size: font_16;
                 font-family: $font_bold;
+                text-decoration: none;
+                span{
+                    @include mixin_transition(.2s);
+                    border-bottom: 1px solid transparent;
+                    &:hover{
+                        border-bottom: 1px solid $menu_links_color;
+                    }
+                }
             }
         }
+    }
+}
+
+.modal_form{
+    position: fixed;
+    left: 50%;
+    top: -25%;
+    width: 300px;
+    margin-left: -150px;
+    padding: 20px;
+    z-index: 1;
+    background: #fff;
+    opacity: 0;
+    border: 1px solid $input_border_color;
+    @include mixin_transition(.5s);
+    &.active{
+        opacity: 1;
+        top: 25%;
     }
 }
 
