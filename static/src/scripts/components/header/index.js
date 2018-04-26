@@ -6,29 +6,33 @@ import ApiService from './../../services/api';
 import config from './../../configs';
 
 class Header extends Component {
-    constructor(props) {
-        super(props);      
+    constructor() {
+        super();      
         this.state = {
             signinshown: false,
             menushown: false,
             snoops: []
         };
         this.togglePopup = this.togglePopup.bind(this);
-        this.toggleMenu = this.toggleMenu.bind(this);
+        this.handleOutsideClick = this.handleOutsideClick.bind(this);
         this.getSnoops = this.getSnoops.bind(this);
         this.signIn = this.signIn.bind(this);
-        this.closeClickOutside = this.closeClickOutside.bind(this);
     }
-    togglePopup(e){
-        e.stopPropagation();
-        this.setState({
-            signinshown: !this.state.signinshown
-        });
+    togglePopup(){
+        if (!this.state.signinshown) {
+            document.addEventListener('click', this.handleOutsideClick, false);
+        } else {
+            document.removeEventListener('click', this.handleOutsideClick, false);
+        }
+        this.setState(prevState => ({
+            signinshown: !prevState.signinshown,
+        }));
     }
-    toggleMenu(){
-        this.setState({
-            menushown: !this.state.menushown
-        })
+    handleOutsideClick(e) {
+        if (this.node.contains(e.target)) {
+          return;
+        }
+        this.togglePopup();
     }
     getSnoops(){
         let apiService = new ApiService();
@@ -42,18 +46,6 @@ class Header extends Component {
                 console.log(e);
             })
     }
-    closeClickOutside(selector){
-        const modal = document.querySelector('.modal_form');
-        window.addEventListener('click', (e) => {
-            if ( e.target.className.indexOf('modal_form') === -1 
-                && e.target.parentElement.className.indexOf('modal_form') === -1 
-                && e.target.parentElement.parentElement.className.indexOf('modal_form') === -1 ) {
-                this.setState({
-                    signinshown: false
-                });
-            }
-        });
-    }
     signIn(e){
         e.preventDefault(); 
         e.stopPropagation();
@@ -63,7 +55,6 @@ class Header extends Component {
     }
     componentDidMount(){
         this.getSnoops();
-        this.closeClickOutside();
     }
     render() {
         return (
@@ -89,8 +80,7 @@ class Header extends Component {
                                         {messages.messages.name}
                                     </h1>
                                 </div>
-                                <div onClick={() => this.toggleMenu()}  
-                                    className={"burger " + ( this.state.menushown === true ? '' : 'active')}>
+                                <div className={"burger " + ( this.state.menushown === true ? '' : 'active')}>
                                     <span></span>
                                     <span></span>
                                     <span></span>
@@ -113,15 +103,14 @@ class Header extends Component {
                         </div>
                     </div>
                 </header>
-                
-                <div className={"modal_form " + ( this.state.signinshown === true ? 'active' : '')}>
+                <div ref={node => { this.node = node; }} 
+                    className={"modal_form " + ( this.state.signinshown === true ? 'active' : '')}>
                     <form className="form" id="signInForm" onSubmit={this.signIn}>
                         <input className="input" placeholder="email" name="email" type="text" />
                         <input className="input" placeholder="pass" name="password" type="password" />
                         <input className="input submit" type="submit" value={messages.messages.submit} />
                     </form>
                 </div>
-
             </div>
         );
     }

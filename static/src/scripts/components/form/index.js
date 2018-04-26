@@ -140,7 +140,8 @@ class Form extends Component {
         history.replaceState('','', `/?${serialize(form)}`);
     }
     checkValues(val1,val2){
-        let filteredVals = ( val1 > val2 ? [val2,val1] : [val1,val2] );
+        let filteredVals ;
+        filteredVals =  ( val1.length === 0 || val2.length === 0 ? [val1,val2] : ( val1 > val2 ? [val2,val1] : [val1,val2] ) );
         document.getElementById('m_min').value = filteredVals[0];
         document.getElementById('m_max').value = filteredVals[1];
         return filteredVals;
