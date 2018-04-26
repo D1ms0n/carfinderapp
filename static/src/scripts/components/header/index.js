@@ -10,13 +10,12 @@ class Header extends Component {
         super();      
         this.state = {
             signinshown: false,
-            menushown: false,
             snoops: []
         };
         this.togglePopup = this.togglePopup.bind(this);
         this.handleOutsideClick = this.handleOutsideClick.bind(this);
         this.getSnoops = this.getSnoops.bind(this);
-        this.signIn = this.signIn.bind(this);
+        this.sendUserParams = this.sendUserParams.bind(this);
     }
     togglePopup(){
         if (!this.state.signinshown) {
@@ -29,7 +28,7 @@ class Header extends Component {
         }));
     }
     handleOutsideClick(e) {
-        if (this.node.contains(e.target)) {
+        if (this.signin.contains(e.target)) {
           return;
         }
         this.togglePopup();
@@ -46,7 +45,7 @@ class Header extends Component {
                 console.log(e);
             })
     }
-    signIn(e){
+    sendUserParams(e){
         e.preventDefault(); 
         e.stopPropagation();
         const form = document.getElementById('signInForm');
@@ -80,12 +79,7 @@ class Header extends Component {
                                         {messages.messages.name}
                                     </h1>
                                 </div>
-                                <div className={"burger " + ( this.state.menushown === true ? '' : 'active')}>
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
-                                </div>
-                                <nav className={"snoops " + ( this.state.menushown === true ? 'active' : '')}>
+                                <nav className="snoops">
                                     <ul>
                                         {this.state.snoops.map((item,index) => 
                                             <li>
@@ -103,9 +97,9 @@ class Header extends Component {
                         </div>
                     </div>
                 </header>
-                <div ref={node => { this.node = node; }} 
+                <div ref={signin => { this.signin = signin; }} 
                     className={"modal_form " + ( this.state.signinshown === true ? 'active' : '')}>
-                    <form className="form" id="signInForm" onSubmit={this.signIn}>
+                    <form className="form" id="signInForm" onSubmit={this.sendUserParams}>
                         <input className="input" placeholder="email" name="email" type="text" />
                         <input className="input" placeholder="pass" name="password" type="password" />
                         <input className="input submit" type="submit" value={messages.messages.submit} />

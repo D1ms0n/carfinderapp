@@ -17,7 +17,8 @@
         .title{
             margin-bottom: 10px;
             a{
-                font-family: $font_bold;
+                font-family: $font_reg;
+                font-weight: bold;
                 color: $links_color;  
                 text-decoration: none;
                 span{
