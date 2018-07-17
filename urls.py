@@ -28,6 +28,10 @@ urlpatterns = [
 
     url(r'^$',           app_views.main, name='home'),
 
+
+    url(r'^swaggerui/$', app_views.schema_view),
+
+
     # REST API
 
     url(r'^api/snoops/$',                             api_views.SnoopList.as_view(),      name='snoops'),
