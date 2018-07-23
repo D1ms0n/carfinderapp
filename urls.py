@@ -25,11 +25,13 @@ from carfinderapp import views as app_views
 from carfinderapp.views import api_views as api_views
 
 urlpatterns = [
-
+    # Home
     url(r'^$',           app_views.main, name='home'),
 
-    # REST API
+    # Swagger UI
+    url(r'^swaggerui/$', app_views.schema_view),
 
+    # REST API
     url(r'^api/snoops/$',                             api_views.SnoopList.as_view(),      name='snoops'),
     url(r'^api/snoops/(?P<pk>[0-9]+)/$',              api_views.SnoopDetail.as_view(),         name='snoop'),
 
