@@ -2,7 +2,6 @@
 import React, {Component} from 'react';
 import IconButton from '@material-ui/core/IconButton';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -20,11 +19,11 @@ class AuthActions extends Component {
     };
   };
 
-  handleClick = event => {
+  openMenu = event => {
     this.setState({ anchorEl: event.currentTarget });
   };
 
-  handleClose = () => {
+  closeMenu = () => {
     this.setState({ anchorEl: null });
   };
 
@@ -32,32 +31,30 @@ class AuthActions extends Component {
     this.setState({
       [stateToChange]: !this.state[stateToChange]
     });
+    this.closeMenu();
   };
 
   render() {
     const {anchorEl} = this.state;
     return (
       <div>
-
         <IconButton
           color='inherit'
           aria-owns={anchorEl ? 'simple-menu' : null}
           aria-haspopup="true"
-          onClick={this.handleClick}
+          onClick={this.openMenu}
         >
           <AccountCircle />
         </IconButton>
-
         <Menu
           id="simple-menu"
           anchorEl={anchorEl}
           open={Boolean(anchorEl)}
-          onClose={this.handleClose}
+          onClose={this.closeMenu}
         >
           <MenuItem onClick={()=>{this.changeState('openLogin')}}>Login</MenuItem>
           <MenuItem onClick={()=>{this.changeState('openRegistration')}} >Registration</MenuItem>
         </Menu>
-
 
         <Dialog
           open={this.state.openLogin}

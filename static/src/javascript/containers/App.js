@@ -184,7 +184,7 @@ class App extends Component {
                       variant='title'
                       color='inherit'
                       noWrap>
-                      Persistent drawer
+                      Headline
                     </Typography>
                     <AuthActions />
                   </Toolbar>
