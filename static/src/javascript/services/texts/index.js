@@ -22,7 +22,7 @@ const texts = {
     texts.noResults = ( texts.localisation === 'en' ? 'no results' : '' );
     texts.noResultsSnoops = ( texts.localisation === 'en' ? 'no added snoops' : '' );
     texts.headerTitle = ( texts.localisation === 'en' ? 'Headline' : '' );
-    texts.login = ( texts.localisation === 'en' ? 'Login' : '' );˚
+    texts.login = ( texts.localisation === 'en' ? 'Login' : '' );
     texts.registration = ( texts.localisation === 'en' ? 'Registration' : '' );
     texts.cancel = ( texts.localisation === 'en' ? 'Cancel' : '' );
     texts.submit = ( texts.localisation === 'en' ? 'Submit' : '' );
