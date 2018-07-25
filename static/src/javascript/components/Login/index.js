@@ -5,6 +5,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import text from './../../services/texts/index';
 
 const styles = (theme) => ({
   root: {
@@ -41,10 +42,10 @@ class Login extends Component {
         </DialogContent>
         <DialogActions>
           <Button onClick={()=>{this.props.changeState('openLogin')}} color="primary">
-            Cancel
+            {text.texts.cancel}
           </Button>
           <Button onClick={()=>{this.props.changeState('openLogin')}} color="primary">
-            Submit
+            {text.texts.submit}
           </Button>
         </DialogActions>
       </div>

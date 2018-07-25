@@ -7,6 +7,7 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Login from './../Login';
 import Registration from './../Registration';
+import text from './../../services/texts/index';
 
 class AuthActions extends Component {
 
@@ -52,8 +53,8 @@ class AuthActions extends Component {
           open={Boolean(anchorEl)}
           onClose={this.closeMenu}
         >
-          <MenuItem onClick={()=>{this.changeState('openLogin')}}>Login</MenuItem>
-          <MenuItem onClick={()=>{this.changeState('openRegistration')}} >Registration</MenuItem>
+          <MenuItem onClick={()=>{this.changeState('openLogin')}}>{text.texts.login}</MenuItem>
+          <MenuItem onClick={()=>{this.changeState('openRegistration')}}>{text.texts.registration}</MenuItem>
         </Menu>
 
         <Dialog

@@ -47,40 +47,45 @@ class SnoopsList extends Component {
     apiService.getRequest(this.config.snoops)
       .then((result)=>{
         console.log(result);
-      }).catch(()=>{
+        this.setState({
+          snoops: result || []
+        })
+      }).catch((e)=>{
+        console.log(e);
     });
   }
 
   render() {
     const {classes} = this.props;
-    let items = [0,1,2];
+    const {snoops} = this.state;
     const noResults = (
       <div className={classes.noResultsContainer}>
-        {text.texts.noResults}
+        {text.texts.noResultsSnoops}
       </div>
     );
-
     return (
       <div>
         <Typography className={classes.title} variant="title" gutterBottom>
-          Title
+          {text.texts.snoops}
         </Typography>
         <List>
-          { items.length === 0 ? noResults : null }
-          {items.map(value => (
-            <ListItem key={value} dense button className={classes.listItem}>
-              <Avatar alt="preview" src="https://material-ui.com/static/images/remy.jpg" />
-              <Badge color='secondary' badgeContent={1}>
-                <ListItemText primary={`Line item ${value + 1}`} />
-              </Badge>
-              <ListItemSecondaryAction>
-                <IconButton aria-label='Delete'>
-                  <DeleteIcon />
-                </IconButton>
-              </ListItemSecondaryAction>
-              <Divider />
-            </ListItem>
-          ))}
+          { Array.isArray(snoops) && snoops.length > 0
+            ? snoops.map(value => (
+              <ListItem key={value} dense button className={classes.listItem}>
+                <Avatar alt="preview" src="https://material-ui.com/static/images/remy.jpg" />
+                <Badge color='secondary' badgeContent={1}>
+                  <ListItemText primary={`Line item ${value + 1}`} />
+                </Badge>
+                <ListItemSecondaryAction>
+                  <IconButton aria-label='Delete'>
+                    <DeleteIcon />
+                  </IconButton>
+                </ListItemSecondaryAction>
+                <Divider />
+              </ListItem>
+              ))
+            : noResults
+          }
         </List>
       </div>
     );

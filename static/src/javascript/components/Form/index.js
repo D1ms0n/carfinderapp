@@ -315,12 +315,12 @@ class Form extends Component {
       years: null,
       manufacturers: null,
       models: null,
-      selectedManufacturer: '',
-      selectedModel: '',
-      selectedMileageMin: 0,
-      selectedMileageMax: 100,
-      selectedYearMin: startYear,
-      selectedYearMax: endYear
+      manufacturer: '',
+      model: '',
+      mileage_min: 0,
+      mileage_max: 100,
+      year_min: startYear,
+      year_max: endYear
     };
   }
 
@@ -338,8 +338,8 @@ class Form extends Component {
 
   handleRangeYearsChange = (value) => {
     this.setState({
-      selectedYearMin: value[0],
-      selectedYearMax: value[1]
+      year_min: value[0],
+      year_max: value[1]
     });
   };
 
@@ -367,10 +367,10 @@ class Form extends Component {
 
   render() {
     const {classes} = this.props;
-    const {selectedYearMin,selectedYearMax} = this.state;
-    const rangeValue = [selectedYearMin, selectedYearMax];
+    const {year_min,year_max} = this.state;
+    const rangeValue = [year_min, year_max];
     return (
-      <Grid className={classes.grid} item lg={3} md={3} sm={4} xs={11}>
+      <Grid className={classes.grid} item lg={3} md={4} sm={4} xs={11}>
         <Paper className={classes.paper}>
           <form
             noValidate
@@ -393,13 +393,13 @@ class Form extends Component {
                   placeholder={texts.texts.manufacturer}
                   inputProps={{
                     classes,
-                    name: 'selectedManufacturer',
-                    instanceId: 'selectedManufacturer',
+                    name: 'manufacturer',
+                    instanceId: 'manufacturer',
                     simpleValue: true,
                     options: manufacturers,
                   }}
-                  value={this.state.selectedManufacturer}
-                  onChange={this.handleChange('selectedManufacturer')}
+                  value={this.state.manufacturer}
+                  onChange={this.handleChange('manufacturer')}
                 />
               </Grid>
             </Grid>
@@ -419,13 +419,13 @@ class Form extends Component {
                   placeholder={texts.texts.model}
                   inputProps={{
                     classes,
-                    name: 'selectedModel',
-                    instanceId: 'selectedModel',
+                    name: 'model',
+                    instanceId: 'model',
                     simpleValue: true,
                     options: manufacturers,
                   }}
-                  value={this.state.selectedModel}
-                  onChange={this.handleChange('selectedModel')}
+                  value={this.state.model}
+                  onChange={this.handleChange('model')}
                 />
               </Grid>
             </Grid>
@@ -442,17 +442,17 @@ class Form extends Component {
                 <Input
                   fullWidth
                   inputComponent={SelectWrapped}
-                  name='selectedYearMin'
+                  name='year_min'
                   placeholder={texts.texts.yearMin}
                   inputProps={{
                     classes,
-                    name: 'selectedYearMin',
-                    instanceId: 'selectedYearMin',
+                    name: 'year_min',
+                    instanceId: 'year_min',
                     simpleValue: true,
                     options: years,
                   }}
-                  value={this.state.selectedYearMin}
-                  onChange={this.handleChange('selectedYearMin')}
+                  value={this.state.year_min}
+                  onChange={this.handleChange('year_min')}
                 />
               </Grid>
               <Grid className={classes.paperRelative} item lg={6} md={6} sm={6} xs={6}>
@@ -461,17 +461,17 @@ class Form extends Component {
                 <Input
                   fullWidth
                   inputComponent={SelectWrapped}
-                  name='selectedYearMax'
+                  name='year_max'
                   placeholder={texts.texts.yearMax}
                   inputProps={{
                     classes,
-                    name: 'selectedYearMax',
-                    instanceId: 'selectedYearMax',
+                    name: 'year_max',
+                    instanceId: 'year_max',
                     simpleValue: true,
                     options: years,
                   }}
-                  value={this.state.selectedYearMax}
-                  onChange={this.handleChange('selectedYearMax')}
+                  value={this.state.year_max}
+                  onChange={this.handleChange('year_max')}
                 />
               </Grid>
               <Grid className={classes.paperRelative} item lg={12} md={12} sm={12} xs={12}>
@@ -495,12 +495,12 @@ class Form extends Component {
                 </Typography>
                 <TextField
                   type='number'
-                  id='selectedMileageMin'
-                  name='selectedMileageMin'
+                  id='mileage_min'
+                  name='mileage_min'
                   label={texts.texts.km}
                   className={classes.mileageField}
                   onChange={this.handleMillageChange}
-                  value={this.state.selectedMileageMin}
+                  value={this.state.mileage_min}
                 />
               </Grid>
               <Grid className={classes.paperRelative} item lg={6} md={6} sm={6} xs={6}>
@@ -508,12 +508,12 @@ class Form extends Component {
                 </Typography>
                 <TextField
                   type='number'
-                  id='selectedMileageMax'
-                  name='selectedMileageMax'
+                  id='mileage_max'
+                  name='mileage_max'
                   label={texts.texts.km}
                   className={classes.mileageField}
                   onChange={this.handleMillageChange}
-                  value={this.state.selectedMileageMax}
+                  value={this.state.mileage_max}
                 />
               </Grid>
             </Grid>
@@ -529,7 +529,7 @@ class Form extends Component {
                   color='primary'
                   className={classes.button}
                 >
-                  {texts.texts.submit}
+                  {texts.texts.createSnoop}
                 </Button>
               </Grid>
             </Grid>

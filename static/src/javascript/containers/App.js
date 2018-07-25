@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import * as FormActions from '../actions/FormActions';
+import text from './../services/texts/index';
 
 import {withStyles} from "@material-ui/core/styles/index";
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -182,7 +183,7 @@ class App extends Component {
                       variant='title'
                       color='inherit'
                       noWrap>
-                      Headline
+                      {text.texts.headerTitle}
                     </Typography>
                     <AuthActions />
                   </Toolbar>
