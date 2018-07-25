@@ -1,27 +1,67 @@
+
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import * as FormActions from '../actions/FormActions';
-import * as PreLoaderActions from '../actions/PreLoaderActions';
 
 import {withStyles} from "@material-ui/core/styles/index";
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Header from './../components/Header/';
+import AuthActions from './../components/Header/';
+import Badge from '@material-ui/core/Badge';
 import Footer from './../components/Footer/';
 import Form from './../components/Form/';
 import Results from './../components/Results';
 import SnoopsList from './../components/SnoopsList'
 import Grid from '@material-ui/core/Grid';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import Drawer from '@material-ui/core/Drawer';
 import IconButton from '@material-ui/core/IconButton';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import Divider from '@material-ui/core/Divider';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import classNames from 'classnames';
+import AppBar from '@material-ui/core/AppBar';
+import MenuIcon from '@material-ui/icons/Menu';
 
-const drawerWidth = 300;
-
+const drawerWidth = 240;
 const styles = theme => ({
+  root: {
+    flexGrow: 1,
+  },
+  appFrame: {
+    zIndex: 1,
+    overflow: 'hidden',
+    position: 'relative',
+    display: 'flex',
+    width: '100%',
+  },
+  appBar: {
+    position: 'absolute',
+    transition: theme.transitions.create(['margin', 'width'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+  },
+  appBarShift: {
+    width: `calc(100% - ${drawerWidth}px)`,
+    transition: theme.transitions.create(['margin', 'width'], {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+  'appBarShift-left': {
+    marginLeft: drawerWidth,
+  },
+  menuButton: {
+    marginLeft: 12,
+    marginRight: 20,
+  },
+  hide: {
+    display: 'none',
+  },
   drawerPaper: {
+    position: 'relative',
     width: drawerWidth,
   },
   drawerHeader: {
@@ -30,6 +70,27 @@ const styles = theme => ({
     justifyContent: 'flex-end',
     padding: '0 8px',
     ...theme.mixins.toolbar,
+  },
+  content: {
+    flexGrow: 1,
+    backgroundColor: theme.palette.background.default,
+    padding: theme.spacing.unit * 3,
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+  },
+  'content-left': {
+    marginLeft: -drawerWidth,
+  },
+  contentShift: {
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+  'contentShift-left': {
+    marginLeft: 0,
   },
   loaderWrapper: {
     textAlign: 'center',
@@ -47,38 +108,32 @@ const styles = theme => ({
   },
   loader: {
     textAlign: 'center'
-  },
-  relative: {
-    position: 'relative'
   }
 });
 
 class App extends Component {
+
   constructor(props){
     super(props);
     this.state = {
-      drawerOpen: false,
+      drawerOpen: false
     };
     this.handleDrawerToggle = this.handleDrawerToggle.bind(this);
-  }
+  };
+
   handleDrawerToggle() {
     this.setState({
       drawerOpen: !this.state.drawerOpen
     })
   };
+
   render() {
     const {submitForm} = this.props.FormActions;
-    const {togglePreLoader} = this.props.PreLoaderActions;
-    const {loading,classes} = this.props;
-    const {drawerOpen} = this.state;
-    const loader = (
-      <div className={classes.loaderWrapper}>
-        <CircularProgress className={classes.loader} size={50} />
-      </div>
-    );
+    const { classes } = this.props;
+    const { drawerOpen } = this.state;
     const drawer = (
       <Drawer
-        variant='persistent'
+        variant="persistent"
         anchor='left'
         open={drawerOpen}
         classes={{
@@ -91,7 +146,10 @@ class App extends Component {
           </IconButton>
         </div>
         <Divider />
+
         <SnoopsList items={[0,1,2,3]} />
+
+        <Divider />
       </Drawer>
     );
     return (
@@ -102,25 +160,67 @@ class App extends Component {
           spacing={24}
           justify='center'
         >
-            {drawer}
-            <Header handleDrawerToggle={this.handleDrawerToggle}/>
-        </Grid>
-        <Grid
-          container
-          spacing={24}
-          justify='center'>
-          <Form
-            submitForm={submitForm}
-            togglePreLoader={togglePreLoader}
-          />
-          <Results />
+          <Grid item lg={10} md={10} sm={10} xs={12}>
+            <div className={classes.root}>
+              <div className={classes.appFrame}>
+                <AppBar
+                  className={classNames(classes.appBar, {
+                    [classes.appBarShift]: drawerOpen,
+                    [classes['appBarShift-left']]: drawerOpen,
+                  })}
+                >
+                  <Toolbar disableGutters={!drawerOpen}>
+                    <IconButton
+                      color='inherit'
+                      aria-label='Open drawer'
+                      onClick={this.handleDrawerToggle}
+                      className={classNames(classes.menuButton, drawerOpen && classes.hide)}
+                    >
+                      <Badge color='secondary' badgeContent={4}>
+                        <MenuIcon/>
+                      </Badge>
+                    </IconButton>
+                    <Typography
+                      variant='title'
+                      color='inherit'
+                      noWrap>
+                      Persistent drawer
+                    </Typography>
+                    <AuthActions />
+                  </Toolbar>
+                </AppBar>
+                {drawer}
+                <main
+                  className={classNames(classes.content, classes['content-left'], {
+                    [classes.contentShift]: drawerOpen,
+                    [classes['contentShift-left']]: drawerOpen,
+                  })}
+                >
+                  <div className={classes.drawerHeader} />
+                  <Grid
+                    container
+                    spacing={24}
+                    justify='center'
+                  >
+                    <Form
+                      submitForm={submitForm}
+                    />
+                    <Results />
+                  </Grid>
+                </main>
+              </div>
+            </div>
+          </Grid>
         </Grid>
         <Footer />
-        {( loading ? loader : null)}
       </React.Fragment>
     );
   }
 }
+
+App.propTypes = {
+  classes: PropTypes.object.isRequired
+};
 
 const mapStateToProps = state => {
   return {
@@ -132,8 +232,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     FormActions: bindActionCreators(FormActions, dispatch),
-    PreLoaderActions: bindActionCreators(PreLoaderActions, dispatch)
   }
 };
 
-export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(App));
+export default withStyles(styles, { withTheme: true })(connect(mapStateToProps, mapDispatchToProps)(App));

@@ -28,6 +28,7 @@ const OLDEST_CARS = 30;
 const years = countYears(OLDEST_CARS);
 const startYear = years[0].value;
 const endYear = years[years.length - 1].value;
+
 const manufacturers = [
   { value: 'Toyota',label: 'Toyota' },
   { value: 'Ford',label: 'Ford' },
@@ -46,6 +47,60 @@ const manufacturers = [
   { value: 'Mitsubishi',label: 'Mitsubishi' },
   { value: 'Volvo',label: 'Volvo' },
 ];
+const resultCars = [
+  {
+    img: 'https://cdn2.riastatic.com/photosnew/auto/photo/tesla_model-s__236718267bx.jpg',
+    name: 'Tesla Model S 70D 2015',
+    place: 'Харьков',
+    price: '51 000 $',
+    millage: '18 000',
+    engine: 'Электро',
+    transmission: 'Автомат',
+    description: 'Отличное состояние. пробег 17 тыс км. салон кожа, потолок алькантара, торпедо кожа/алькантара. есть все кроме пневмо подвески и панарамной крыши. резина летняя и зимняя новая.',
+    date: '08.06.2018'
+  },{
+    img: 'https://cdn4.riastatic.com/photosnew/auto/photo/tesla_model-s__212678044bx.jpg',
+    name: 'Tesla Model S Brabus Performance 2017',
+    place: 'Киев',
+    price: '160 100 $',
+    millage: 'без пробега',
+    engine: 'Электро',
+    transmission: 'Автомат',
+    description: 'Тesla s (performance) рестайлинг brabus 2017г - сидения ,коврики brabus, 762л.с. - полный привод, 2,9 сек до 100 км - стеклянная крыша понорама - художественное оформление салона лак',
+    date: '22.06.2018'
+  },{
+    img: 'https://cdn4.riastatic.com/photosnew/auto/photo/mitsubishi_l-200__240849404f.jpg',
+    name: 'Tesla Model S Brabus Performance 2017',
+    place: 'Киев',
+    price: '160 100 $',
+    millage: 'без пробега',
+    engine: 'Электро',
+    transmission: 'Автомат',
+    description: 'Тesla s (performance) рестайлинг brabus 2017г - сидения ,коврики brabus, 762л.с. - полный привод, 2,9 сек до 100 км - стеклянная крыша понорама - художественное оформление салона лак',
+    date: '22.06.2018'
+  },{
+    img: 'https://cdn0.riastatic.com/photosnew/auto/photo/nissan_leaf__233583805b.jpg',
+    name: 'Tesla Model S Brabus Performance 2017',
+    place: 'Киев',
+    price: '160 100 $',
+    millage: 'без пробега',
+    engine: 'Электро',
+    transmission: 'Автомат',
+    description: 'Тesla s (performance) рестайлинг brabus 2017г - сидения ,коврики brabus, 762л.с. - полный привод, 2,9 сек до 100 км - стеклянная крыша понорама - художественное оформление салона лак',
+    date: '22.06.2018'
+  },{
+    img: 'https://cdn3.riastatic.com/photosnew/auto/photo/zaz_sens__240197818bx.jpg',
+    name: 'Tesla Model S Brabus Performance 2017',
+    place: 'Киев',
+    price: '160 100 $',
+    millage: 'без пробега',
+    engine: 'Электро',
+    transmission: 'Автомат',
+    description: 'Тesla s (performance) рестайлинг brabus 2017г - сидения ,коврики brabus, 762л.с. - полный привод, 2,9 сек до 100 км - стеклянная крыша понорама - художественное оформление салона лак',
+    date: '22.06.2018'
+  }
+];
+
 const styles = (theme) => ({
   mileageField: {
     width: '100%',
@@ -293,7 +348,6 @@ class Form extends Component {
   };
   submitForm = () => {
     const searchParams = serialize(this.searchForm);
-    this.props.togglePreLoader(true);
     const apiService = new ApiService();
     apiService.postRequest(this.config.snoops,searchParams)
       .then((result)=>{
@@ -301,59 +355,7 @@ class Form extends Component {
       }).catch(()=>{
     });
     setTimeout( () => {
-      const result = [{
-        img: 'https://cdn2.riastatic.com/photosnew/auto/photo/tesla_model-s__236718267bx.jpg',
-        name: 'Tesla Model S 70D 2015',
-        place: 'Харьков',
-        price: '51 000 $',
-        millage: '18 000',
-        engine: 'Электро',
-        transmission: 'Автомат',
-        description: 'Отличное состояние. пробег 17 тыс км. салон кожа, потолок алькантара, торпедо кожа/алькантара. есть все кроме пневмо подвески и панарамной крыши. резина летняя и зимняя новая.',
-        date: '08.06.2018'
-      },{
-        img: 'https://cdn4.riastatic.com/photosnew/auto/photo/tesla_model-s__212678044bx.jpg',
-        name: 'Tesla Model S Brabus Performance 2017',
-        place: 'Киев',
-        price: '160 100 $',
-        millage: 'без пробега',
-        engine: 'Электро',
-        transmission: 'Автомат',
-        description: 'Тesla s (performance) рестайлинг brabus 2017г - сидения ,коврики brabus, 762л.с. - полный привод, 2,9 сек до 100 км - стеклянная крыша понорама - художественное оформление салона лак',
-        date: '22.06.2018'
-      },{
-        img: 'https://cdn4.riastatic.com/photosnew/auto/photo/mitsubishi_l-200__240849404f.jpg',
-        name: 'Tesla Model S Brabus Performance 2017',
-        place: 'Киев',
-        price: '160 100 $',
-        millage: 'без пробега',
-        engine: 'Электро',
-        transmission: 'Автомат',
-        description: 'Тesla s (performance) рестайлинг brabus 2017г - сидения ,коврики brabus, 762л.с. - полный привод, 2,9 сек до 100 км - стеклянная крыша понорама - художественное оформление салона лак',
-        date: '22.06.2018'
-      },{
-        img: 'https://cdn0.riastatic.com/photosnew/auto/photo/nissan_leaf__233583805b.jpg',
-        name: 'Tesla Model S Brabus Performance 2017',
-        place: 'Киев',
-        price: '160 100 $',
-        millage: 'без пробега',
-        engine: 'Электро',
-        transmission: 'Автомат',
-        description: 'Тesla s (performance) рестайлинг brabus 2017г - сидения ,коврики brabus, 762л.с. - полный привод, 2,9 сек до 100 км - стеклянная крыша понорама - художественное оформление салона лак',
-        date: '22.06.2018'
-      },{
-        img: 'https://cdn3.riastatic.com/photosnew/auto/photo/zaz_sens__240197818bx.jpg',
-        name: 'Tesla Model S Brabus Performance 2017',
-        place: 'Киев',
-        price: '160 100 $',
-        millage: 'без пробега',
-        engine: 'Электро',
-        transmission: 'Автомат',
-        description: 'Тesla s (performance) рестайлинг brabus 2017г - сидения ,коврики brabus, 762л.с. - полный привод, 2,9 сек до 100 км - стеклянная крыша понорама - художественное оформление салона лак',
-        date: '22.06.2018'
-      }];
-      this.props.submitForm(result);
-      this.props.togglePreLoader(false);
+      this.props.submitForm(resultCars);
     },1000);
   };
   render() {
@@ -361,7 +363,7 @@ class Form extends Component {
     const {selectedYearMin,selectedYearMax} = this.state;
     const rangeValue = [selectedYearMin, selectedYearMax];
     return (
-      <Grid className={classes.grid} item lg={2} md={3} sm={4} xs={11}>
+      <Grid className={classes.grid} item lg={3} md={3} sm={4} xs={11}>
         <Paper className={classes.paper}>
           <form
             noValidate

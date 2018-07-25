@@ -63,7 +63,7 @@ class Results extends Component {
     const {items, classes} = this.props;
     const noResults = text.texts.noResults;
     return (
-      <Grid className={classes.grid} item lg={6} md={7} sm={7} xs={11}>
+      <Grid className={classes.grid} item lg={9} md={7} sm={7} xs={11}>
         <Paper className={classes.paper}>
           <List className={classes.resultsWrapper}>
             { items.length === 0 ? noResults : null }
