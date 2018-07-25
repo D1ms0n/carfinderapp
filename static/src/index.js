@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux'
-import App from './javascript/containers/App.js';
+import App from './javascript/containers/AppWithDrawer.js';
 import configureStore from './javascript/store/configureStore';
 
 const store = configureStore();
