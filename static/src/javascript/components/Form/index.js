@@ -307,6 +307,7 @@ function SelectWrapped(props) {
 }
 
 class Form extends Component {
+
   constructor(props) {
     super(props);
     this.config = config();
@@ -322,22 +323,26 @@ class Form extends Component {
       selectedYearMax: endYear
     };
   }
+
   handleChange = name => value => {
     this.setState({
       [name]: value
     });
   };
+
   handleMillageChange = (event) => {
     this.setState({
       [event.target.name]: event.target.value
     });
   };
+
   handleRangeYearsChange = (value) => {
     this.setState({
       selectedYearMin: value[0],
       selectedYearMax: value[1]
     });
   };
+
   checkValues = (val1,val2,type) => {
     let valuesArray =  ( val1 > val2 ? [val2,val1] : [val1,val2] );
     this.setState({
@@ -346,6 +351,7 @@ class Form extends Component {
     });
     return valuesArray;
   };
+
   submitForm = () => {
     const searchParams = serialize(this.searchForm);
     const apiService = new ApiService();
@@ -358,6 +364,7 @@ class Form extends Component {
       this.props.submitForm(resultCars);
     },1000);
   };
+
   render() {
     const {classes} = this.props;
     const {selectedYearMin,selectedYearMax} = this.state;

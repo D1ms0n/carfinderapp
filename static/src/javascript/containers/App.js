@@ -7,12 +7,13 @@ import * as FormActions from '../actions/FormActions';
 
 import {withStyles} from "@material-ui/core/styles/index";
 import CssBaseline from '@material-ui/core/CssBaseline';
-import AuthActions from './../components/Header/';
-import Badge from '@material-ui/core/Badge';
+import classNames from 'classnames';
 import Footer from './../components/Footer/';
 import Form from './../components/Form/';
 import Results from './../components/Results';
-import SnoopsList from './../components/SnoopsList'
+import SnoopsList from './../components/SnoopsList';
+import AuthActions from './../components/Header/';
+import Badge from '@material-ui/core/Badge';
 import Grid from '@material-ui/core/Grid';
 import Drawer from '@material-ui/core/Drawer';
 import IconButton from '@material-ui/core/IconButton';
@@ -20,7 +21,6 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import Divider from '@material-ui/core/Divider';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import classNames from 'classnames';
 import AppBar from '@material-ui/core/AppBar';
 import MenuIcon from '@material-ui/icons/Menu';
 
@@ -146,9 +146,7 @@ class App extends Component {
           </IconButton>
         </div>
         <Divider />
-
-        <SnoopsList items={[0,1,2,3]} />
-
+        <SnoopsList />
         <Divider />
       </Drawer>
     );
@@ -235,4 +233,4 @@ const mapDispatchToProps = dispatch => {
   }
 };
 
-export default withStyles(styles, { withTheme: true })(connect(mapStateToProps, mapDispatchToProps)(App));
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(App));

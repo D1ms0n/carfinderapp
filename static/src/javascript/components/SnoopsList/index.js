@@ -1,8 +1,10 @@
 
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core/styles/index';
+
 import text from './../../services/texts/index';
+import ApiService from './../../services/api';
+import config from './../../configs';
 
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -31,8 +33,27 @@ const styles = (theme) => ({
 });
 
 class SnoopsList extends Component {
+
+  constructor(props) {
+    super(props);
+    this.config = config();
+    this.state = {
+      snoops: []
+    };
+  }
+
+  componentDidMount() {
+    const apiService = new ApiService();
+    apiService.getRequest(this.config.snoops)
+      .then((result)=>{
+        console.log(result);
+      }).catch(()=>{
+    });
+  }
+
   render() {
-    const {items, classes} = this.props;
+    const {classes} = this.props;
+    let items = [0,1,2];
     const noResults = (
       <div className={classes.noResultsContainer}>
         {text.texts.noResults}
@@ -40,7 +61,6 @@ class SnoopsList extends Component {
     );
 
     return (
-
       <div>
         <Typography className={classes.title} variant="title" gutterBottom>
           Title
@@ -66,9 +86,5 @@ class SnoopsList extends Component {
     );
   }
 }
-
-SnoopsList.propTypes = {
-  items: PropTypes.array.isRequired
-};
 
 export default withStyles(styles)(SnoopsList);
