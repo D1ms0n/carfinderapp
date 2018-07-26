@@ -27,8 +27,8 @@ const texts = {
     texts.cancel = ( texts.localisation === 'en' ? 'Cancel' : '' );
     texts.submit = ( texts.localisation === 'en' ? 'Submit' : '' );
     texts.snoops = ( texts.localisation === 'en' ? 'Snoops' : '' );
-    texts.createSnoop = ( texts.localisation === 'en' ? 'Create snoops' : '' );
-    texts.tmp = ( texts.localisation === 'en' ? '' : '' );
+    texts.createSnoops = ( texts.localisation === 'en' ? 'Create snoop' : '' );
+    texts.searchText = ( texts.localisation === 'en' ? 'Search' : '' );
     texts.tmp = ( texts.localisation === 'en' ? '' : '' );
     texts.tmp = ( texts.localisation === 'en' ? '' : '' );
     texts.tmp = ( texts.localisation === 'en' ? '' : '' );

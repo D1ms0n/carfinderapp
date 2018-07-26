@@ -111,7 +111,8 @@ const styles = (theme) => ({
     minHeight: 24
   },
   button: {
-    width: '100%'
+    width: '100%',
+    marginBottom: 15
   },
   textField: {
     width: '100%',
@@ -343,16 +344,23 @@ class Form extends Component {
     });
   };
 
-  checkValues = (val1,val2,type) => {
-    let valuesArray =  ( val1 > val2 ? [val2,val1] : [val1,val2] );
-    this.setState({
-      [`selected${type}Min`]: Number(valuesArray[0]),
-      [`selected${type}Max`]: Number(valuesArray[1])
+  searchCars = () => {
+    this.props.togglePreLoader(true);
+    const searchParams = serialize(this.searchForm);
+    const apiService = new ApiService();
+    apiService.getRequest(`${this.config.cars}?${searchParams}`)
+      .then((result)=>{
+        console.log(result);
+      }).catch(()=>{
     });
-    return valuesArray;
+    setTimeout( () => {
+      this.props.submitForm(resultCars);
+      this.props.togglePreLoader(false);
+    },1000);
   };
 
-  submitForm = () => {
+  createSnoop = () => {
+    this.props.togglePreLoader(true);
     const searchParams = serialize(this.searchForm);
     const apiService = new ApiService();
     apiService.postRequest(this.config.snoops,searchParams)
@@ -362,6 +370,7 @@ class Form extends Component {
     });
     setTimeout( () => {
       this.props.submitForm(resultCars);
+      this.props.togglePreLoader(false);
     },1000);
   };
 
@@ -524,12 +533,20 @@ class Form extends Component {
               direction='row'>
               <Grid className={classes.paperRelative} item lg={12} md={12} sm={12} xs={12}>
                 <Button
-                  onClick = {this.submitForm}
+                  onClick = {this.searchCars}
                   variant='contained'
                   color='primary'
                   className={classes.button}
                 >
-                  {texts.texts.createSnoop}
+                  {texts.texts.searchText}
+                </Button>
+                <Button
+                  onClick = {this.createSnoop}
+                  variant='contained'
+                  color='primary'
+                  className={classes.button}
+                >
+                  {texts.texts.createSnoops}
                 </Button>
               </Grid>
             </Grid>

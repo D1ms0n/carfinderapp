@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import * as FormActions from '../actions/FormActions';
+import * as PreLoaderActions from '../actions/PreLoaderActions';
 import text from './../services/texts/index';
 
 import {withStyles} from "@material-ui/core/styles/index";
@@ -130,8 +131,9 @@ class App extends Component {
 
   render() {
     const {submitForm} = this.props.FormActions;
-    const { classes } = this.props;
-    const { drawerOpen } = this.state;
+    const {togglePreLoader} = this.props.PreLoaderActions;
+    const {classes} = this.props;
+    const {drawerOpen} = this.state;
     const drawer = (
       <Drawer
         variant="persistent"
@@ -203,6 +205,7 @@ class App extends Component {
                   >
                     <Form
                       submitForm={submitForm}
+                      togglePreLoader={togglePreLoader}
                     />
                     <Results />
                   </Grid>
@@ -231,6 +234,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     FormActions: bindActionCreators(FormActions, dispatch),
+    PreLoaderActions: bindActionCreators(PreLoaderActions, dispatch)
   }
 };
 

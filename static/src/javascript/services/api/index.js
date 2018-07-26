@@ -101,7 +101,6 @@ export default class ApiService {
         if (res.status === 404) {
           throw new Error(`Cannot get ${url}.`);
         }
-        console.log(res);
         return res.json();
       })
       .catch((e) => {

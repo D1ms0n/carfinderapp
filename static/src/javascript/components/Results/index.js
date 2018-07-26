@@ -18,6 +18,7 @@ import BatteryFull from '@material-ui/icons/BatteryFull';
 import DirectionsWalk from '@material-ui/icons/DirectionsWalk';
 import DirectionsCar from '@material-ui/icons/DirectionsCar';
 import Paper from '@material-ui/core/Paper';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 const styles = (theme) => ({
   resultsWrapper: {
@@ -59,8 +60,9 @@ const styles = (theme) => ({
 });
 
 class Results extends Component {
+
   render() {
-    const {items, classes} = this.props;
+    const {items, classes,loading} = this.props;
     const noResults = text.texts.noResults;
     return (
       <Grid className={classes.grid} item lg={9} md={8} sm={7} xs={11}>
@@ -138,6 +140,7 @@ class Results extends Component {
                 </ListItem>
               )})}
           </List>
+          { loading ? <LinearProgress /> : null}
         </Paper>
       </Grid>
     );
@@ -150,7 +153,8 @@ Results.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    items: state.form.result
+    items: state.form.result,
+    loading: state.loading.result
   }
 };
 

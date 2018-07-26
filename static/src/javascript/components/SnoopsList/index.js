@@ -32,6 +32,8 @@ const styles = (theme) => ({
   }
 });
 
+const snoopsTest = [{"pk":1,"manufacturer":"Subaru","model":"Forester","color":"black","year":2009,"mileage":68000},{"pk":2,"manufacturer":"BMW","model":"3","color":"white","year":1995,"mileage":1000000}];
+
 class SnoopsList extends Component {
 
   constructor(props) {
@@ -42,11 +44,14 @@ class SnoopsList extends Component {
     };
   }
 
+  pushSearchItems(params) {
+    console.log(params);
+  }
+
   componentDidMount() {
     const apiService = new ApiService();
     apiService.getRequest(this.config.snoops)
       .then((result)=>{
-        console.log(result);
         this.setState({
           snoops: result || []
         })
@@ -57,7 +62,8 @@ class SnoopsList extends Component {
 
   render() {
     const {classes} = this.props;
-    const {snoops} = this.state;
+    //const {snoops} = this.state;
+    const snoops = snoopsTest;
     const noResults = (
       <div className={classes.noResultsContainer}>
         {text.texts.noResultsSnoops}
@@ -70,12 +76,16 @@ class SnoopsList extends Component {
         </Typography>
         <List>
           { Array.isArray(snoops) && snoops.length > 0
-            ? snoops.map(value => (
-              <ListItem key={value} dense button className={classes.listItem}>
-                <Avatar alt="preview" src="https://material-ui.com/static/images/remy.jpg" />
-                <Badge color='secondary' badgeContent={1}>
-                  <ListItemText primary={`Line item ${value + 1}`} />
-                </Badge>
+            ? snoops.map(snoop => (
+              <ListItem
+                onClick={()=>{this.pushSearchItems(snoop)}}
+                key={snoop.pk}
+                dense
+                button
+                className={classes.listItem}
+              >
+                <Avatar alt="preview" src="https://cdn2.riastatic.com/photosnew/auto/photo/tesla_model-s__236718267bx.jpg" />
+                <ListItemText primary={`${snoop.manufacturer} ${snoop.model}`} />
                 <ListItemSecondaryAction>
                   <IconButton aria-label='Delete'>
                     <DeleteIcon />
