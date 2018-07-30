@@ -1,5 +1,6 @@
 
 import React, {Component} from 'react';
+import { withStyles } from '@material-ui/core/styles/index';
 import IconButton from '@material-ui/core/IconButton';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import Dialog from '@material-ui/core/Dialog';
@@ -8,6 +9,13 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Login from './../Login';
 import Registration from './../Registration';
 import text from './../../services/texts/index';
+
+const styles = theme => ({
+  root: {
+    marginLeft: 'auto',
+    marginRight: 10
+  }
+});
 
 class AuthActions extends Component {
 
@@ -18,34 +26,38 @@ class AuthActions extends Component {
       openLogin: false,
       openRegistration: false
     };
-  };
+    this.openMenu = this.openMenu.bind(this);
+    this.closeMenu = this.closeMenu.bind(this);
+    this.changeState = this.changeState.bind(this);
+  }
 
-  openMenu = event => {
-    this.setState({ anchorEl: event.currentTarget });
-  };
+  openMenu(event) {
+    this.setState({anchorEl: event.currentTarget});
+  }
 
-  closeMenu = () => {
-    this.setState({ anchorEl: null });
-  };
+  closeMenu() {
+    this.setState({anchorEl: null});
+  }
 
-  changeState = (stateToChange) => {
+  changeState(stateToChange) {
     this.setState({
       [stateToChange]: !this.state[stateToChange]
     });
     this.closeMenu();
-  };
+  }
 
   render() {
     const {anchorEl} = this.state;
+    const {classes} = this.props;
     return (
-      <div>
+      <div className={classes.root}>
         <IconButton
           color='inherit'
           aria-owns={anchorEl ? 'simple-menu' : null}
           aria-haspopup="true"
           onClick={this.openMenu}
         >
-          <AccountCircle />
+          <AccountCircle/>
         </IconButton>
         <Menu
           id="simple-menu"
@@ -53,13 +65,19 @@ class AuthActions extends Component {
           open={Boolean(anchorEl)}
           onClose={this.closeMenu}
         >
-          <MenuItem onClick={()=>{this.changeState('openLogin')}}>{text.texts.login}</MenuItem>
-          <MenuItem onClick={()=>{this.changeState('openRegistration')}}>{text.texts.registration}</MenuItem>
+          <MenuItem onClick={() => {
+            this.changeState('openLogin')
+          }}>{text.texts.login}</MenuItem>
+          <MenuItem onClick={() => {
+            this.changeState('openRegistration')
+          }}>{text.texts.registration}</MenuItem>
         </Menu>
 
         <Dialog
           open={this.state.openLogin}
-          onClose={()=>{this.changeState('openLogin')}}
+          onClose={() => {
+            this.changeState('openLogin')
+          }}
           aria-labelledby="form-dialog-title"
         >
           <Login
@@ -68,7 +86,9 @@ class AuthActions extends Component {
         </Dialog>
         <Dialog
           open={this.state.openRegistration}
-          onClose={()=>{this.changeState('openRegistration')}}
+          onClose={() => {
+            this.changeState('openRegistration')
+          }}
           aria-labelledby="form-dialog-title"
         >
           <Registration
@@ -80,5 +100,4 @@ class AuthActions extends Component {
   }
 }
 
-
-export default AuthActions;
+export default withStyles(styles)(AuthActions);

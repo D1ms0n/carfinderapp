@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
-import { withStyles } from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
+import {withStyles} from '@material-ui/core/styles';
+import ApiService from './../../services/api';
+import texts from '../../services/texts/index';
+import config from './../../configs';
+import serialize from './../../services/serialize';
 import 'rc-slider/assets/index.css';
 import 'react-select/dist/react-select.css';
 import Grid from '@material-ui/core/Grid';
@@ -7,21 +12,10 @@ import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Input from '@material-ui/core/Input';
-import MenuItem from '@material-ui/core/MenuItem';
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
-import CancelIcon from '@material-ui/icons/Cancel';
-import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
-import ClearIcon from '@material-ui/icons/Clear';
-import Chip from '@material-ui/core/Chip';
-import Select from 'react-select';
-import Button from '@material-ui/core/Button';
+import Button from "./../CustomButtons/Button.jsx";
 import Slider from 'rc-slider';
-import blue from '@material-ui/core/colors/blue';
-import texts from '../../services/texts/index';
 import countYears from './countYears.js';
-import ApiService from './../../services/api';
-import config from './../../configs';
-import serialize from './../../services/serialize';
+import SelectWrapped from './SelectWrapped';
 
 const ITEM_HEIGHT = 48;
 const OLDEST_CARS = 30;
@@ -112,7 +106,8 @@ const styles = (theme) => ({
   },
   button: {
     width: '100%',
-    marginBottom: 15
+    marginBottom: 15,
+    backgroundColor: theme.palette.primary[500],
   },
   textField: {
     width: '100%',
@@ -131,8 +126,8 @@ const styles = (theme) => ({
   paper: {
     padding: 15,
     marginTop: 10,
-    borderRadius: 0,
-    color: theme.palette.text.secondary,
+    borderRadius: theme.radius,
+    color: theme.palette.text.secondary[500],
     boxShadow: 'none',
     textAlign: 'center'
   },
@@ -141,18 +136,18 @@ const styles = (theme) => ({
       overflow: 'hidden'
     },
     '.rc-slider-handle': {
-      border: `2px solid ${blue[600]}`,
+      border: `2px solid ${theme.palette.primary[500]}`,
       marginTop: -8,
       marginLeft: -10,
       width: 20,
       height: 20
     },
     '.rc-slider-handle:active': {
-      borderColor: blue[100],
-      boxShadow: `0 0 5px ${blue[600]}`
+      borderColor: theme.palette.primary[100],
+      boxShadow: `0 0 5px ${theme.palette.primary[500]}`
     },
     '.rc-slider-track': {
-      backgroundColor: blue[600]
+      backgroundColor: theme.palette.primary[500]
     },
     '.Select-control': {
       display: 'flex',
@@ -251,62 +246,6 @@ const styles = (theme) => ({
 const createSliderWithTooltip = Slider.createSliderWithTooltip;
 const Range = createSliderWithTooltip(Slider.Range);
 
-class Option extends Component {
-  handleClick = event => {
-    this.props.onSelect(this.props.option, event);
-  };
-  render() {
-    const { children, isFocused, isSelected, onFocus } = this.props;
-    return (
-      <MenuItem
-        onFocus={onFocus}
-        selected={isFocused}
-        onClick={this.handleClick}
-        component='div'
-        style={{
-          fontWeight: isSelected ? 500 : 400,
-        }}>
-        {children}
-      </MenuItem>
-    );
-  }
-}
-
-function SelectWrapped(props) {
-  const { classes, ...other } = props;
-  return (
-    <Select
-      optionComponent={Option}
-      noResultsText={<Typography>{'No results found'}</Typography>}
-      arrowRenderer={arrowProps => {
-        return arrowProps.isOpen ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />;
-      }}
-      clearRenderer={() => <ClearIcon />}
-      valueComponent={valueProps => {
-        const { value, children, onRemove } = valueProps;
-        const onDelete = event => {
-          event.preventDefault();
-          event.stopPropagation();
-          onRemove(value);
-        };
-        if (onRemove) {
-          return (
-            <Chip
-              tabIndex={-1}
-              label={children}
-              className={classes.chip}
-              deleteIcon={<CancelIcon onTouchEnd={onDelete} />}
-              onDelete={onDelete}
-            />
-          );
-        }
-        return <div className='Select-value'>{children}</div>;
-      }}
-      {...other}
-    />
-  );
-}
-
 class Form extends Component {
 
   constructor(props) {
@@ -350,9 +289,9 @@ class Form extends Component {
     const apiService = new ApiService();
     apiService.getRequest(`${this.config.cars}?${searchParams}`)
       .then((result)=>{
-        console.log(result);
-      }).catch(()=>{
-    });
+      }).catch((e)=>{
+        console.log(e);
+      });
     setTimeout( () => {
       this.props.submitForm(resultCars);
       this.props.togglePreLoader(false);
@@ -366,8 +305,9 @@ class Form extends Component {
     apiService.postRequest(this.config.snoops,searchParams)
       .then((result)=>{
         console.log(result);
-      }).catch(()=>{
-    });
+      }).catch((e)=>{
+        console.log(e);
+      });
     setTimeout( () => {
       this.props.submitForm(resultCars);
       this.props.togglePreLoader(false);
@@ -534,16 +474,14 @@ class Form extends Component {
               <Grid className={classes.paperRelative} item lg={12} md={12} sm={12} xs={12}>
                 <Button
                   onClick = {this.searchCars}
-                  variant='contained'
-                  color='primary'
+                  type="button"
                   className={classes.button}
                 >
                   {texts.texts.searchText}
                 </Button>
                 <Button
                   onClick = {this.createSnoop}
-                  variant='contained'
-                  color='primary'
+                  type="button"
                   className={classes.button}
                 >
                   {texts.texts.createSnoops}
@@ -556,5 +494,11 @@ class Form extends Component {
     );
   }
 }
+
+Form.propTypes = {
+  classes: PropTypes.object.isRequired,
+  togglePreLoader: PropTypes.func.isRequired,
+  submitForm: PropTypes.func.isRequired
+};
 
 export default withStyles(styles)(Form);
