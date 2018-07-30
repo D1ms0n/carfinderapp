@@ -7,7 +7,7 @@ import * as FormActions from '../actions/FormActions';
 import * as PreLoaderActions from '../actions/PreLoaderActions';
 import text from '../services/texts/index';
 
-import {withStyles} from "@material-ui/core/styles/index";
+import {withStyles} from '@material-ui/core/styles/index';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import classNames from 'classnames';
 import Footer from '../components/Footer/index';
@@ -30,6 +30,7 @@ const drawerWidth = 240;
 const styles = theme => ({
   root: {
     flexGrow: 1,
+    paddingTop: 10
   },
   appFrame: {
     zIndex: 1,
@@ -39,6 +40,8 @@ const styles = theme => ({
     width: '100%',
   },
   appBar: {
+    backgroundColor: theme.palette.primary[500],
+    borderRadius: theme.radius,
     position: 'absolute',
     transition: theme.transitions.create(['margin', 'width'], {
       easing: theme.transitions.easing.sharp,
@@ -74,9 +77,9 @@ const styles = theme => ({
     ...theme.mixins.toolbar,
   },
   content: {
+    marginTop: 20,
     flexGrow: 1,
     backgroundColor: theme.palette.background.default,
-    padding: theme.spacing.unit * 3,
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
@@ -93,23 +96,6 @@ const styles = theme => ({
   },
   'contentShift-left': {
     marginLeft: 0,
-  },
-  loaderWrapper: {
-    textAlign: 'center',
-    position: 'fixed',
-    top: 0,
-    left: 0,
-    width: '100%!important',
-    height: '100%!important',
-    backgroundColor: 'rgba(227, 242, 253, .4)',
-    zIndex: 10000,
-    display:'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  loader: {
-    textAlign: 'center'
   }
 });
 
@@ -121,13 +107,13 @@ class App extends Component {
       drawerOpen: false
     };
     this.handleDrawerToggle = this.handleDrawerToggle.bind(this);
-  };
+  }
 
   handleDrawerToggle() {
     this.setState({
       drawerOpen: !this.state.drawerOpen
     })
-  };
+  }
 
   render() {
     const {submitForm} = this.props.FormActions;
@@ -162,6 +148,7 @@ class App extends Component {
           justify='center'
         >
           <Grid item lg={10} md={10} sm={10} xs={12}>
+
             <div className={classes.root}>
               <div className={classes.appFrame}>
                 <AppBar
@@ -177,7 +164,7 @@ class App extends Component {
                       onClick={this.handleDrawerToggle}
                       className={classNames(classes.menuButton, drawerOpen && classes.hide)}
                     >
-                      <Badge color='secondary' badgeContent={4}>
+                      <Badge color='error' badgeContent={4}>
                         <MenuIcon/>
                       </Badge>
                     </IconButton>
@@ -214,6 +201,8 @@ class App extends Component {
             </div>
           </Grid>
         </Grid>
+
+
         <Footer />
       </React.Fragment>
     );
@@ -221,7 +210,9 @@ class App extends Component {
 }
 
 App.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  FormActions: PropTypes.object.isRequired,
+  PreLoaderActions: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => {

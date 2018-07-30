@@ -5,4 +5,4 @@ import loading from './preloader.js';
 export default combineReducers({
   form,
   loading
-})
+});

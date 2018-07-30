@@ -29,8 +29,12 @@ class CookiesService {
   * @param {string} exdays - cookie days until the cookie expire
   */
   static setCookie(cname, cvalue, exdays) {
+    const hours = 24;
+    const seconds = 60;
+    const minutes = 60;
+    const milliseconds = 1000;
     const d = new Date();
-    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+    d.setTime(d.getTime() + (exdays * hours * seconds * minutes * milliseconds));
     const expires = 'expires=' + d.toUTCString();
     document.cookie = cname + '=' + cvalue + ';' + expires + ';path=/';
   }

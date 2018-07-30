@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import IconButton from '@material-ui/core/IconButton';
 import ExpandLess from '@material-ui/icons/ExpandLess';
-import { withStyles } from '@material-ui/core/styles/index';
+import {withStyles} from '@material-ui/core/styles/index';
 const scroll = require('window-scroll');
 
 const styles = theme => ({
@@ -27,7 +28,7 @@ const styles = theme => ({
   }
 });
 
-class Index extends Component {
+class Footer extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -55,11 +56,13 @@ class Index extends Component {
     }
   }
   scrollToTop(){
+    const startScrollPosition = 0;
+    const animItaration = 5;
     (function smoothscroll(){
       const currentScroll = document.documentElement.scrollTop || document.body.scrollTop;
-      if (currentScroll > 0) {
+      if (currentScroll > startScrollPosition) {
         window.requestAnimationFrame(smoothscroll);
-        window.scrollTo(0,currentScroll - (currentScroll/5));
+        window.scrollTo(startScrollPosition,currentScroll - (currentScroll/animItaration));
       }
     })();
   }
@@ -80,4 +83,8 @@ class Index extends Component {
   }
 }
 
-export default withStyles(styles)(Index);
+Footer.propTypes = {
+  classes: PropTypes.object.isRequired
+};
+
+export default withStyles(styles)(Footer);

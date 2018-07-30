@@ -3,22 +3,24 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "check": "node_modules/.bin/eslint ./src/javascript",
     "start": "react-scripts start",
-    "build": "react-scripts build"
+    "build": "react-scripts build",
+    "lint": "node_modules/.bin/eslint ./src/javascript --color"
   },
   "devDependencies": {
     "classnames": "^2.2.6",
-    "eslint": "^4.19.1",
-    "eslint-loader": "^1.9.0",
+    "babel-eslint": "^8.2.6",
+    "eslint": "^5.2.0",
+    "eslint-plugin-react": "^7.10.0",
+    "eslint-watch": "^4.0.2",
     "prop-types": "^15.6.2",
     "react-scripts": "1.1.4",
-    "redux-logger": "^3.0.6",
-    "cross-env": "^5.2.0"
+    "redux-logger": "^3.0.6"
   },
   "dependencies": {
     "@material-ui/core": "latest",
     "@material-ui/icons": "latest",
+    "cross-env": "^5.2.0",
     "isomorphic-fetch": "^2.2.1",
     "rc-slider": "^8.6.1",
     "react": "^16.4.1",

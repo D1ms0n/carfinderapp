@@ -1,8 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux'
-import App from './containers/App.js';
-import configureStore from './store/configureStore';
+import configureStore from './javascript/store/configureStore';
+import {MuiThemeProvider} from '@material-ui/core/styles';
+import theme from './theme';
+import App from './javascript/containers/App.js';
 
 const store = configureStore();
 const rootElement = document.getElementById('root');
@@ -10,7 +12,9 @@ const rootElement = document.getElementById('root');
 rootElement
   ? ReactDOM.render(
     <Provider store={store}>
-      <App />
+      <MuiThemeProvider theme={theme}>
+        <App />
+      </MuiThemeProvider>
     </Provider>,
     document.getElementById('root'))
   : console.warn('-----> root element required <-----');

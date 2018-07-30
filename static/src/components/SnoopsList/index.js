@@ -1,10 +1,11 @@
 
 import React, {Component} from 'react';
 import {withStyles} from '@material-ui/core/styles/index';
+import PropTypes from 'prop-types';
 
-import text from '../../services/texts/index';
-import ApiService from '../../services/api/index';
-import config from '../../configs/index';
+import text from './../../services/texts/index';
+import ApiService from './../../services/api';
+import config from './../../configs';
 
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -15,9 +16,8 @@ import DeleteIcon  from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
-import texts from "../../services/texts/index";
 
-const styles = (theme) => ({
+const styles = () => ({
   resultsWrapper: {
     textAlign: 'left',
     margin: 0,
@@ -32,14 +32,13 @@ const styles = (theme) => ({
   }
 });
 
-const snoopsTest = [{"pk":1,"manufacturer":"Subaru","model":"Forester","color":"black","year":2009,"mileage":68000},{"pk":2,"manufacturer":"BMW","model":"3","color":"white","year":1995,"mileage":1000000}];
+const snoopsTest = [{'pk':1,'manufacturer':'Subaru','model':'Forester','color':'black','year':2009,'mileage':68000},{'pk':2,'manufacturer':'BMW','model':'3','color':'white','year':1995,'mileage':1000000}];
 
 class SnoopsList extends Component {
 
   constructor(props) {
     super(props);
     this.config = config();
-    this.texts = texts.texts;
     this.state = {
       snoops: []
     };
@@ -58,7 +57,7 @@ class SnoopsList extends Component {
         })
       }).catch((e)=>{
         console.log(e);
-    });
+      });
   }
 
   render() {
@@ -67,13 +66,13 @@ class SnoopsList extends Component {
     const snoops = snoopsTest;
     const noResults = (
       <div className={classes.noResultsContainer}>
-        {this.texts.noResultsSnoops}
+        {text.texts.noResultsSnoops}
       </div>
     );
     return (
       <div>
-        <Typography className={classes.title} variant="title" gutterBottom>
-          {this.texts.snoops}
+        <Typography className={classes.title} variant='title' gutterBottom>
+          {text.texts.snoops}
         </Typography>
         <List>
           { Array.isArray(snoops) && snoops.length > 0
@@ -85,7 +84,7 @@ class SnoopsList extends Component {
                 button
                 className={classes.listItem}
               >
-                <Avatar alt="preview" src="https://cdn2.riastatic.com/photosnew/auto/photo/tesla_model-s__236718267bx.jpg" />
+                <Avatar alt='preview' src='https://cdn2.riastatic.com/photosnew/auto/photo/tesla_model-s__236718267bx.jpg' />
                 <ListItemText primary={`${snoop.manufacturer} ${snoop.model}`} />
                 <ListItemSecondaryAction>
                   <IconButton aria-label='Delete'>
@@ -94,7 +93,7 @@ class SnoopsList extends Component {
                 </ListItemSecondaryAction>
                 <Divider />
               </ListItem>
-              ))
+            ))
             : noResults
           }
         </List>
@@ -102,5 +101,9 @@ class SnoopsList extends Component {
     );
   }
 }
+
+SnoopsList.propTypes = {
+  classes: PropTypes.object.isRequired
+};
 
 export default withStyles(styles)(SnoopsList);
