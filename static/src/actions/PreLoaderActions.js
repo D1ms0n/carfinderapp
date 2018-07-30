@@ -1,4 +1,4 @@
-import { TOOGLE_PRELOADER } from '../constants/Preloader';
+import { TOOGLE_PRELOADER } from '../constants';
 
 export function togglePreLoader(result) {
 

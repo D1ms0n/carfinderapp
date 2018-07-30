@@ -1,4 +1,4 @@
-import { SUBMIT_FORM } from '../constants/Form';
+import { SUBMIT_FORM } from '../constants';
 
 const initialState = {
   result: []

@@ -1,21 +1,16 @@
-
 import React, {Component} from 'react';
 import { withStyles } from '@material-ui/core/styles/index';
+
+import text from './../../services/texts/index';
+import styles from './styles';
+
+import Login from './../Login';
+import Registration from './../Registration';
 import IconButton from '@material-ui/core/IconButton';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import Dialog from '@material-ui/core/Dialog';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import Login from './../Login';
-import Registration from './../Registration';
-import text from './../../services/texts/index';
-
-const styles = theme => ({
-  root: {
-    marginLeft: 'auto',
-    marginRight: 10
-  }
-});
 
 class AuthActions extends Component {
 

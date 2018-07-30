@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux'
-import configureStore from './javascript/store/configureStore';
+import {Provider} from 'react-redux'
+import configureStore from './store/configureStore';
 import {MuiThemeProvider} from '@material-ui/core/styles';
 import theme from './theme';
-import App from './javascript/containers/App.js';
+import App from './containers/App';
 
 const store = configureStore();
 const rootElement = document.getElementById('root');

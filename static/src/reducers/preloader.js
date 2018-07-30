@@ -1,5 +1,5 @@
 
-import { TOOGLE_PRELOADER } from '../constants/Preloader';
+import { TOOGLE_PRELOADER } from '../constants';
 
 const initialState = {
   result: false

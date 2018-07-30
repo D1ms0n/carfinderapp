@@ -21,7 +21,7 @@ const texts = {
     texts.yearMax = ( texts.localisation === 'en' ? 'max' : '' );
     texts.noResults = ( texts.localisation === 'en' ? 'no results' : '' );
     texts.noResultsSnoops = ( texts.localisation === 'en' ? 'no added snoops' : '' );
-    texts.headerTitle = ( texts.localisation === 'en' ? 'Headline' : '' );
+    texts.headerTitle = ( texts.localisation === 'en' ? 'The best headline in the world' : '' );
     texts.login = ( texts.localisation === 'en' ? 'Login' : '' );
     texts.registration = ( texts.localisation === 'en' ? 'Registration' : '' );
     texts.cancel = ( texts.localisation === 'en' ? 'Cancel' : '' );

@@ -1,32 +1,13 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import {withStyles} from '@material-ui/core/styles/index';
+
+import styles from './styles';
+
 import IconButton from '@material-ui/core/IconButton';
 import ExpandLess from '@material-ui/icons/ExpandLess';
-import {withStyles} from '@material-ui/core/styles/index';
-const scroll = require('window-scroll');
 
-const styles = theme => ({
-  iconWrap: {
-    width: 58,
-    height: 58
-  },
-  icon: {
-    margin: theme.spacing.unit,
-    fontSize: 50,
-    marginTop: 4
-  },
-  '@global': {
-    '.scrollToTop': {
-      position: 'fixed',
-      transition: 'all .2s ease-in-out',
-      right: -150,
-      bottom: 15
-    },
-    '.scrollToTop.active': {
-      right: 15,
-    }
-  }
-});
+const scroll = require('window-scroll');
 
 class Footer extends Component {
   constructor(props) {

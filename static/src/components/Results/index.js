@@ -2,60 +2,41 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {withStyles} from '@material-ui/core/styles/index';
-import text from '../../services/texts/index';
-import Typography from '@material-ui/core/Typography';
+
+import texts from "../../services/texts";
+import styles from './styles';
+
 import Grid from '@material-ui/core/Grid';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Paper from '@material-ui/core/Paper';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import Card from "./../Card/Card.jsx";
+import CardBody from "./../Card/CardBody.jsx";
+import CardHeader from "./../Card/CardHeader.jsx";
+import CardFooter from "./../Card/CardFooter.jsx";
 
-import Card from "../Card/Card.jsx";
-import CardBody from "../Card/CardBody.jsx";
-import CardHeader from "../Card/CardHeader.jsx";
-
-const styles = (theme) => ({
-  resultsWrapper: {
-    textAlign: 'left',
-    margin: 0,
-    padding: 0
-  },
-  listItem: {
-    padding: 0,
-    marginBottom: 25,
-    borderRadius: 0
-  },
-  gridContainer: {
-    margin: 0,
-    width: '100%'
-  },
-  paperRelative: {
-    margin: 0
-  },
-  content: {
-    width: '55%',
-    float: 'right'
-  },
-  cover: {
-    width: '45%',
-    height: 300,
-    float: 'left',
-  },
-  paper: {
-    padding: 15,
-    marginTop: 10,
-    borderRadius: 0,
-    color: theme.palette.text.secondary,
-    boxShadow: 'none',
-    textAlign: 'center'
-  }
-});
+import IconButton from '@material-ui/core/IconButton';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import ShareIcon from '@material-ui/icons/Share';
+import Room from '@material-ui/icons/Room';
+import BatteryFull from '@material-ui/icons/BatteryFull';
+import DirectionsWalk from '@material-ui/icons/DirectionsWalk';
+import DirectionsCar from '@material-ui/icons/DirectionsCar';
 
 class Results extends Component {
 
+  constructor(props) {
+    super(props);
+    this.texts = texts.texts;
+  }
+
   render() {
-    const {items, classes,loading} = this.props;
-    const noResults = text.texts.noResults;
+    const {items,classes,loading} = this.props;
+    const noResults = this.texts.noResults;
     return (
       <Grid className={classes.grid} item lg={9} md={8} sm={7} xs={11}>
         <Paper className={classes.paper}>
@@ -64,22 +45,68 @@ class Results extends Component {
             { items.map( (item,index) => {
               return (
                 <ListItem key={index} className={classes.listItem}>
-                  <Card>
-                    <CardHeader color="info">
-                      <Typography variant="headline">{item.name}</Typography>
-                      <Typography variant="subheading" gutterBottom>
-                        {item.price}
-                      </Typography>л
-                    </CardHeader>
-                    <CardBody>
-                      <Typography variant="body2" gutterBottom>
-                        {item.description}
+                  <Card className={classes.listItem}>
+                    <CardHeader className={classes.cardHeader} color='success'>
+                      <Typography className={classes.whiteText} variant="headline">{item.name}</Typography>
+                      <Typography className={classes.whiteText} variant="subheading" gutterBottom>
+                        {item.price}, <Room /> {item.place}
                       </Typography>
-                      <Typography variant="caption" gutterBottom align="right">
+                    </CardHeader>
+
+                    <CardBody>
+                      <CardMedia
+                        className={classes.cover}
+                        image={item.img}
+                        title={item.name}
+                      />
+                      <div className={classes.details}>
+                        <CardContent className={classes.content}>
+                          <Grid
+                            className={classes.gridContainer}
+                            container
+                            spacing={24}
+                            justify='center'
+                            direction='row'
+                          >
+                            <Grid className={classes.paperRelative} item lg={6} md={6} sm={6} xs={12}>
+                              <Typography variant="body2" gutterBottom>
+                                <BatteryFull /> {item.engine}
+                              </Typography>
+                            </Grid>
+                            <Grid className={classes.paperRelative} item lg={6} md={6} sm={6} xs={12}>
+                              <Typography variant="body2" gutterBottom>
+                                <DirectionsWalk/> {item.millage}
+                              </Typography>
+                            </Grid>
+                            <Grid className={classes.paperRelative} item lg={6} md={6} sm={6} xs={12}>
+                              <Typography variant="body2" gutterBottom>
+                                <DirectionsCar /> {item.transmission}
+                              </Typography>
+                            </Grid>
+                            <Grid className={classes.paperRelative} item lg={6} md={6} sm={6} xs={12}>
+
+                            </Grid>
+                          </Grid>
+                          <Typography variant="body2" gutterBottom>
+                            {item.description}
+                          </Typography>
+                        </CardContent>
+                      </div>
+                    </CardBody>
+
+                    <CardFooter>
+                      <IconButton aria-label="Add to favorites">
+                        <FavoriteIcon />
+                      </IconButton>
+                      <IconButton aria-label="Share" className={classes.lastBtn}>
+                        <ShareIcon />
+                      </IconButton>
+                      <Typography className={classes.secondaryText} variant="caption" gutterBottom align="right">
                         {item.date}
                       </Typography>
-                    </CardBody>
+                    </CardFooter>
                   </Card>
+
                 </ListItem>
               )})}
           </List>
@@ -91,7 +118,9 @@ class Results extends Component {
 }
 
 Results.propTypes = {
-  items: PropTypes.array.isRequired
+  items: PropTypes.array.isRequired,
+  loading: PropTypes.bool.isRequired,
+  classes: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => {
