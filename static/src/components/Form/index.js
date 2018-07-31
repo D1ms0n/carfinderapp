@@ -94,6 +94,20 @@ class Form extends Component {
     this.searchCars();
   };
 
+  compareValues = (valMin,valMax) =>{
+
+    valMin = Number(valMin);
+    valMax = Number(valMax);
+
+    const setNewState = (newValues) => {
+      this.setState({
+        mileage_min: newValues[0],
+        mileage_max: newValues[1],
+      });
+    };
+    ( valMin > valMax ? setNewState([valMax,valMin]) : '' );
+  };
+
   searchCars = () => {
     this.props.submitForm([]);
     this.props.togglePreLoader(true);
@@ -289,27 +303,27 @@ class Form extends Component {
 
           <CardFooter>
             <Grid
-            container
-            spacing={24}
-            justify='center'
-            direction='row'>
-            <Grid className={classes.paperRelative} item lg={12} md={12} sm={12} xs={12}>
-              <Button
-                onClick = {this.searchCars}
-                type='button'
-                className={classes.button}
-              >
-                {texts.texts.searchText}
-              </Button>
-              <Button
-                onClick = {this.createSnoop}
-                type='button'
-                className={classes.button}
-              >
-                {texts.texts.createSnoops}
-              </Button>
+              container
+              spacing={24}
+              justify='center'
+              direction='row'>
+              <Grid className={classes.paperRelative} item lg={12} md={12} sm={12} xs={12}>
+                <Button
+                  onClick = {this.searchCars}
+                  type='button'
+                  className={classes.button}
+                >
+                  {texts.texts.searchText}
+                </Button>
+                <Button
+                  onClick = {this.createSnoop}
+                  type='button'
+                  className={classes.button}
+                >
+                  {texts.texts.createSnoops}
+                </Button>
+              </Grid>
             </Grid>
-          </Grid>
           </CardFooter>
         </Card>
 
