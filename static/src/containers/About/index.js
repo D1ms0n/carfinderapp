@@ -1,6 +1,5 @@
 
 import React, {Component} from 'react';
-import {Link} from "react-router-dom";
 import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core/styles/index';
 import {bindActionCreators} from 'redux';
@@ -90,11 +89,7 @@ class App extends Component {
                     spacing={24}
                     justify='center'
                   >
-                    <Form
-                      submitForm={submitForm}
-                      togglePreLoader={togglePreLoader}
-                    />
-                    <Results />
+                    about
                   </Grid>
                 </main>
               </div>
