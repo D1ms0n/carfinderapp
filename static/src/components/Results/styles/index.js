@@ -9,7 +9,8 @@ const styles = theme => ({
     padding: 0,
     margin: 0,
     marginBottom: 10,
-    marginTop: 10
+    marginTop: 10,
+    borderRadius: `${2*theme.radius}!important`
   },
   card: {
     borderRadius: theme.radius
@@ -46,7 +47,8 @@ const styles = theme => ({
   },
   cardHeader: {
     background: `linear-gradient(60deg, ${theme.palette.primary[500]}, ${theme.palette.primary[500]})!important`,
-    boxShadow: theme.shadows[2]
+    boxShadow: theme.shadows[2],
+    borderRadius: `${theme.radius}!important`
   },
   lastBtn: {
     marginRight: 'auto'

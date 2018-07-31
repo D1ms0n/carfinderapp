@@ -14,6 +14,7 @@ const styles = theme => ({
     width: '100%',
     marginBottom: 15,
     backgroundColor: theme.palette.primary[500],
+    borderRadius: `${theme.radius}!important`
   },
   textField: {
     width: '100%',
@@ -26,8 +27,8 @@ const styles = theme => ({
     bottom: 25,
     right: 20
   },
-  chip: {
-    margin: theme.spacing.unit / 4,
+  card: {
+    borderRadius: `${2*theme.radius}!important`
   },
   paper: {
     padding: 15,
@@ -39,7 +40,8 @@ const styles = theme => ({
   },
   cardHeader: {
     background: `linear-gradient(60deg, ${theme.palette.primary[500]}, ${theme.palette.primary[500]})!important`,
-    boxShadow: theme.shadows[2]
+    boxShadow: theme.shadows[2],
+    borderRadius: `${theme.radius}!important`
   },
   '@global': {
     '#root': {

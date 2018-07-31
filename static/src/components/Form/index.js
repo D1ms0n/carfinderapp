@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {withStyles} from '@material-ui/core/styles';
+import {Link} from "react-router-dom";
 
 import styles from './styles';
 import testResults from './testResults';
@@ -25,6 +26,9 @@ import Card from './../Card/Card.jsx';
 import CardBody from './../Card/CardBody.jsx';
 import CardHeader from './../Card/CardHeader.jsx';
 import CardFooter from './../Card/CardFooter.jsx';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
 
 const OLDEST_CARS = 30;
 const years = countYears(OLDEST_CARS);
@@ -128,7 +132,7 @@ class Form extends Component {
     const rangeValue = [year_min, year_max];
     return (
       <Grid className={classes.grid} item lg={3} md={4} sm={4} xs={11}>
-        <Card>
+        <Card className={classes.card}>
           <CardHeader className={classes.cardHeader} color='success'>
             The best form in the world
           </CardHeader>
@@ -308,6 +312,22 @@ class Form extends Component {
           </Grid>
           </CardFooter>
         </Card>
+
+        <Typography variant="subheading" gutterBottom>
+          Test routs
+        </Typography>
+        <List component="nav">
+          <ListItem button>
+            <Link to="/about">
+              <ListItemText primary="About" />
+            </Link>
+          </ListItem>
+          <ListItem>
+            <Link to="/notabout">
+              <ListItemText primary="Not about" />
+            </Link>
+          </ListItem>
+        </List>
       </Grid>
     );
   }

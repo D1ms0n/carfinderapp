@@ -22,9 +22,6 @@ class Footer extends Component {
   componentDidMount() {
     window.addEventListener('scroll', this.showScrollToTop);
   }
-  componentWillUnmount() {
-    window.removeEventListener('scroll', this.showScrollToTop);
-  }
   showScrollToTop(){
     if ( scroll.getScrollY() > this.state.scrollPositionToShowScroll ){
       this.setState({

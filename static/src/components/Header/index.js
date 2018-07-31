@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { withStyles } from '@material-ui/core/styles/index';
+import {withStyles} from '@material-ui/core/styles/index';
 
 import text from './../../services/texts/index';
 import styles from './styles';

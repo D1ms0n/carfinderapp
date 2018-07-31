@@ -7,6 +7,7 @@ import {MuiThemeProvider} from '@material-ui/core/styles';
 import theme from './theme';
 import App from './containers/App';
 import About from './containers/About';
+import NotAbout from './containers/NotAbout';
 
 const store = configureStore();
 const rootElement = document.getElementById('root');
@@ -19,6 +20,7 @@ rootElement
           <div>
             <Route exact path="/" component={App} />
             <Route exact path="/about" component={About} />
+            <Route exact path="/notabout" component={NotAbout} />
           </div>
         </Router>
       </MuiThemeProvider>
