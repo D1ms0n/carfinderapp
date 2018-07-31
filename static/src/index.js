@@ -19,8 +19,8 @@ rootElement
         <Router>
           <div>
             <Route exact path="/" component={App} />
-            <Route exact path="/about" component={About} />
-            <Route exact path="/notabout" component={NotAbout} />
+            <Route path="/about" component={About} />
+            <Route path="/notabout" component={NotAbout} />
           </div>
         </Router>
       </MuiThemeProvider>

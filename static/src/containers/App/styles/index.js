@@ -4,7 +4,7 @@ const drawerWidth = 250;
 const styles = theme => ({
   root: {
     flexGrow: 1,
-    paddingTop: 10
+    paddingTop: 10,
   },
   appFrame: {
     zIndex: 1,
@@ -12,6 +12,7 @@ const styles = theme => ({
     position: 'relative',
     display: 'flex',
     width: '100%',
+    minHeight: '100vh'
   },
   toolBar: {
     backgroundColor: theme.palette.primary[500],
