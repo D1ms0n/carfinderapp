@@ -326,22 +326,6 @@ class Form extends Component {
             </Grid>
           </CardFooter>
         </Card>
-
-        <Typography variant="subheading" gutterBottom>
-          Test routs
-        </Typography>
-        <List component="nav">
-          <ListItem button>
-            <Link to="/about">
-              <ListItemText primary="About" />
-            </Link>
-          </ListItem>
-          <ListItem>
-            <Link to="/notabout">
-              <ListItemText primary="Not about" />
-            </Link>
-          </ListItem>
-        </List>
       </Grid>
     );
   }
