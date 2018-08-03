@@ -2,21 +2,21 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core/styles/index';
-import {bindActionCreators} from 'redux';
-import {connect} from 'react-redux';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import * as FormActions from '../../actions/FormActions';
-import * as PreLoaderActions from '../../actions/PreLoaderActions';
-import * as UpdateForm from '../../actions/UpdateForm';
+import {
+  Route,
+  Switch
+} from 'react-router-dom';
 
 import styles from './styles';
 import classNames from 'classnames';
 
+import FormContainer from './../../containers/Form';
+import SnoopsListContainer from '../../containers/Snoops';
 import Footer from '../../components/Footer/index';
-import Form from '../../components/Form/index';
-import Results from '../../components/Results/index';
-import SnoopsList from '../../components/SnoopsList/index';
-import AppBar from './../../components/AppBar';
+import Header from './../../components/Header';
+import Registration from './../../components/Registration';
+import Login from './../../components/Login';
+import NotFound from './../../components/NotFound';
 import Grid from '@material-ui/core/Grid';
 import Drawer from '@material-ui/core/Drawer';
 import IconButton from '@material-ui/core/IconButton';
@@ -40,9 +40,6 @@ class App extends Component {
   }
 
   render() {
-    const {submitForm} = this.props.FormActions;
-    const {togglePreLoader} = this.props.PreLoaderActions;
-    const {updateForm} = this.props.UpdateForm;
     const {classes} = this.props;
     const {drawerOpen} = this.state;
     const drawer = (
@@ -60,13 +57,12 @@ class App extends Component {
           </IconButton>
         </div>
         <Divider />
-        <SnoopsList updateForm={updateForm}/>
+        <SnoopsListContainer/>
         <Divider />
       </Drawer>
     );
     return (
-      <React.Fragment>
-        <CssBaseline />
+      <div>
         <Grid
           container
           spacing={24}
@@ -75,7 +71,7 @@ class App extends Component {
           <Grid item lg={10} md={10} sm={10} xs={12}>
             <div className={classes.root}>
               <div className={classes.appFrame}>
-                <AppBar drawerOpen={drawerOpen} handleDrawerToggle={this.handleDrawerToggle}/>
+                <Header drawerOpen={drawerOpen} handleDrawerToggle={this.handleDrawerToggle}/>
                 {drawer}
                 <main
                   className={classNames(classes.content, classes['content-left'], {
@@ -89,7 +85,14 @@ class App extends Component {
                     spacing={24}
                     justify='center'
                   >
-                    Not about
+
+                    <Switch>
+                      <Route exact path="/" component={FormContainer} />
+                      <Route exact path="/login" component={Login} />
+                      <Route exact path="/registration" component={Registration} />
+                      <Route component={NotFound} />
+                    </Switch>
+
                   </Grid>
                 </main>
               </div>
@@ -97,31 +100,13 @@ class App extends Component {
           </Grid>
         </Grid>
         <Footer />
-      </React.Fragment>
+      </div>
     );
   }
 }
 
 App.propTypes = {
-  classes: PropTypes.object.isRequired,
-  FormActions: PropTypes.object.isRequired,
-  PreLoaderActions: PropTypes.object.isRequired,
-  UpdateForm: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired
 };
 
-const mapStateToProps = state => {
-  return {
-    items: state.form.result,
-    loading: state.loading.result,
-  }
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    FormActions: bindActionCreators(FormActions, dispatch),
-    PreLoaderActions: bindActionCreators(PreLoaderActions, dispatch),
-    UpdateForm: bindActionCreators(UpdateForm, dispatch)
-  }
-};
-
-export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(App));
+export default withStyles(styles)(App);

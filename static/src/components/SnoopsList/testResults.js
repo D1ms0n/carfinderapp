@@ -21,8 +21,8 @@ export default {
     },
     {
       "pk": 43,
-      "model": null,
-      "manufacturer": null,
+      "model": 'Ford',
+      "manufacturer": 'Mustang',
       "year_min": 1988,
       "year_max": 2018,
       "mileage_min": 0,

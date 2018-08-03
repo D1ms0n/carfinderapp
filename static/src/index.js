@@ -1,14 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux'
-import {BrowserRouter as Router, Route} from "react-router-dom";
 import configureStore from './store/configureStore';
+import CssBaseline from '@material-ui/core/CssBaseline';
 import {MuiThemeProvider} from '@material-ui/core/styles';
 import theme from './theme';
-import App from './containers/App';
-import About from './containers/About';
-import NotAbout from './containers/NotAbout';
-
+import App from './layouts/App';
+import {BrowserRouter} from 'react-router-dom';
 const store = configureStore();
 const rootElement = document.getElementById('root');
 
@@ -16,13 +14,10 @@ rootElement
   ? ReactDOM.render(
     <Provider store={store}>
       <MuiThemeProvider theme={theme}>
-        <Router>
-          <div>
-            <Route exact path="/" component={App} />
-            <Route path="/about" component={About} />
-            <Route path="/notabout" component={NotAbout} />
-          </div>
-        </Router>
+        <CssBaseline />
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
       </MuiThemeProvider>
     </Provider>,
     document.getElementById('root'))

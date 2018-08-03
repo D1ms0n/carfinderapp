@@ -1,8 +1,8 @@
 
 /**
  * service for serialize forms
- * @param {form}  - form selector 
- * @param {serialize} - function return form params { para1=value1$param2=value2 }
+ * @param {string} form - form selector
+ * @param {function} serialize - function return form params { para1=value1$param2=value2 }
  */
 
 export default function serialize(form){
@@ -32,8 +32,10 @@ export default function serialize(form){
           case 'checkbox':
           case 'radio':
             if (form.elements[i].checked) {
-              q.push(form.elements[i].name + '=' + 'true');
+              q.push(form.elements[i].name + '=true');
             }
+            break;
+          default:
             break;
         }
         break;
@@ -54,6 +56,8 @@ export default function serialize(form){
               }
             }
             break;
+          default:
+            break;
         }
         break;
       case 'BUTTON':
@@ -63,7 +67,11 @@ export default function serialize(form){
           case 'button':
             q.push(form.elements[i].name + '=' + encodeURIComponent(form.elements[i].value));
             break;
+          default:
+            break;
         }
+        break;
+      default:
         break;
     }
   }

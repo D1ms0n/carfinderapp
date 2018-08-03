@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import {Redirect} from 'react-router'
+import {Route} from 'react-router-dom';
+
 import {connect} from 'react-redux';
 import {withStyles} from '@material-ui/core/styles';
-import {Link} from "react-router-dom";
 
 import styles from './styles';
 import testResults from './testResults';
@@ -26,9 +28,6 @@ import Card from './../Card/Card.jsx';
 import CardBody from './../Card/CardBody.jsx';
 import CardHeader from './../Card/CardHeader.jsx';
 import CardFooter from './../Card/CardFooter.jsx';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
 
 const OLDEST_CARS = 30;
 const years = countYears(OLDEST_CARS);
@@ -47,6 +46,7 @@ class Form extends Component {
     super(props);
     this.config = config();
     this.state = {
+      redirect: true,
       years: null,
       manufacturers: null,
       models: null,
@@ -105,7 +105,10 @@ class Form extends Component {
         mileage_max: newValues[1],
       });
     };
-    ( valMin > valMax ? setNewState([valMax,valMin]) : '' );
+    if ( valMin > valMax ){
+      setNewState([valMax,valMin]);
+    }
+
   };
 
   searchCars = () => {
@@ -124,20 +127,14 @@ class Form extends Component {
     },1000);
   };
 
+  setRedirect = () => {
+    if (this.state.redirect) {
+      this.props.history.push('login',null);
+    }
+  };
+
   createSnoop = () => {
-    this.props.togglePreLoader(true);
-    const searchParams = serialize(this.searchForm);
-    const apiService = new ApiService();
-    apiService.postRequest(this.config.snoops,searchParams)
-      .then((result)=>{
-        console.log(result);
-      }).catch((e)=>{
-        console.log(e);
-      });
-    setTimeout( () => {
-      this.props.submitForm(resultCars);
-      this.props.togglePreLoader(false);
-    },1000);
+    this.setRedirect();
   };
 
   render() {
@@ -145,188 +142,184 @@ class Form extends Component {
     const {year_min,year_max} = this.state;
     const rangeValue = [year_min, year_max];
     return (
-      <Grid className={classes.grid} item lg={3} md={4} sm={4} xs={11}>
-        <Card className={classes.card}>
-          <CardHeader className={classes.cardHeader} color='success'>
-            The best form in the world
-          </CardHeader>
-
-          <CardBody>
-            <form
-              noValidate
-              autoComplete='off'
-              ref={(ref) => { this.searchForm = ref; }}
+      <Card className={classes.card}>
+        <CardHeader className={classes.cardHeader} color='success'>
+          The best form in the world
+        </CardHeader>
+        <CardBody>
+          <form
+            noValidate
+            autoComplete='off'
+            ref={(ref) => { this.searchForm = ref; }}
+          >
+            <Grid
+              container
+              spacing={24}
+              justify='center'
+              direction='row'
             >
-              <Grid
-                container
-                spacing={24}
-                justify='center'
-                direction='row'
-              >
-                <Grid className={classes.paperRelative} item lg={12} md={12} sm={12} xs={12}>
-                  <Typography className={classes.subheading} variant='subheading'>
-                    {texts.texts.manufacturer}
-                  </Typography>
-                  <Input
-                    fullWidth
-                    inputComponent={SelectWrapped}
-                    placeholder={texts.texts.manufacturer}
-                    inputProps={{
-                      classes,
-                      name: 'manufacturer',
-                      instanceId: 'manufacturer',
-                      simpleValue: true,
-                      options: manufacturers,
-                    }}
-                    value={this.state.manufacturer}
-                    onChange={this.handleChange('manufacturer')}
-                  />
-                </Grid>
+              <Grid className={classes.paperRelative} item lg={12} md={12} sm={12} xs={12}>
+                <Typography className={classes.subheading} variant='subheading'>
+                  {texts.texts.manufacturer}
+                </Typography>
+                <Input
+                  fullWidth
+                  inputComponent={SelectWrapped}
+                  placeholder={texts.texts.manufacturer}
+                  inputProps={{
+                    classes,
+                    name: 'manufacturer',
+                    instanceId: 'manufacturer',
+                    simpleValue: true,
+                    options: manufacturers,
+                  }}
+                  value={this.state.manufacturer}
+                  onChange={this.handleChange('manufacturer')}
+                />
               </Grid>
-              <Grid
-                container
-                spacing={24}
-                justify='center'
-                direction='row'
-              >
-                <Grid className={classes.paperRelative} item lg={12} md={12} sm={12} xs={12}>
-                  <Typography className={classes.subheading} variant='subheading'>
-                    {texts.texts.model}
-                  </Typography>
-                  <Input
-                    fullWidth
-                    inputComponent={SelectWrapped}
-                    placeholder={texts.texts.model}
-                    inputProps={{
-                      classes,
-                      name: 'model',
-                      instanceId: 'model',
-                      simpleValue: true,
-                      options: manufacturers,
-                    }}
-                    value={this.state.model}
-                    onChange={this.handleChange('model')}
-                  />
-                </Grid>
+            </Grid>
+            <Grid
+              container
+              spacing={24}
+              justify='center'
+              direction='row'
+            >
+              <Grid className={classes.paperRelative} item lg={12} md={12} sm={12} xs={12}>
+                <Typography className={classes.subheading} variant='subheading'>
+                  {texts.texts.model}
+                </Typography>
+                <Input
+                  fullWidth
+                  inputComponent={SelectWrapped}
+                  placeholder={texts.texts.model}
+                  inputProps={{
+                    classes,
+                    name: 'model',
+                    instanceId: 'model',
+                    simpleValue: true,
+                    options: manufacturers,
+                  }}
+                  value={this.state.model}
+                  onChange={this.handleChange('model')}
+                />
               </Grid>
-              <Grid
-                container
-                spacing={24}
-                justify='center'
-                direction='row'
-              >
-                <Grid className={classes.paperRelative} item lg={6} md={6} sm={6} xs={6}>
-                  <Typography className={classes.subheading} variant='subheading'>
-                    {texts.texts.year}
-                  </Typography>
-                  <Input
-                    fullWidth
-                    inputComponent={SelectWrapped}
-                    name='year_min'
-                    placeholder={texts.texts.yearMin}
-                    inputProps={{
-                      classes,
-                      name: 'year_min',
-                      instanceId: 'year_min',
-                      simpleValue: true,
-                      options: years,
-                    }}
-                    value={this.state.year_min}
-                    onChange={this.handleChange('year_min')}
-                  />
-                </Grid>
-                <Grid className={classes.paperRelative} item lg={6} md={6} sm={6} xs={6}>
-                  <Typography className={classes.subheading} variant='subheading'>
-                  </Typography>
-                  <Input
-                    fullWidth
-                    inputComponent={SelectWrapped}
-                    name='year_max'
-                    placeholder={texts.texts.yearMax}
-                    inputProps={{
-                      classes,
-                      name: 'year_max',
-                      instanceId: 'year_max',
-                      simpleValue: true,
-                      options: years,
-                    }}
-                    value={this.state.year_max}
-                    onChange={this.handleChange('year_max')}
-                  />
-                </Grid>
-                <Grid className={classes.paperRelative} item lg={12} md={12} sm={12} xs={12}>
-                  <Range
-                    onChange={this.handleRangeYearsChange}
-                    min={startYear}
-                    max={endYear}
-                    value={rangeValue}
-                    tipFormatter={value => `${value}`}
-                  />
-                </Grid>
+            </Grid>
+            <Grid
+              container
+              spacing={24}
+              justify='center'
+              direction='row'
+            >
+              <Grid className={classes.paperRelative} item lg={6} md={6} sm={6} xs={6}>
+                <Typography className={classes.subheading} variant='subheading'>
+                  {texts.texts.year}
+                </Typography>
+                <Input
+                  fullWidth
+                  inputComponent={SelectWrapped}
+                  name='year_min'
+                  placeholder={texts.texts.yearMin}
+                  inputProps={{
+                    classes,
+                    name: 'year_min',
+                    instanceId: 'year_min',
+                    simpleValue: true,
+                    options: years,
+                  }}
+                  value={this.state.year_min}
+                  onChange={this.handleChange('year_min')}
+                />
               </Grid>
-              <Grid
-                container
-                spacing={24}
-                justify='center'
-                direction='row'>
-                <Grid className={classes.paperRelative} item lg={6} md={6} sm={6} xs={6}>
-                  <Typography className={classes.subheading} variant='subheading'>
-                    {texts.texts.mileage}
-                  </Typography>
-                  <TextField
-                    type='number'
-                    id='mileage_min'
-                    name='mileage_min'
-                    label={texts.texts.km}
-                    className={classes.mileageField}
-                    onChange={this.handleMillageChange}
-                    value={this.state.mileage_min}
-                  />
-                </Grid>
-                <Grid className={classes.paperRelative} item lg={6} md={6} sm={6} xs={6}>
-                  <Typography className={classes.subheading} variant='subheading'>
-                  </Typography>
-                  <TextField
-                    type='number'
-                    id='mileage_max'
-                    name='mileage_max'
-                    label={texts.texts.km}
-                    className={classes.mileageField}
-                    onChange={this.handleMillageChange}
-                    value={this.state.mileage_max}
-                  />
-                </Grid>
+              <Grid className={classes.paperRelative} item lg={6} md={6} sm={6} xs={6}>
+                <Typography className={classes.subheading} variant='subheading'>
+                </Typography>
+                <Input
+                  fullWidth
+                  inputComponent={SelectWrapped}
+                  name='year_max'
+                  placeholder={texts.texts.yearMax}
+                  inputProps={{
+                    classes,
+                    name: 'year_max',
+                    instanceId: 'year_max',
+                    simpleValue: true,
+                    options: years,
+                  }}
+                  value={this.state.year_max}
+                  onChange={this.handleChange('year_max')}
+                />
               </Grid>
-
-            </form>
-          </CardBody>
-
-          <CardFooter>
+              <Grid className={classes.paperRelative} item lg={12} md={12} sm={12} xs={12}>
+                <Range
+                  onChange={this.handleRangeYearsChange}
+                  min={startYear}
+                  max={endYear}
+                  value={rangeValue}
+                  tipFormatter={value => `${value}`}
+                />
+              </Grid>
+            </Grid>
             <Grid
               container
               spacing={24}
               justify='center'
               direction='row'>
-              <Grid className={classes.paperRelative} item lg={12} md={12} sm={12} xs={12}>
-                <Button
-                  onClick = {this.searchCars}
-                  type='button'
-                  className={classes.button}
-                >
-                  {texts.texts.searchText}
-                </Button>
-                <Button
-                  onClick = {this.createSnoop}
-                  type='button'
-                  className={classes.button}
-                >
-                  {texts.texts.createSnoops}
-                </Button>
+              <Grid className={classes.paperRelative} item lg={6} md={6} sm={6} xs={6}>
+                <Typography className={classes.subheading} variant='subheading'>
+                  {texts.texts.mileage}
+                </Typography>
+                <TextField
+                  type='number'
+                  id='mileage_min'
+                  name='mileage_min'
+                  label={texts.texts.km}
+                  className={classes.mileageField}
+                  onChange={this.handleMillageChange}
+                  value={this.state.mileage_min}
+                />
+              </Grid>
+              <Grid className={classes.paperRelative} item lg={6} md={6} sm={6} xs={6}>
+                <Typography className={classes.subheading} variant='subheading'>
+                </Typography>
+                <TextField
+                  type='number'
+                  id='mileage_max'
+                  name='mileage_max'
+                  label={texts.texts.km}
+                  className={classes.mileageField}
+                  onChange={this.handleMillageChange}
+                  value={this.state.mileage_max}
+                />
               </Grid>
             </Grid>
-          </CardFooter>
-        </Card>
-      </Grid>
+
+          </form>
+        </CardBody>
+        <CardFooter>
+          <Grid
+            container
+            spacing={24}
+            justify='center'
+            direction='row'>
+            <Grid className={classes.paperRelative} item lg={12} md={12} sm={12} xs={12}>
+              <Button
+                onClick = {this.searchCars}
+                type='button'
+                className={classes.button}
+              >
+                {texts.texts.searchText}
+              </Button>
+              <Button
+                onClick = {this.createSnoop}
+                type='button'
+                className={classes.button}
+              >
+                {texts.texts.createSnoops}
+              </Button>
+            </Grid>
+          </Grid>
+        </CardFooter>
+      </Card>
     );
   }
 }
@@ -335,7 +328,7 @@ Form.propTypes = {
   classes: PropTypes.object.isRequired,
   togglePreLoader: PropTypes.func.isRequired,
   submitForm: PropTypes.func.isRequired,
-  updatedParams: PropTypes.object.isRequired
+  updatedParams: PropTypes.object
 };
 
 const mapStateToProps = state => {
