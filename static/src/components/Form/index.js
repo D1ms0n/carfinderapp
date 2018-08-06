@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {Redirect} from 'react-router'
-import {Route} from 'react-router-dom';
-
 import {connect} from 'react-redux';
 import {withStyles} from '@material-ui/core/styles';
 
@@ -127,24 +124,44 @@ class Form extends Component {
     },1000);
   };
 
-  setRedirect = () => {
+  createSnoop = () => {
     if (this.state.redirect) {
       this.props.history.push('login',null);
+    } else {
+      this.props.submitForm([]);
+      this.props.togglePreLoader(true);
+      const searchParams = serialize(this.searchForm);
+      const apiService = new ApiService();
+      apiService.getRequest(`${this.config.snoops}?${searchParams}`)
+        .then((result)=>{
+        }).catch((e)=>{
+        console.log(e);
+      });
+      setTimeout( () => {
+        this.props.submitForm(resultCars);
+        this.props.togglePreLoader(false);
+      },1000);
     }
   };
 
-  createSnoop = () => {
-    this.setRedirect();
-  };
+  componentDidMount() {
+    if ( this.props.login ){
+      this.setState({
+        redirect: false,
+        userInfo: this.props.login
+      })
+    }
+  }
 
   render() {
     const {classes} = this.props;
     const {year_min,year_max} = this.state;
     const rangeValue = [year_min, year_max];
+    const formTitle = ( this.props.login ? this.props.login.data.name : 'The best form in the world');
     return (
       <Card className={classes.card}>
         <CardHeader className={classes.cardHeader} color='success'>
-          The best form in the world
+          {formTitle}
         </CardHeader>
         <CardBody>
           <form
@@ -328,7 +345,11 @@ Form.propTypes = {
   classes: PropTypes.object.isRequired,
   togglePreLoader: PropTypes.func.isRequired,
   submitForm: PropTypes.func.isRequired,
-  updatedParams: PropTypes.object
+  updatedParams: PropTypes.object,
+  login: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.bool
+  ])
 };
 
 const mapStateToProps = state => {

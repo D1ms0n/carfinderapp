@@ -27,7 +27,6 @@ import DirectionsWalk from '@material-ui/icons/DirectionsWalk';
 import DirectionsCar from '@material-ui/icons/DirectionsCar';
 
 const Results = (props) => {
-  console.log(props);
   const {items,classes,loading} = props;
   const noResults = texts.texts.noResults;
   return (

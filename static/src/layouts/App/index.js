@@ -71,6 +71,7 @@ class App extends Component {
           <Grid item lg={10} md={10} sm={10} xs={12}>
             <div className={classes.root}>
               <div className={classes.appFrame}>
+
                 <Header drawerOpen={drawerOpen} handleDrawerToggle={this.handleDrawerToggle}/>
                 {drawer}
                 <main
