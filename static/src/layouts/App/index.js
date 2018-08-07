@@ -16,12 +16,14 @@ import Footer from '../../components/Footer/index';
 import Header from './../../components/Header';
 import Registration from './../../components/Registration';
 import Login from './../../components/Login';
+import Logout from './../../components/Logout';
 import NotFound from './../../components/NotFound';
 import Grid from '@material-ui/core/Grid';
 import Drawer from '@material-ui/core/Drawer';
 import IconButton from '@material-ui/core/IconButton';
 import Divider from '@material-ui/core/Divider';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import {CookiesService} from "../../services/cookies";
 
 class App extends Component {
 
@@ -91,6 +93,7 @@ class App extends Component {
                       <Route exact path="/" component={FormContainer} />
                       <Route exact path="/login" component={Login} />
                       <Route exact path="/registration" component={Registration} />
+                      <Route exact path="/logout" component={Logout} />
                       <Route component={NotFound} />
                     </Switch>
 

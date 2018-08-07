@@ -22,8 +22,8 @@ const texts = {
     texts.noResults = ( texts.localisation === 'en' ? 'no results' : '' );
     texts.noResultsSnoops = ( texts.localisation === 'en' ? 'no added snoops' : '' );
     texts.headerTitle = ( texts.localisation === 'en' ? 'The best headline in the world' : '' );
-    texts.login = ( texts.localisation === 'en' ? 'Login' : '' );
-    texts.registration = ( texts.localisation === 'en' ? 'Registration' : '' );
+    texts.login = ( texts.localisation === 'en' ? 'Sign in' : '' );
+    texts.registration = ( texts.localisation === 'en' ? 'Sign up' : '' );
     texts.cancel = ( texts.localisation === 'en' ? 'Cancel' : '' );
     texts.submit = ( texts.localisation === 'en' ? 'Submit' : '' );
     texts.snoops = ( texts.localisation === 'en' ? 'Snoops' : '' );

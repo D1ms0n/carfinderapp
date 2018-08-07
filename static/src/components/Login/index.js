@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import {withStyles} from '@material-ui/core/styles/index';
 import {bindActionCreators} from "redux";
 import {Route} from 'react-router-dom'
+import {CookiesService} from './../../services/cookies';
 
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -47,8 +48,9 @@ class Login extends Component {
     const data = {
       name: this.state.email,
       pass: this.state.password
-    }
+    };
     this.props.LoginActions.login(data);
+    CookiesService.setCookie('user',JSON.stringify(data),'1');
     history.push('/');
   }
 

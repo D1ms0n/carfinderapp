@@ -1,7 +1,11 @@
 
 import { LOGIN } from '../constants';
 
-export default function loading(state = false, action) {
+const initialState = {
+  data: false
+};
+
+export default function loading(state = initialState, action) {
   switch (action.type) {
     case LOGIN:
       return { ...state, data: action.payload };

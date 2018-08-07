@@ -5,10 +5,22 @@ const styles = (theme) => ({
     marginLeft: 'auto',
     marginRight: 10
   },
+  noOutline: {
+    outlineColor: 'transparent'
+  },
   link: {
     color: theme.headerLinksColor[50],
     textDecoration: 'none',
     paddingLeft: 10
+  },
+  menuLink: {
+    paddingLeft: 20,
+    paddingRight: 20,
+    textDecoration: 'none',
+    color: theme.palette.text.secondary[500]
+  },
+  menuLinkWrap: {
+    padding: 0
   },
   appBar: {
     backgroundColor: 'transparent',

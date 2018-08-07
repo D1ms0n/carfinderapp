@@ -38,6 +38,10 @@ class CookiesService {
     const expires = 'expires=' + d.toUTCString();
     document.cookie = cname + '=' + cvalue + ';' + expires + ';path=/';
   }
+
+  static deleteCookie(cname){
+    document.cookie = cname + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+  }
 }
 export { CookiesService };
 

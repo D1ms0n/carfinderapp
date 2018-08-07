@@ -157,7 +157,7 @@ class Form extends Component {
     const {classes} = this.props;
     const {year_min,year_max} = this.state;
     const rangeValue = [year_min, year_max];
-    const formTitle = ( this.props.login ? this.props.login.data.name : 'The best form in the world');
+    const formTitle = ( this.props.login.data ? this.props.login.data.name : 'The best form in the world');
     return (
       <Card className={classes.card}>
         <CardHeader className={classes.cardHeader} color='success'>
