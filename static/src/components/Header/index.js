@@ -6,7 +6,6 @@ import {withStyles} from '@material-ui/core/styles/index';
 import styles from './styles';
 import classNames from "classnames";
 import texts from "../../services/texts";
-import {CookiesService} from './../../services/cookies';
 import IconButton from '@material-ui/core/IconButton';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import Badge from '@material-ui/core/Badge';
@@ -36,10 +35,6 @@ class Header extends Component {
   handleClose = () => {
     this.setState({ anchorEl: null });
   };
-
-  componentDidMount() {
-    console.log(CookiesService.getCookie('user'));
-  }
 
   render() {
     const {anchorEl} = this.state;

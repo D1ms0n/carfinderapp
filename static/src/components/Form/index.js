@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {withStyles} from '@material-ui/core/styles';
+import {bindActionCreators} from "redux";
+import * as LoginActions from "../../actions/LoginActions";
 
 import styles from './styles';
 import testResults from './testResults';
@@ -11,6 +13,7 @@ import ApiService from './../../services/api';
 import config from './../../configs';
 import countYears from './modules/CountYears';
 import serialize from './../../services/serialize';
+import {CookiesService} from './../../services/cookies';
 
 import 'rc-slider/assets/index.css';
 import 'react-select/dist/react-select.css';
@@ -44,6 +47,7 @@ class Form extends Component {
     this.config = config();
     this.state = {
       redirect: true,
+      login: false,
       years: null,
       manufacturers: null,
       models: null,
@@ -54,10 +58,6 @@ class Form extends Component {
       year_min: startYear,
       year_max: endYear
     };
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this.updateForm(nextProps.updatedParams)
   }
 
   handleChange = name => value => {
@@ -145,19 +145,26 @@ class Form extends Component {
   };
 
   componentDidMount() {
-    if ( this.props.login ){
+    const userData = CookiesService.getCookie('user');
+    if ( userData.length ) {
+      this.props.LoginActions.login(JSON.parse(userData));
       this.setState({
         redirect: false,
-        userInfo: this.props.login
+        userInfo: this.props.login,
+        login: JSON.parse(userData)
       })
     }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.updateForm(nextProps.updatedParams)
   }
 
   render() {
     const {classes} = this.props;
     const {year_min,year_max} = this.state;
     const rangeValue = [year_min, year_max];
-    const formTitle = ( this.props.login.data ? this.props.login.data.name : 'The best form in the world');
+    const formTitle = ( this.state.login ? this.state.login.name : 'The best form in the world');
     return (
       <Card className={classes.card}>
         <CardHeader className={classes.cardHeader} color='success'>
@@ -358,4 +365,10 @@ const mapStateToProps = state => {
   }
 };
 
-export default withStyles(styles)(connect(mapStateToProps)(Form));
+const mapDispatchToProps = dispatch => {
+  return {
+    LoginActions: bindActionCreators(LoginActions, dispatch)
+  }
+};
+
+export default withStyles(styles)(connect(mapStateToProps,mapDispatchToProps)(Form));

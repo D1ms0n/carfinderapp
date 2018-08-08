@@ -29,7 +29,7 @@ class FormContainer extends Component {
   render() {
     const {submitForm} = this.props.FormActions;
     const {togglePreLoader} = this.props.PreLoaderActions;
-    const {items,loading,history,login} = this.props;
+    const {items,loading,history} = this.props;
     return (
       <Grid
         container
@@ -38,7 +38,6 @@ class FormContainer extends Component {
       >
         <Grid item lg={3} md={4} sm={4} xs={11}>
           <Form
-            login={login}
             history={history}
             submitForm={submitForm}
             togglePreLoader={togglePreLoader}
@@ -64,7 +63,6 @@ const mapStateToProps = state => {
   return {
     items: state.form.result,
     loading: state.loading.result,
-    login: state.login,
   }
 };
 
