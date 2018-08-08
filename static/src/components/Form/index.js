@@ -350,13 +350,11 @@ class Form extends Component {
 
 Form.propTypes = {
   classes: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
   togglePreLoader: PropTypes.func.isRequired,
+  LoginActions: PropTypes.object.isRequired,
   submitForm: PropTypes.func.isRequired,
-  updatedParams: PropTypes.object,
-  login: PropTypes.oneOfType([
-    PropTypes.object,
-    PropTypes.bool
-  ])
+  updatedParams: PropTypes.object
 };
 
 const mapStateToProps = state => {
