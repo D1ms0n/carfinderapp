@@ -74,9 +74,6 @@ const Results = (props) => {
                             <DirectionsCar /> {item.transmission}
                           </Typography>
                         </Grid>
-                        <Grid className={classes.paperRelative} item lg={6} md={6} sm={6} xs={12}>
-
-                        </Grid>
                       </Grid>
                       <Typography variant="body2" gutterBottom>
                         {item.description}
@@ -84,7 +81,6 @@ const Results = (props) => {
                     </CardContent>
                   </div>
                 </CardBody>
-
                 <CardFooter>
                   <IconButton aria-label="Add to favorites">
                     <FavoriteIcon />

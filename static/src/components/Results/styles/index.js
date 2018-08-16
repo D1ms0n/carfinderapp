@@ -24,12 +24,19 @@ const styles = theme => ({
   },
   content: {
     width: '55%',
-    float: 'right'
+    float: 'right',
+    '@media (max-width: 768px)': {
+      width: '100%'
+    }
   },
   cover: {
     width: '45%',
     height: 300,
     float: 'left',
+    '@media (max-width: 768px)': {
+      width: '100%',
+      height: 200
+    }
   },
   paper: {
     paddingTop: 1,
