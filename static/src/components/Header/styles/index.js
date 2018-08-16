@@ -3,7 +3,20 @@ const drawerWidth = 250;
 const styles = (theme) => ({
   root: {
     marginLeft: 'auto',
-    marginRight: 10
+    marginRight: 10,
+    display: 'flex'
+  },
+  useNameWrap: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingRight: 5
+  },
+  imgAvatar: {
+    width: 40,
+    height: 40,
+    borderRadius: '50%',
+    transform: 'scale(.8)'
   },
   noOutline: {
     outlineColor: 'transparent'

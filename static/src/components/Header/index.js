@@ -39,6 +39,7 @@ class Header extends Component {
   render() {
     const {anchorEl} = this.state;
     const {classes,drawerOpen,handleDrawerToggle,login} = this.props;
+
     const notLoggedMenuItems =
       <div className={classes.noOutline}>
         <MenuItem className={classes.menuLinkWrap} onClick={this.handleClose}>
@@ -53,6 +54,21 @@ class Header extends Component {
       <MenuItem className={classes.menuLinkWrap} onClick={this.handleClose}>
         <Link className={classes.menuLink} replace to="/logout">Logout</Link>
       </MenuItem>;
+
+    const loggedAccountImg =
+      <img className={classes.imgAvatar} src={login.data.img} alt={login.data.name} />;
+
+    const userName =
+      <Typography
+        className={classes.useNameWrap}
+        variant="caption"
+        gutterBottom
+        align="center">
+          {login.data.name}
+      </Typography>;
+
+    const notLoggedAccountImg =
+      <AccountCircle/>;
 
     return (
       <AppBar
@@ -79,13 +95,21 @@ class Header extends Component {
             <Link className={classes.link} replace to="/">{this.texts.headerTitle}</Link>
           </Typography>
           <div className={classes.root}>
+
+            { login.data
+              ? userName
+              : ''
+            }
             <IconButton
               color='inherit'
               aria-owns={anchorEl ? 'simple-menu' : null}
               aria-haspopup="true"
               onClick={this.handleClick}
             >
-              <AccountCircle/>
+              { login.data
+                ? loggedAccountImg
+                : notLoggedAccountImg
+              }
             </IconButton>
             <Menu
               id="simple-menu"

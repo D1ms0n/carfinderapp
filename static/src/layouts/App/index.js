@@ -10,14 +10,11 @@ import {
 import styles from './styles';
 import classNames from 'classnames';
 
-import FormContainer from './../../containers/Form';
+import routes from './../../routes';
+
 import SnoopsListContainer from '../../containers/Snoops';
 import Footer from '../../components/Footer/index';
 import Header from './../../components/Header';
-import Registration from './../../components/Registration';
-import Login from './../../components/Login';
-import Logout from './../../components/Logout';
-import NotFound from './../../components/NotFound';
 import Grid from '@material-ui/core/Grid';
 import Drawer from '@material-ui/core/Drawer';
 import IconButton from '@material-ui/core/IconButton';
@@ -72,7 +69,6 @@ class App extends Component {
           <Grid item lg={10} md={10} sm={10} xs={12}>
             <div className={classes.root}>
               <div className={classes.appFrame}>
-
                 <Header drawerOpen={drawerOpen} handleDrawerToggle={this.handleDrawerToggle}/>
                 {drawer}
                 <main
@@ -87,15 +83,11 @@ class App extends Component {
                     spacing={24}
                     justify='center'
                   >
-
                     <Switch>
-                      <Route exact path="/" component={FormContainer} />
-                      <Route exact path="/login" component={Login} />
-                      <Route exact path="/registration" component={Registration} />
-                      <Route exact path="/logout" component={Logout} />
-                      <Route component={NotFound} />
+                      {routes.map((route,key)=>{
+                        return <Route exact path={route.path} component={route.component} key={key}/>
+                      })}
                     </Switch>
-
                   </Grid>
                 </main>
               </div>

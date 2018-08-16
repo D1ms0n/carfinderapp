@@ -66,7 +66,6 @@ const mapStateToProps = state => {
   }
 };
 
-
 const mapDispatchToProps = dispatch => {
   return {
     FormActions: bindActionCreators(FormActions, dispatch),

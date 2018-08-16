@@ -11,6 +11,18 @@ const styles = theme => ({
   title: {
     paddingLeft: 20,
     paddingTop: 20
+  },
+  listItem: {
+    padding: 0,
+    marginBottom: 5
+  },
+  preview: {
+    marginLeft: 15,
+    marginTop: 5,
+    marginBottom: 5
+  },
+  listItemText: {
+    padding: 10
   }
 });
 
