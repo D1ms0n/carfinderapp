@@ -1,4 +1,3 @@
-
 import React from 'react';
 import {withStyles} from '@material-ui/core/styles/index';
 import PropTypes from 'prop-types';
@@ -96,7 +95,6 @@ class SnoopsList extends React.Component {
             : noResults
           }
         </List>
-
         <Dialog
           open={this.state.open}
           onClose={this.handleClose}
@@ -113,12 +111,10 @@ class SnoopsList extends React.Component {
             </Button>
           </DialogActions>
         </Dialog>
-
       </div>
     );
   }
 }
-
 
 SnoopsList.propTypes = {
   classes: PropTypes.object.isRequired,

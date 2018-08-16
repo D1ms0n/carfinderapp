@@ -1,4 +1,3 @@
-
 import FormContainer from './../containers/Form';
 import Registration from './../components/Registration';
 import Login from './../components/Login';
