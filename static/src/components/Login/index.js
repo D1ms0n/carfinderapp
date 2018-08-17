@@ -52,9 +52,9 @@ class Login extends Component {
     };
     this.props.LoginActions.login(data);
     const userInfo = {
-      "name": data.name,
-      "email":"email.example.com",
-      "img":"https://img.discogs.com/rI7MBOcbxHvz0074GOi2Z9vZfz8=/fit-in/300x300/filters:strip_icc():format(jpeg):mode_rgb():quality(40)/discogs-images/A-90042-1386734981-4351.jpeg.jpg",
+      "name": "Werner Heisenberg",
+      "email": data.name,
+      "img":"https://juststickers.in/wp-content/uploads/2015/04/Heisenberg.png",
     };
     CookiesService.setCookie('user',JSON.stringify(userInfo),'1');
     this.props.history.push('/');
@@ -62,7 +62,6 @@ class Login extends Component {
 
   render(){
     const {classes} = this.props;
-
     return (
       <Grid item lg={4} md={4} sm={4} xs={11}>
         <div className={classes.root} >

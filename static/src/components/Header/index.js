@@ -63,8 +63,10 @@ class Header extends Component {
         className={classes.useNameWrap}
         variant="caption"
         gutterBottom
-        align="center">
+          align="center">
           {login.data.name}
+          <br />
+          {login.data.email}
       </Typography>;
 
     const notLoggedAccountImg =
