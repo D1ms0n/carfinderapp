@@ -3,6 +3,7 @@ import Registration from './../components/Registration';
 import Login from './../components/Login';
 import Logout from './../components/Logout';
 import NotFound from './../components/NotFound';
+import Repo from './../components/Repo';
 
 const routes = [
   {
@@ -20,6 +21,10 @@ const routes = [
   {
     path: "/logout",
     component: Logout
+  },
+  {
+    path: "/user/:repoName",
+    component: Repo
   },
   {
     component: NotFound

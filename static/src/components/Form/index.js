@@ -21,6 +21,8 @@ import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Input from '@material-ui/core/Input';
+import Collapse from '@material-ui/core/Collapse';
+import Paper from '@material-ui/core/Paper';
 import Button from './../CustomButtons/Button.jsx';
 import Slider from 'rc-slider';
 import SelectWrapped from './modules/SelectWrapped';
@@ -47,6 +49,7 @@ class Form extends Component {
     this.config = config();
     this.state = {
       redirect: true,
+      formHidden: false,
       login: false,
       years: null,
       manufacturers: null,
@@ -77,6 +80,17 @@ class Form extends Component {
       year_min: value[0],
       year_max: value[1]
     });
+  };
+
+  toggleFrom = () =>{
+    const mobileDevisesWidth = 600;
+    if ( window.innerWidth > mobileDevisesWidth ){
+      return
+    }
+    this.setState({
+      formHidden: !this.state.formHidden
+    })
+
   };
 
   updateForm = params => {
@@ -167,182 +181,190 @@ class Form extends Component {
     const formTitle = ( this.state.login ? this.state.login.name : 'The best form in the world');
     return (
       <Card className={classes.card}>
-        <CardHeader className={classes.cardHeader} color='success'>
+        <CardHeader
+          onClick={this.toggleFrom}
+          className={classes.cardHeader}
+          color='success'>
           {formTitle}
         </CardHeader>
-        <CardBody>
-          <form
-            noValidate
-            autoComplete='off'
-            ref={(ref) => { this.searchForm = ref; }}
-          >
-            <Grid
-              container
-              spacing={24}
-              justify='center'
-              direction='row'
+        <Collapse
+          in={!this.state.formHidden}
+          collapsedHeight="10px"
+        >
+          <CardBody>
+            <form
+              noValidate
+              autoComplete='off'
+              ref={(ref) => { this.searchForm = ref; }}
             >
-              <Grid className={classes.paperRelative} item lg={12} md={12} sm={12} xs={12}>
-                <Typography className={classes.subheading} variant='subheading'>
-                  {texts.texts.manufacturer}
-                </Typography>
-                <Input
-                  fullWidth
-                  inputComponent={SelectWrapped}
-                  placeholder={texts.texts.manufacturer}
-                  inputProps={{
-                    classes,
-                    name: 'manufacturer',
-                    instanceId: 'manufacturer',
-                    simpleValue: true,
-                    options: manufacturers,
-                  }}
-                  value={this.state.manufacturer}
-                  onChange={this.handleChange('manufacturer')}
-                />
+              <Grid
+                container
+                spacing={24}
+                justify='center'
+                direction='row'
+              >
+                <Grid className={classes.paperRelative} item lg={12} md={12} sm={12} xs={12}>
+                  <Typography className={classes.subheading} variant='subheading'>
+                    {texts.texts.manufacturer}
+                  </Typography>
+                  <Input
+                    fullWidth
+                    inputComponent={SelectWrapped}
+                    placeholder={texts.texts.manufacturer}
+                    inputProps={{
+                      classes,
+                      name: 'manufacturer',
+                      instanceId: 'manufacturer',
+                      simpleValue: true,
+                      options: manufacturers,
+                    }}
+                    value={this.state.manufacturer}
+                    onChange={this.handleChange('manufacturer')}
+                  />
+                </Grid>
               </Grid>
-            </Grid>
-            <Grid
-              container
-              spacing={24}
-              justify='center'
-              direction='row'
-            >
-              <Grid className={classes.paperRelative} item lg={12} md={12} sm={12} xs={12}>
-                <Typography className={classes.subheading} variant='subheading'>
-                  {texts.texts.model}
-                </Typography>
-                <Input
-                  fullWidth
-                  inputComponent={SelectWrapped}
-                  placeholder={texts.texts.model}
-                  inputProps={{
-                    classes,
-                    name: 'model',
-                    instanceId: 'model',
-                    simpleValue: true,
-                    options: manufacturers,
-                  }}
-                  value={this.state.model}
-                  onChange={this.handleChange('model')}
-                />
+              <Grid
+                container
+                spacing={24}
+                justify='center'
+                direction='row'
+              >
+                <Grid className={classes.paperRelative} item lg={12} md={12} sm={12} xs={12}>
+                  <Typography className={classes.subheading} variant='subheading'>
+                    {texts.texts.model}
+                  </Typography>
+                  <Input
+                    fullWidth
+                    inputComponent={SelectWrapped}
+                    placeholder={texts.texts.model}
+                    inputProps={{
+                      classes,
+                      name: 'model',
+                      instanceId: 'model',
+                      simpleValue: true,
+                      options: manufacturers,
+                    }}
+                    value={this.state.model}
+                    onChange={this.handleChange('model')}
+                  />
+                </Grid>
               </Grid>
-            </Grid>
-            <Grid
-              container
-              spacing={24}
-              justify='center'
-              direction='row'
-            >
-              <Grid className={classes.paperRelative} item lg={6} md={6} sm={6} xs={6}>
-                <Typography className={classes.subheading} variant='subheading'>
-                  {texts.texts.year}
-                </Typography>
-                <Input
-                  fullWidth
-                  inputComponent={SelectWrapped}
-                  name='year_min'
-                  placeholder={texts.texts.yearMin}
-                  inputProps={{
-                    classes,
-                    name: 'year_min',
-                    instanceId: 'year_min',
-                    simpleValue: true,
-                    options: years,
-                  }}
-                  value={this.state.year_min}
-                  onChange={this.handleChange('year_min')}
-                />
+              <Grid
+                container
+                spacing={24}
+                justify='center'
+                direction='row'
+              >
+                <Grid className={classes.paperRelative} item lg={6} md={6} sm={6} xs={6}>
+                  <Typography className={classes.subheading} variant='subheading'>
+                    {texts.texts.year}
+                  </Typography>
+                  <Input
+                    fullWidth
+                    inputComponent={SelectWrapped}
+                    name='year_min'
+                    placeholder={texts.texts.yearMin}
+                    inputProps={{
+                      classes,
+                      name: 'year_min',
+                      instanceId: 'year_min',
+                      simpleValue: true,
+                      options: years,
+                    }}
+                    value={this.state.year_min}
+                    onChange={this.handleChange('year_min')}
+                  />
+                </Grid>
+                <Grid className={classes.paperRelative} item lg={6} md={6} sm={6} xs={6}>
+                  <Typography className={classes.subheading} variant='subheading'>
+                  </Typography>
+                  <Input
+                    fullWidth
+                    inputComponent={SelectWrapped}
+                    name='year_max'
+                    placeholder={texts.texts.yearMax}
+                    inputProps={{
+                      classes,
+                      name: 'year_max',
+                      instanceId: 'year_max',
+                      simpleValue: true,
+                      options: years,
+                    }}
+                    value={this.state.year_max}
+                    onChange={this.handleChange('year_max')}
+                  />
+                </Grid>
+                <Grid className={classes.paperRelative} item lg={12} md={12} sm={12} xs={12}>
+                  <Range
+                    onChange={this.handleRangeYearsChange}
+                    min={startYear}
+                    max={endYear}
+                    value={rangeValue}
+                    tipFormatter={value => `${value}`}
+                  />
+                </Grid>
               </Grid>
-              <Grid className={classes.paperRelative} item lg={6} md={6} sm={6} xs={6}>
-                <Typography className={classes.subheading} variant='subheading'>
-                </Typography>
-                <Input
-                  fullWidth
-                  inputComponent={SelectWrapped}
-                  name='year_max'
-                  placeholder={texts.texts.yearMax}
-                  inputProps={{
-                    classes,
-                    name: 'year_max',
-                    instanceId: 'year_max',
-                    simpleValue: true,
-                    options: years,
-                  }}
-                  value={this.state.year_max}
-                  onChange={this.handleChange('year_max')}
-                />
+              <Grid
+                container
+                spacing={24}
+                justify='center'
+                direction='row'>
+                <Grid className={classes.paperRelative} item lg={6} md={6} sm={6} xs={6}>
+                  <Typography className={classes.subheading} variant='subheading'>
+                    {texts.texts.mileage}
+                  </Typography>
+                  <TextField
+                    type='number'
+                    id='mileage_min'
+                    name='mileage_min'
+                    label={texts.texts.km}
+                    className={classes.mileageField}
+                    onChange={this.handleMillageChange}
+                    value={this.state.mileage_min}
+                  />
+                </Grid>
+                <Grid className={classes.paperRelative} item lg={6} md={6} sm={6} xs={6}>
+                  <Typography className={classes.subheading} variant='subheading'>
+                  </Typography>
+                  <TextField
+                    type='number'
+                    id='mileage_max'
+                    name='mileage_max'
+                    label={texts.texts.km}
+                    className={classes.mileageField}
+                    onChange={this.handleMillageChange}
+                    value={this.state.mileage_max}
+                  />
+                </Grid>
               </Grid>
-              <Grid className={classes.paperRelative} item lg={12} md={12} sm={12} xs={12}>
-                <Range
-                  onChange={this.handleRangeYearsChange}
-                  min={startYear}
-                  max={endYear}
-                  value={rangeValue}
-                  tipFormatter={value => `${value}`}
-                />
-              </Grid>
-            </Grid>
+
+            </form>
+          </CardBody>
+          <CardFooter>
             <Grid
               container
               spacing={24}
               justify='center'
               direction='row'>
-              <Grid className={classes.paperRelative} item lg={6} md={6} sm={6} xs={6}>
-                <Typography className={classes.subheading} variant='subheading'>
-                  {texts.texts.mileage}
-                </Typography>
-                <TextField
-                  type='number'
-                  id='mileage_min'
-                  name='mileage_min'
-                  label={texts.texts.km}
-                  className={classes.mileageField}
-                  onChange={this.handleMillageChange}
-                  value={this.state.mileage_min}
-                />
-              </Grid>
-              <Grid className={classes.paperRelative} item lg={6} md={6} sm={6} xs={6}>
-                <Typography className={classes.subheading} variant='subheading'>
-                </Typography>
-                <TextField
-                  type='number'
-                  id='mileage_max'
-                  name='mileage_max'
-                  label={texts.texts.km}
-                  className={classes.mileageField}
-                  onChange={this.handleMillageChange}
-                  value={this.state.mileage_max}
-                />
+              <Grid className={classes.paperRelative} item lg={12} md={12} sm={12} xs={12}>
+                <Button
+                  onClick = {this.searchCars}
+                  type='button'
+                  className={classes.button}
+                >
+                  {texts.texts.searchText}
+                </Button>
+                <Button
+                  onClick = {this.createSnoop}
+                  type='button'
+                  className={classes.button}
+                >
+                  {texts.texts.createSnoops}
+                </Button>
               </Grid>
             </Grid>
-
-          </form>
-        </CardBody>
-        <CardFooter>
-          <Grid
-            container
-            spacing={24}
-            justify='center'
-            direction='row'>
-            <Grid className={classes.paperRelative} item lg={12} md={12} sm={12} xs={12}>
-              <Button
-                onClick = {this.searchCars}
-                type='button'
-                className={classes.button}
-              >
-                {texts.texts.searchText}
-              </Button>
-              <Button
-                onClick = {this.createSnoop}
-                type='button'
-                className={classes.button}
-              >
-                {texts.texts.createSnoops}
-              </Button>
-            </Grid>
-          </Grid>
-        </CardFooter>
+          </CardFooter>
+        </Collapse>
       </Card>
     );
   }

@@ -51,11 +51,13 @@ class Login extends Component {
       pass: this.state.password
     };
     this.props.LoginActions.login(data);
+
     const userInfo = {
       "name": "Werner Heisenberg",
       "email": data.name,
       "img":"https://juststickers.in/wp-content/uploads/2015/04/Heisenberg.png",
     };
+
     CookiesService.setCookie('user',JSON.stringify(userInfo),'1');
     this.props.history.push('/');
   }
@@ -89,7 +91,6 @@ class Login extends Component {
               fullWidth
             />
             <Link replace to="/registration">{this.texts.registration}</Link>
-
           </DialogContent>
           <DialogActions>
             <Button color="primary" onClick={this.cancel}>

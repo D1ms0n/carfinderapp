@@ -19,8 +19,9 @@ const styles = (theme) => ({
     left: 0,
     width: '100%',
     height: '100%',
-    backgroundSize: 'cover',
-    mixBlendMode: 'overlay'
+    backgroundSize: 'contain',
+    mixBlendMode: 'overlay',
+    backgroundRepeat: 'no-repeat'
   },
   code: {
     fontSize: '144px',

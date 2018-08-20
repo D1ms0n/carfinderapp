@@ -28,7 +28,8 @@ const styles = theme => ({
     right: 20
   },
   card: {
-    borderRadius: `${2*theme.radius}!important`
+    borderRadius: `${2*theme.radius}px!important`,
+    marginBottom: 0
   },
   paper: {
     padding: 15,
@@ -37,6 +38,14 @@ const styles = theme => ({
     color: theme.palette.text.secondary[500],
     boxShadow: 'none',
     textAlign: 'center'
+  },
+  cardBody:{
+    height: '100%',
+    transition: theme.transitions.easing[2],
+    '&.hidden': {
+      height: 1,
+      overflow: 'hidden'
+    }
   },
   cardHeader: {
     background: `linear-gradient(60deg, ${theme.palette.primary[500]}, ${theme.palette.primary[500]})!important`,

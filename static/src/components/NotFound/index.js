@@ -6,7 +6,7 @@ const NotFound = (props) => {
   const {classes} = props;
   return (
     <div className={classes.FourOhFour}>
-      <div className={classes.bg} style={{ backgroundImage: 'url(http://i.giphy.com/l117HrgEinjIA.gif)'}}> </div>
+      <div className={classes.bg} style={{ backgroundImage: 'url(https://gagadget.com/media/uploads/2015-08/nothing_to_see_here_naked_gun.gif)'}}> </div>
       <div className={classes.code}>404</div>
     </div>
   )
