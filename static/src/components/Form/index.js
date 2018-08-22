@@ -1,19 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {withStyles} from '@material-ui/core/styles';
-import {bindActionCreators} from "redux";
+import { connect }  from 'react-redux';
+import { bindActionCreators } from "redux";
+import { withStyles } from '@material-ui/core/styles';
 import * as LoginActions from "../../actions/LoginActions";
-
 import styles from './styles';
+import ApiService from './../../services/api';
+import {CookiesService} from './../../services/cookies';
+import serialize from './../../services/serialize';
+import config from './../../configs';
+
 import testResults from './testResults';
 import texts from '../../services/texts/index';
-
-import ApiService from './../../services/api';
-import config from './../../configs';
 import countYears from './modules/CountYears';
-import serialize from './../../services/serialize';
-import {CookiesService} from './../../services/cookies';
 
 import 'rc-slider/assets/index.css';
 import 'react-select/dist/react-select.css';
@@ -22,7 +21,6 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Input from '@material-ui/core/Input';
 import Collapse from '@material-ui/core/Collapse';
-import Paper from '@material-ui/core/Paper';
 import Button from './../CustomButtons/Button.jsx';
 import Slider from 'rc-slider';
 import SelectWrapped from './modules/SelectWrapped';
@@ -30,15 +28,14 @@ import Card from './../Card/Card.jsx';
 import CardBody from './../Card/CardBody.jsx';
 import CardHeader from './../Card/CardHeader.jsx';
 import CardFooter from './../Card/CardFooter.jsx';
+import Snackbar from '@material-ui/core/Snackbar';
+import MySnackbarContentWrapper from './../../components/Snackbar';
 
-const OLDEST_CARS = 30;
-const years = countYears(OLDEST_CARS);
+const years = countYears();
 const startYear = years[0].value;
 const endYear = years[years.length - 1].value;
-
 const manufacturers = testResults.manufacturers;
 const resultCars = testResults.resultCars;
-
 const createSliderWithTooltip = Slider.createSliderWithTooltip;
 const Range = createSliderWithTooltip(Slider.Range);
 
@@ -69,6 +66,13 @@ class Form extends Component {
     });
   };
 
+  handleCloseSnackbar = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    this.setState({ snackBarOpen: false });
+  };
+
   handleMillageChange = event => {
     this.setState({
       [event.target.name]: event.target.value
@@ -90,7 +94,6 @@ class Form extends Component {
     this.setState({
       formHidden: !this.state.formHidden
     })
-
   };
 
   updateForm = params => {
@@ -165,8 +168,11 @@ class Form extends Component {
       this.setState({
         redirect: false,
         userInfo: this.props.login,
-        login: JSON.parse(userData)
-      })
+        login: JSON.parse(userData),
+        snackBarOpen: true,
+        variant: "success",
+        message: `Welcome, ${JSON.parse(userData).name}!`
+      });
     }
   }
 
@@ -365,6 +371,21 @@ class Form extends Component {
             </Grid>
           </CardFooter>
         </Collapse>
+        <Snackbar
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left',
+          }}
+          open={this.state.snackBarOpen}
+          autoHideDuration={3000}
+          onClose={this.handleCloseSnackbar}
+        >
+          <MySnackbarContentWrapper
+            onClose={this.handleCloseSnackbar}
+            variant={this.state.variant}
+            message={this.state.message}
+          />
+        </Snackbar>
       </Card>
     );
   }

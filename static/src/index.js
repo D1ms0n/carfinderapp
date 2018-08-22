@@ -10,6 +10,7 @@ import {BrowserRouter} from 'react-router-dom';
 const store = configureStore();
 const rootElement = document.getElementById('root');
 
+
 rootElement
   ? ReactDOM.render(
     <Provider store={store}>

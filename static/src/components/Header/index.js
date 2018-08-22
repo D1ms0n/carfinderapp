@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
-import {connect} from "react-redux";
-import {Link} from 'react-router-dom'
-import {bindActionCreators} from "redux";
-import {withStyles} from '@material-ui/core/styles/index';
+import React, { Component } from 'react';
+import { connect } from "react-redux";
+import { Link } from 'react-router-dom'
+import { bindActionCreators } from "redux";
+import { withStyles } from '@material-ui/core/styles/index';
 import styles from './styles';
 import classNames from "classnames";
 import texts from "../../services/texts";
@@ -18,6 +18,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import * as LoginActions from "../../actions/LoginActions";
 
 class Header extends Component {
+
   constructor(props) {
     super(props);
     this.texts = texts.texts;
@@ -28,6 +29,7 @@ class Header extends Component {
       openRegistration: false
     };
   }
+
   handleClick = event => {
     this.setState({ anchorEl: event.currentTarget });
   };

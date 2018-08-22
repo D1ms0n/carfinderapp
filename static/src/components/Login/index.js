@@ -11,14 +11,20 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
+import FormErrors from './modules/FormErrors';
+import Snackbar from '@material-ui/core/Snackbar';
+import MySnackbarContentWrapper from './../../components/Snackbar';
 import texts from '../../services/texts/index';
 import * as LoginActions from '../../actions/LoginActions';
 import PropTypes from "prop-types";
 
-const styles = () => ({
+const styles = (theme) => ({
   root: {
     flexGrow: 1
-  }
+  },
+  margin: {
+    margin: theme.spacing.unit,
+  },
 });
 
 class Login extends Component {
@@ -29,37 +35,100 @@ class Login extends Component {
     this.props = props;
     this.state = {
       email: '',
-      password: ''
+      password: '',
+      snackBarOpen: false,
+      formValid: false,
+      emailValid: false,
+      passwordValid: false,
+      formErrors: {
+        email: '',
+        password: ''
+      }
     };
     this.login = this.login.bind(this);
     this.cancel = this.cancel.bind(this);
   }
 
   handleChange = event => {
+    const name = event.target.name;
+    const value = event.target.value;
     this.setState({
-      [event.target.name]: event.target.value
-    });
+      [name]: value
+    }, () => { this.validateField(name,value) });
   };
+
+  handleCloseSnackbar = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    this.setState({ snackBarOpen: false });
+  };
+
+  validateField(fieldName, value) {
+
+    let fieldValidationErrors = this.state.formErrors;
+    let passwordValid = this.state.passwordValid;
+    let emailValid = this.state.emailValid;
+
+    switch(fieldName) {
+      case 'password':
+        passwordValid = value.length >= 6;
+        fieldValidationErrors.name = passwordValid ? '': 'enter the password';
+        break;
+      case 'email':
+        emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
+        fieldValidationErrors.email = emailValid ? '' : 'is invalid';
+        break;
+      default:
+        break;
+    }
+    this.setState({
+      formErrors: fieldValidationErrors,
+      nameValid: passwordValid,
+      emailValid: emailValid
+    }, this.validateForm);
+
+  }
+
+  validateForm() {
+
+    this.setState({
+      formValid:
+      this.state.nameValid
+      && this.state.emailValid
+    });
+
+  }
 
   cancel(){
     this.props.history.push('/');
   }
 
-  login(){
+  showMss(){
+    this.setState({
+      snackBarOpen: true,
+      variant: "error",
+      message: "Fill all fields!"
+    });
+  }
+
+  saveUser(){
     const data = {
       name: this.state.email,
       pass: this.state.password
     };
     this.props.LoginActions.login(data);
-
     const userInfo = {
       "name": "Werner Heisenberg",
       "email": data.name,
       "img":"https://juststickers.in/wp-content/uploads/2015/04/Heisenberg.png",
     };
-
     CookiesService.setCookie('user',JSON.stringify(userInfo),'1');
     this.props.history.push('/');
+  }
+
+  login(){
+    ( this.state.formValid ? this.saveUser(): this.showMss())
   }
 
   render(){
@@ -101,6 +170,26 @@ class Login extends Component {
             </Button>
           </DialogActions>
         </div>
+        <FormErrors formErrors={this.state.formErrors} />
+
+
+        <Snackbar
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left',
+          }}
+          open={this.state.snackBarOpen}
+          autoHideDuration={3000}
+          onClose={this.handleCloseSnackbar}
+        >
+          <MySnackbarContentWrapper
+            onClose={this.handleCloseSnackbar}
+            variant={this.state.variant}
+            message={this.state.message}
+          />
+        </Snackbar>
+
+
       </Grid>
     );
   }

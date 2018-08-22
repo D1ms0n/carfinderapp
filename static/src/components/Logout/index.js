@@ -1,9 +1,9 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from "redux";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from "redux";
 import * as LoginActions from '../../actions/LoginActions';
 import PropTypes from "prop-types";
-import {CookiesService} from "../../services/cookies";
+import { CookiesService } from "../../services/cookies";
 
 class Logout extends Component {
   constructor(props) {

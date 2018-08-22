@@ -48,7 +48,7 @@ const styles = (theme) => ({
     backgroundColor: theme.palette.primary[500],
     borderRadius: theme.radius,
     boxShadow: theme.shadows[2],
-    margin: '0 20px'
+    margin: '0 22px'
   },
   appBarShift: {
     width: `calc(100% - ${drawerWidth}px)`,
