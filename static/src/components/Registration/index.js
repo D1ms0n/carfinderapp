@@ -9,6 +9,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import texts from '../../services/texts/index';
 import Grid from '@material-ui/core/Grid';
+import validator from 'validator';
 
 const styles = () => ({
   root: {

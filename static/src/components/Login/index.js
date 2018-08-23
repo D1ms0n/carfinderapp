@@ -11,12 +11,13 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import FormErrors from './modules/FormErrors';
 import Snackbar from '@material-ui/core/Snackbar';
 import MySnackbarContentWrapper from './../../components/Snackbar';
 import texts from '../../services/texts/index';
 import * as LoginActions from '../../actions/LoginActions';
 import PropTypes from "prop-types";
+import validator from 'validator';
+import FormHelperText from '@material-ui/core/FormHelperText';
 
 const styles = (theme) => ({
   root: {
@@ -38,8 +39,8 @@ class Login extends Component {
       password: '',
       snackBarOpen: false,
       formValid: false,
-      emailValid: false,
-      passwordValid: false,
+      emailValid: true,
+      passwordValid: true,
       formErrors: {
         email: '',
         password: ''
@@ -72,11 +73,12 @@ class Login extends Component {
 
     switch(fieldName) {
       case 'password':
-        passwordValid = value.length >= 6;
-        fieldValidationErrors.name = passwordValid ? '': 'enter the password';
+        passwordValid = validator.isAlphanumeric(value)
+          && validator.isLength(value,{min:5, max: undefined});
+        fieldValidationErrors.password = passwordValid ? '': 'enter the password';
         break;
       case 'email':
-        emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
+        emailValid = validator.isEmail(value);
         fieldValidationErrors.email = emailValid ? '' : 'is invalid';
         break;
       default:
@@ -87,7 +89,6 @@ class Login extends Component {
       nameValid: passwordValid,
       emailValid: emailValid
     }, this.validateForm);
-
   }
 
   validateForm() {
@@ -140,6 +141,7 @@ class Login extends Component {
             Login
           </DialogTitle>
           <DialogContent>
+
             <TextField
               autoFocus
               margin="dense"
@@ -149,7 +151,10 @@ class Login extends Component {
               name="email"
               onChange={this.handleChange}
               fullWidth
+              error={!this.state.emailValid}
             />
+            <FormHelperText error>{this.state.formErrors.email}</FormHelperText>
+
             <TextField
               margin="dense"
               id="password"
@@ -158,7 +163,11 @@ class Login extends Component {
               name="password"
               onChange={this.handleChange}
               fullWidth
+              error={!this.state.passwordValid}
+
             />
+            <FormHelperText error>{this.state.formErrors.password}</FormHelperText>
+
             <Link replace to="/registration">{this.texts.registration}</Link>
           </DialogContent>
           <DialogActions>
@@ -170,8 +179,6 @@ class Login extends Component {
             </Button>
           </DialogActions>
         </div>
-        <FormErrors formErrors={this.state.formErrors} />
-
 
         <Snackbar
           anchorOrigin={{
