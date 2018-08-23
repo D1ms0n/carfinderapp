@@ -26,6 +26,10 @@ const styles = (theme) => ({
   margin: {
     margin: theme.spacing.unit,
   },
+  routeLink: {
+    position: 'relative',
+    top: 8
+  }
 });
 
 class Login extends Component {
@@ -50,19 +54,19 @@ class Login extends Component {
     this.cancel = this.cancel.bind(this);
   }
 
-  handleChange = event => {
-    const name = event.target.name;
-    const value = event.target.value;
-    this.setState({
-      [name]: value
-    }, () => { this.validateField(name,value) });
-  };
-
   handleCloseSnackbar = (event, reason) => {
     if (reason === 'clickaway') {
       return;
     }
     this.setState({ snackBarOpen: false });
+  };
+
+  handleChange = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+    this.setState({
+      [name]: value
+    }, () => { this.validateField(name,value) });
   };
 
   validateField(fieldName, value) {
@@ -75,7 +79,7 @@ class Login extends Component {
       case 'password':
         passwordValid = validator.isAlphanumeric(value)
           && validator.isLength(value,{min:5, max: undefined});
-        fieldValidationErrors.password = passwordValid ? '': 'enter the password';
+        fieldValidationErrors.password = passwordValid ? '': 'is invalid';
         break;
       case 'email':
         emailValid = validator.isEmail(value);
@@ -168,7 +172,8 @@ class Login extends Component {
             />
             <FormHelperText error>{this.state.formErrors.password}</FormHelperText>
 
-            <Link replace to="/registration">{this.texts.registration}</Link>
+            <Link className={classes.routeLink} replace to="/registration">{this.texts.registration}</Link>
+
           </DialogContent>
           <DialogActions>
             <Button color="primary" onClick={this.cancel}>

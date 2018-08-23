@@ -10,22 +10,87 @@ import Button from '@material-ui/core/Button';
 import texts from '../../services/texts/index';
 import Grid from '@material-ui/core/Grid';
 import validator from 'validator';
+import FormHelperText from '@material-ui/core/FormHelperText';
 
-const styles = () => ({
+const styles = (theme) => ({
   root: {
     flexGrow: 1
+  },
+  routeLink: {
+    position: 'relative',
+    top: 8
   }
 });
 
 class Registration extends Component {
+
   constructor(props) {
     super(props);
     this.texts = texts.texts;
+    this.state = {
+      formValid: false,
+      nameValid: true,
+      emailValid: true,
+      passwordValid: true,
+      rePasswordValid: true,
+      formErrors: {
+        name: '',
+        email: '',
+        password: '',
+        rePassword: ''
+      }
+    };
     this.cancel = this.cancel.bind(this);
   }
+
   cancel(history){
     history.push('/');
   }
+
+  handleChange = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+    this.setState({
+      [name]: value
+    }, () => { this.validateField(name,value) });
+  };
+
+  validateField(fieldName, value) {
+
+    let fieldValidationErrors = this.state.formErrors;
+    let passwordValid = this.state.passwordValid;
+    let emailValid = this.state.emailValid;
+
+    switch(fieldName) {
+      case 'password':
+        passwordValid = validator.isAlphanumeric(value)
+          && validator.isLength(value,{min:5, max: undefined});
+        fieldValidationErrors.password = passwordValid ? '': 'is invalid';
+        break;
+      case 'email':
+        emailValid = validator.isEmail(value);
+        fieldValidationErrors.email = emailValid ? '' : 'is invalid';
+        break;
+      default:
+        break;
+    }
+    this.setState({
+      formErrors: fieldValidationErrors,
+      nameValid: passwordValid,
+      emailValid: emailValid
+    }, this.validateForm);
+  }
+
+  validateForm() {
+
+    this.setState({
+      formValid:
+      this.state.nameValid
+      && this.state.emailValid
+    });
+
+  }
+
   render(){
     const {classes} = this.props;
     return (
@@ -39,33 +104,53 @@ class Registration extends Component {
               <TextField
                 autoFocus
                 margin="dense"
-                id="text"
-                label="Name"
+                id="name"
+                name="name"
+                label="name"
                 type="text"
                 fullWidth
+                error={!this.state.emailValid}
+                onChange={this.handleChange}
               />
+              <FormHelperText error>{this.state.formErrors.name}</FormHelperText>
+
               <TextField
                 margin="dense"
                 id="email"
+                name="email"
                 label="Email Address"
                 type="email"
                 fullWidth
+                error={!this.state.emailValid}
+                onChange={this.handleChange}
               />
+              <FormHelperText error>{this.state.formErrors.email}</FormHelperText>
+
               <TextField
                 margin="dense"
                 id="password"
+                name="password"
                 label="Password"
                 type="password"
                 fullWidth
+                error={!this.state.emailValid}
+                onChange={this.handleChange}
               />
+              <FormHelperText error>{this.state.formErrors.password}</FormHelperText>
+
               <TextField
                 margin="dense"
                 id="rePassword"
+                name="rePassword"
                 label="Re-Password"
                 type="password"
                 fullWidth
+                error={!this.state.emailValid}
+                onChange={this.handleChange}
               />
-              <Link replace to="/login">{this.texts.login}</Link>
+              <FormHelperText error>{this.state.formErrors.rePassword}</FormHelperText>
+
+              <Link className={classes.routeLink} replace to="/login">{this.texts.login}</Link>
             </DialogContent>
             <DialogActions>
               <Button color="primary" onClick={()=>{this.cancel(history)}}>
