@@ -43,8 +43,8 @@ class Login extends Component {
       password: '',
       snackBarOpen: false,
       formValid: false,
-      emailValid: true,
-      passwordValid: true,
+      emailValid: false,
+      passwordValid: false,
       formErrors: {
         email: '',
         password: ''
@@ -79,7 +79,7 @@ class Login extends Component {
       case 'password':
         passwordValid = validator.isAlphanumeric(value)
           && validator.isLength(value,{min:5, max: undefined});
-        fieldValidationErrors.password = passwordValid ? '': 'is invalid';
+        fieldValidationErrors.password = passwordValid ? '' : 'is invalid';
         break;
       case 'email':
         emailValid = validator.isEmail(value);
@@ -90,7 +90,7 @@ class Login extends Component {
     }
     this.setState({
       formErrors: fieldValidationErrors,
-      nameValid: passwordValid,
+      passwordValid: passwordValid,
       emailValid: emailValid
     }, this.validateForm);
   }
@@ -99,7 +99,7 @@ class Login extends Component {
 
     this.setState({
       formValid:
-      this.state.nameValid
+      this.state.passwordValid
       && this.state.emailValid
     });
 
@@ -155,7 +155,6 @@ class Login extends Component {
               name="email"
               onChange={this.handleChange}
               fullWidth
-              error={!this.state.emailValid}
             />
             <FormHelperText error>{this.state.formErrors.email}</FormHelperText>
 
@@ -167,8 +166,6 @@ class Login extends Component {
               name="password"
               onChange={this.handleChange}
               fullWidth
-              error={!this.state.passwordValid}
-
             />
             <FormHelperText error>{this.state.formErrors.password}</FormHelperText>
 
