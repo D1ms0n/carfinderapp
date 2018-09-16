@@ -11,6 +11,7 @@ import serialize from './../../services/serialize';
 import config from './../../configs';
 
 import testResults from './testResults';
+import localization from "../../services/translations";
 import texts from '../../services/texts/index';
 import countYears from './modules/CountYears';
 
@@ -97,6 +98,10 @@ class Form extends Component {
   };
 
   updateForm = params => {
+    if (Object.keys(params).length === 0 
+      && params.constructor === Object){
+      return;
+    }
     this.setState({
       manufacturer: params['manufacturer'],
       model: params['model'],
@@ -184,7 +189,7 @@ class Form extends Component {
     const {classes} = this.props;
     const {year_min,year_max} = this.state;
     const rangeValue = [year_min, year_max];
-    const formTitle = ( this.state.login ? this.state.login.name : 'The best form in the world');
+    const formTitle = ( this.state.login ? this.state.login.name : localization.formTitle);
     return (
       <Card className={classes.card}>
         <CardHeader
@@ -211,12 +216,12 @@ class Form extends Component {
               >
                 <Grid className={classes.paperRelative} item lg={12} md={12} sm={12} xs={12}>
                   <Typography className={classes.subheading} variant='subheading'>
-                    {texts.texts.manufacturer}
+                    {localization.manufacturer}
                   </Typography>
                   <Input
                     fullWidth
                     inputComponent={SelectWrapped}
-                    placeholder={texts.texts.manufacturer}
+                    placeholder={localization.manufacturer}
                     inputProps={{
                       classes,
                       name: 'manufacturer',
@@ -237,12 +242,12 @@ class Form extends Component {
               >
                 <Grid className={classes.paperRelative} item lg={12} md={12} sm={12} xs={12}>
                   <Typography className={classes.subheading} variant='subheading'>
-                    {texts.texts.model}
+                    {localization.model}
                   </Typography>
                   <Input
                     fullWidth
                     inputComponent={SelectWrapped}
-                    placeholder={texts.texts.model}
+                    placeholder={localization.model}
                     inputProps={{
                       classes,
                       name: 'model',
@@ -263,13 +268,13 @@ class Form extends Component {
               >
                 <Grid className={classes.paperRelative} item lg={6} md={6} sm={6} xs={6}>
                   <Typography className={classes.subheading} variant='subheading'>
-                    {texts.texts.year}
+                    {localization.year}
                   </Typography>
                   <Input
                     fullWidth
                     inputComponent={SelectWrapped}
                     name='year_min'
-                    placeholder={texts.texts.yearMin}
+                    placeholder={localization.yearMin}
                     inputProps={{
                       classes,
                       name: 'year_min',
@@ -288,7 +293,7 @@ class Form extends Component {
                     fullWidth
                     inputComponent={SelectWrapped}
                     name='year_max'
-                    placeholder={texts.texts.yearMax}
+                    placeholder={localization.yearMax}
                     inputProps={{
                       classes,
                       name: 'year_max',
@@ -317,13 +322,13 @@ class Form extends Component {
                 direction='row'>
                 <Grid className={classes.paperRelative} item lg={6} md={6} sm={6} xs={6}>
                   <Typography className={classes.subheading} variant='subheading'>
-                    {texts.texts.mileage}
+                    {localization.mileage}
                   </Typography>
                   <TextField
                     type='number'
                     id='mileage_min'
                     name='mileage_min'
-                    label={texts.texts.km}
+                    label={localization.km}
                     className={classes.mileageField}
                     onChange={this.handleMillageChange}
                     value={this.state.mileage_min}
@@ -336,7 +341,7 @@ class Form extends Component {
                     type='number'
                     id='mileage_max'
                     name='mileage_max'
-                    label={texts.texts.km}
+                    label={localization.km}
                     className={classes.mileageField}
                     onChange={this.handleMillageChange}
                     value={this.state.mileage_max}
@@ -358,14 +363,14 @@ class Form extends Component {
                   type='button'
                   className={classes.button}
                 >
-                  {texts.texts.searchText}
+                  {localization.searchText}
                 </Button>
                 <Button
                   onClick = {this.createSnoop}
                   type='button'
                   className={classes.button}
                 >
-                  {texts.texts.createSnoops}
+                  {localization.createSnoops}
                 </Button>
               </Grid>
             </Grid>
@@ -402,7 +407,8 @@ Form.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    updatedParams: state.updatedParams.result
+    updatedParams: state.updatedParams.result,
+    localisationCode: state.localisation.result
   }
 };
 

@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import {withStyles} from '@material-ui/core/styles/index';
-
-import texts from "../../services/texts";
+import localization from "../../services/translations";
 import styles from './styles';
-
 import Grid from '@material-ui/core/Grid';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
@@ -28,7 +28,8 @@ import DirectionsCar from '@material-ui/icons/DirectionsCar';
 
 const Results = (props) => {
   const {items,classes,loading} = props;
-  const noResults = texts.texts.noResults;
+  const noResults = localization.noResults;
+
   return (
     <Paper className={classes.paper}>
       <List className={classes.resultsWrapper}>
@@ -107,4 +108,10 @@ Results.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(Results);
+const mapStateToProps = state => {
+  return {
+    login: state.login,
+  }
+};
+
+export default withStyles(styles)(connect(mapStateToProps)(Results));

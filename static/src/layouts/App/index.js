@@ -3,13 +3,10 @@ import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core/styles/index';
 import {
   Route,
-  Redirect,
   Switch
 } from 'react-router-dom';
-
 import styles from './styles';
 import classNames from 'classnames';
-
 import routes from './../../routes';
 import SnoopsListContainer from '../../containers/Snoops';
 import Footer from '../../components/Footer/index';
@@ -83,7 +80,6 @@ class App extends Component {
                     justify='center'
                   >
                     <Switch>
-                      <Redirect from="/accounts" to="/user/test"/>
                       {routes.map((route,key)=>{
                         return <Route exact path={route.path} component={route.component} key={key}/>
                       })}

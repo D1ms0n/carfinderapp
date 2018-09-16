@@ -29,5 +29,4 @@ const theme = createMuiTheme({
   radius: 3
 });
 
-console.log(theme);
 export default theme;

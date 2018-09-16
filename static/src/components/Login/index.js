@@ -11,12 +11,13 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import FormErrors from './modules/FormErrors';
 import Snackbar from '@material-ui/core/Snackbar';
 import MySnackbarContentWrapper from './../../components/Snackbar';
 import texts from '../../services/texts/index';
 import * as LoginActions from '../../actions/LoginActions';
 import PropTypes from "prop-types";
+import validator from 'validator';
+import FormHelperText from '@material-ui/core/FormHelperText';
 
 const styles = (theme) => ({
   root: {
@@ -25,6 +26,10 @@ const styles = (theme) => ({
   margin: {
     margin: theme.spacing.unit,
   },
+  routeLink: {
+    position: 'relative',
+    top: 8
+  }
 });
 
 class Login extends Component {
@@ -49,19 +54,19 @@ class Login extends Component {
     this.cancel = this.cancel.bind(this);
   }
 
-  handleChange = event => {
-    const name = event.target.name;
-    const value = event.target.value;
-    this.setState({
-      [name]: value
-    }, () => { this.validateField(name,value) });
-  };
-
   handleCloseSnackbar = (event, reason) => {
     if (reason === 'clickaway') {
       return;
     }
     this.setState({ snackBarOpen: false });
+  };
+
+  handleChange = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+    this.setState({
+      [name]: value
+    }, () => { this.validateField(name,value) });
   };
 
   validateField(fieldName, value) {
@@ -72,11 +77,12 @@ class Login extends Component {
 
     switch(fieldName) {
       case 'password':
-        passwordValid = value.length >= 6;
-        fieldValidationErrors.name = passwordValid ? '': 'enter the password';
+        passwordValid = validator.isAlphanumeric(value)
+          && validator.isLength(value,{min:5, max: undefined});
+        fieldValidationErrors.password = passwordValid ? '' : 'is invalid';
         break;
       case 'email':
-        emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
+        emailValid = validator.isEmail(value);
         fieldValidationErrors.email = emailValid ? '' : 'is invalid';
         break;
       default:
@@ -84,17 +90,16 @@ class Login extends Component {
     }
     this.setState({
       formErrors: fieldValidationErrors,
-      nameValid: passwordValid,
+      passwordValid: passwordValid,
       emailValid: emailValid
     }, this.validateForm);
-
   }
 
   validateForm() {
 
     this.setState({
       formValid:
-      this.state.nameValid
+      this.state.passwordValid
       && this.state.emailValid
     });
 
@@ -140,6 +145,7 @@ class Login extends Component {
             Login
           </DialogTitle>
           <DialogContent>
+
             <TextField
               autoFocus
               margin="dense"
@@ -150,6 +156,8 @@ class Login extends Component {
               onChange={this.handleChange}
               fullWidth
             />
+            <FormHelperText error>{this.state.formErrors.email}</FormHelperText>
+
             <TextField
               margin="dense"
               id="password"
@@ -159,7 +167,10 @@ class Login extends Component {
               onChange={this.handleChange}
               fullWidth
             />
-            <Link replace to="/registration">{this.texts.registration}</Link>
+            <FormHelperText error>{this.state.formErrors.password}</FormHelperText>
+
+            <Link className={classes.routeLink} replace to="/registration">{this.texts.registration}</Link>
+
           </DialogContent>
           <DialogActions>
             <Button color="primary" onClick={this.cancel}>
@@ -170,8 +181,6 @@ class Login extends Component {
             </Button>
           </DialogActions>
         </div>
-        <FormErrors formErrors={this.state.formErrors} />
-
 
         <Snackbar
           anchorOrigin={{

@@ -7,3 +7,4 @@ admin.pyc
 models.pyc
 serializers.pyc
 urls.pyc
+/static/package-lock.json

@@ -10,15 +10,14 @@ import {BrowserRouter} from 'react-router-dom';
 const store = configureStore();
 const rootElement = document.getElementById('root');
 
-
 rootElement
   ? ReactDOM.render(
     <Provider store={store}>
       <MuiThemeProvider theme={theme}>
         <CssBaseline />
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
       </MuiThemeProvider>
     </Provider>,
     document.getElementById('root'))

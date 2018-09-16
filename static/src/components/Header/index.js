@@ -5,7 +5,6 @@ import { bindActionCreators } from "redux";
 import { withStyles } from '@material-ui/core/styles/index';
 import styles from './styles';
 import classNames from "classnames";
-import texts from "../../services/texts";
 import IconButton from '@material-ui/core/IconButton';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import Badge from '@material-ui/core/Badge';
@@ -16,12 +15,14 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import * as LoginActions from "../../actions/LoginActions";
+import * as changeLangActions from '../../actions/changeLangActions';
+
+import localization from "../../services/translations";
 
 class Header extends Component {
 
   constructor(props) {
     super(props);
-    this.texts = texts.texts;
     this.props = props;
     this.state = {
       anchorEl: null,
@@ -38,17 +39,30 @@ class Header extends Component {
     this.setState({ anchorEl: null });
   };
 
+  changeLang = () => {   
+    let lang = '';
+    if ( localization._language === 'en' ){
+      localization.setLanguage('ua');
+      lang = 'ua';
+    } else {
+      localization.setLanguage('en');
+      lang = 'en';
+    }
+    this.props.changeLangActions.changeLang(lang);
+    this.setState({});
+  };
+
   render() {
-    const {anchorEl} = this.state;
+    const {anchorEl} = this.state;   
     const {classes,drawerOpen,handleDrawerToggle,login} = this.props;
 
     const notLoggedMenuItems =
       <div className={classes.noOutline}>
         <MenuItem className={classes.menuLinkWrap} onClick={this.handleClose}>
-          <Link className={classes.menuLink} replace to="/login">{this.texts.login}</Link>
+          <Link className={classes.menuLink} replace to="/login">{localization.login}</Link>
         </MenuItem>
         <MenuItem className={classes.menuLinkWrap} onClick={this.handleClose}>
-          <Link className={classes.menuLink} replace to="/registration">{this.texts.registration}</Link>
+          <Link className={classes.menuLink} replace to="/registration">{localization.registration}</Link>
         </MenuItem>
       </div>;
 
@@ -96,9 +110,13 @@ class Header extends Component {
             variant='title'
             color='inherit'
             noWrap>
-            <Link className={classes.link} replace to="/">{this.texts.headerTitle}</Link>
+            <Link className={classes.link} replace to="/">{localization.headerTitle}</Link>
           </Typography>
           <div className={classes.root}>
+
+            <div onClick={this.changeLang}>
+              {localization.changeLang}
+            </div>
 
             { login.data
               ? userName
@@ -141,7 +159,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    LoginActions: bindActionCreators(LoginActions, dispatch)
+    LoginActions: bindActionCreators(LoginActions, dispatch),
+    changeLangActions: bindActionCreators(changeLangActions, dispatch)
   }
 };
 
