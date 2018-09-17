@@ -52,7 +52,7 @@ class Footer extends Component {
           <div className={'scrollToTop ' + (this.state.scrollToTopIsShown === true ? 'active' : '')}
             onClick={this.scrollToTop}>
             <IconButton aria-label="Share" className={classes.iconWrap} >
-              <ExpandLess className={classes.icon} />
+              <ExpandLess />
             </IconButton>
           </div>
         </footer>

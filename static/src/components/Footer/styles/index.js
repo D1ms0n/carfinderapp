@@ -4,11 +4,6 @@ const styles = theme => ({
     width: 58,
     height: 58
   },
-  icon: {
-    margin: theme.spacing.unit,
-    fontSize: 50,
-    marginTop: 4
-  },
   '@global': {
     '.scrollToTop': {
       position: 'fixed',
