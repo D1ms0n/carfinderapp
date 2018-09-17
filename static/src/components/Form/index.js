@@ -11,8 +11,7 @@ import serialize from './../../services/serialize';
 import config from './../../configs';
 
 import testResults from './testResults';
-import localization from "../../services/translations";
-import texts from '../../services/texts/index';
+import localisation from "../../services/translations";
 import countYears from './modules/CountYears';
 
 import 'rc-slider/assets/index.css';
@@ -31,6 +30,7 @@ import CardHeader from './../Card/CardHeader.jsx';
 import CardFooter from './../Card/CardFooter.jsx';
 import Snackbar from '@material-ui/core/Snackbar';
 import MySnackbarContentWrapper from './../../components/Snackbar';
+import * as changeLangActions from "../../actions/changeLangActions";
 
 const years = countYears();
 const startYear = years[0].value;
@@ -44,7 +44,7 @@ class Form extends Component {
 
   constructor(props) {
     super(props);
-    this.config = config();
+    this.config = config;
     this.state = {
       redirect: true,
       formHidden: false,
@@ -176,7 +176,7 @@ class Form extends Component {
         login: JSON.parse(userData),
         snackBarOpen: true,
         variant: "success",
-        message: `Welcome, ${JSON.parse(userData).name}!`
+        message: `${localisation.welcome}, ${JSON.parse(userData).name}!`
       });
     }
   }
@@ -189,7 +189,7 @@ class Form extends Component {
     const {classes} = this.props;
     const {year_min,year_max} = this.state;
     const rangeValue = [year_min, year_max];
-    const formTitle = ( this.state.login ? this.state.login.name : localization.formTitle);
+    const formTitle = ( this.state.login ? this.state.login.name : localisation.formTitle);
     return (
       <Card className={classes.card}>
         <CardHeader
@@ -216,12 +216,12 @@ class Form extends Component {
               >
                 <Grid className={classes.paperRelative} item lg={12} md={12} sm={12} xs={12}>
                   <Typography className={classes.subheading} variant='subheading'>
-                    {localization.manufacturer}
+                    {localisation.manufacturer}
                   </Typography>
                   <Input
                     fullWidth
                     inputComponent={SelectWrapped}
-                    placeholder={localization.manufacturer}
+                    placeholder={localisation.manufacturer}
                     inputProps={{
                       classes,
                       name: 'manufacturer',
@@ -242,12 +242,12 @@ class Form extends Component {
               >
                 <Grid className={classes.paperRelative} item lg={12} md={12} sm={12} xs={12}>
                   <Typography className={classes.subheading} variant='subheading'>
-                    {localization.model}
+                    {localisation.model}
                   </Typography>
                   <Input
                     fullWidth
                     inputComponent={SelectWrapped}
-                    placeholder={localization.model}
+                    placeholder={localisation.model}
                     inputProps={{
                       classes,
                       name: 'model',
@@ -268,13 +268,13 @@ class Form extends Component {
               >
                 <Grid className={classes.paperRelative} item lg={6} md={6} sm={6} xs={6}>
                   <Typography className={classes.subheading} variant='subheading'>
-                    {localization.year}
+                    {localisation.year}
                   </Typography>
                   <Input
                     fullWidth
                     inputComponent={SelectWrapped}
                     name='year_min'
-                    placeholder={localization.yearMin}
+                    placeholder={localisation.yearMin}
                     inputProps={{
                       classes,
                       name: 'year_min',
@@ -293,7 +293,7 @@ class Form extends Component {
                     fullWidth
                     inputComponent={SelectWrapped}
                     name='year_max'
-                    placeholder={localization.yearMax}
+                    placeholder={localisation.yearMax}
                     inputProps={{
                       classes,
                       name: 'year_max',
@@ -322,13 +322,13 @@ class Form extends Component {
                 direction='row'>
                 <Grid className={classes.paperRelative} item lg={6} md={6} sm={6} xs={6}>
                   <Typography className={classes.subheading} variant='subheading'>
-                    {localization.mileage}
+                    {localisation.mileage}
                   </Typography>
                   <TextField
                     type='number'
                     id='mileage_min'
                     name='mileage_min'
-                    label={localization.km}
+                    label={localisation.km}
                     className={classes.mileageField}
                     onChange={this.handleMillageChange}
                     value={this.state.mileage_min}
@@ -341,7 +341,7 @@ class Form extends Component {
                     type='number'
                     id='mileage_max'
                     name='mileage_max'
-                    label={localization.km}
+                    label={localisation.km}
                     className={classes.mileageField}
                     onChange={this.handleMillageChange}
                     value={this.state.mileage_max}
@@ -363,14 +363,14 @@ class Form extends Component {
                   type='button'
                   className={classes.button}
                 >
-                  {localization.searchText}
+                  {localisation.searchText}
                 </Button>
                 <Button
                   onClick = {this.createSnoop}
                   type='button'
                   className={classes.button}
                 >
-                  {localization.createSnoops}
+                  {localisation.createSnoops}
                 </Button>
               </Grid>
             </Grid>
@@ -414,7 +414,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    LoginActions: bindActionCreators(LoginActions, dispatch)
+    LoginActions: bindActionCreators(LoginActions, dispatch),
+    changeLangActions: bindActionCreators(changeLangActions, dispatch)
   }
 };
 

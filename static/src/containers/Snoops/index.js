@@ -12,7 +12,7 @@ class SnoopsListContainer extends Component {
 
   constructor(props) {
     super(props);
-    this.config = config();
+    this.config = config;
     this.state = {
       snoops: []
     };

@@ -14,10 +14,11 @@ import AppBar from '@material-ui/core/AppBar';
 import MenuIcon from '@material-ui/icons/Menu';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import Flag from 'react-world-flags';
 import * as LoginActions from "../../actions/LoginActions";
 import * as changeLangActions from '../../actions/changeLangActions';
-
-import localization from "../../services/translations";
+import localisation from "../../services/translations";
+import config from './../../configs';
 
 class Header extends Component {
 
@@ -39,16 +40,9 @@ class Header extends Component {
     this.setState({ anchorEl: null });
   };
 
-  changeLang = () => {   
-    let lang = '';
-    if ( localization._language === 'en' ){
-      localization.setLanguage('ua');
-      lang = 'ua';
-    } else {
-      localization.setLanguage('en');
-      lang = 'en';
-    }
-    this.props.changeLangActions.changeLang(lang);
+  changeLang = (langCode) => {
+    localisation.setLanguage(langCode);
+    this.props.changeLangActions.changeLang(langCode);
     this.setState({});
   };
 
@@ -59,16 +53,16 @@ class Header extends Component {
     const notLoggedMenuItems =
       <div className={classes.noOutline}>
         <MenuItem className={classes.menuLinkWrap} onClick={this.handleClose}>
-          <Link className={classes.menuLink} replace to="/login">{localization.login}</Link>
+          <Link className={classes.menuLink} replace to="/login">{localisation.login}</Link>
         </MenuItem>
         <MenuItem className={classes.menuLinkWrap} onClick={this.handleClose}>
-          <Link className={classes.menuLink} replace to="/registration">{localization.registration}</Link>
+          <Link className={classes.menuLink} replace to="/registration">{localisation.registration}</Link>
         </MenuItem>
       </div>;
 
     const loggedMenuItems =
       <MenuItem className={classes.menuLinkWrap} onClick={this.handleClose}>
-        <Link className={classes.menuLink} replace to="/logout">Logout</Link>
+        <Link className={classes.menuLink} replace to="/logout">{localisation.logout}</Link>
       </MenuItem>;
 
     const loggedAccountImg =
@@ -87,7 +81,6 @@ class Header extends Component {
 
     const notLoggedAccountImg =
       <AccountCircle/>;
-
     return (
       <AppBar
         className={classNames(classes.appBar, {
@@ -110,13 +103,9 @@ class Header extends Component {
             variant='title'
             color='inherit'
             noWrap>
-            <Link className={classes.link} replace to="/">{localization.headerTitle}</Link>
+            <Link className={classes.link} replace to="/">{localisation.headerTitle}</Link>
           </Typography>
           <div className={classes.root}>
-
-            <div onClick={this.changeLang}>
-              {localization.changeLang}
-            </div>
 
             { login.data
               ? userName
@@ -143,6 +132,24 @@ class Header extends Component {
                   ? loggedMenuItems
                   : notLoggedMenuItems
               }
+
+              <MenuItem className={classes.menuLinkWrap}>
+
+                {config.languages.map((lang,index)=>{
+                  return (
+                    <IconButton
+                      key={index}
+                      onClick={()=>{
+                        this.changeLang(lang)
+                      }}
+                    >
+                      <Flag code={lang}
+                            className={classes.flagIcon}
+                      />
+                    </IconButton>
+                  )
+                })}
+              </MenuItem>;
             </Menu>
           </div>
         </Toolbar>

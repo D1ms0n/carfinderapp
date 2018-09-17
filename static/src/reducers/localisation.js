@@ -2,7 +2,7 @@
 import { CHANGE_LANG } from '../constants';
 
 const initialState = {
-  result: 'ua'
+  result: 'gb'
 };
 
 export default function form(state = initialState, action) {

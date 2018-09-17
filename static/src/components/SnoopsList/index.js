@@ -1,8 +1,8 @@
 import React from 'react';
 import {withStyles} from '@material-ui/core/styles/index';
+import { connect } from "react-redux";
 import PropTypes from 'prop-types';
-
-import text from './../../services/texts/index';
+import localisation from "../../services/translations";
 import styles from './styles';
 import testResults from './testResults';
 
@@ -49,13 +49,13 @@ class SnoopsList extends React.Component {
     const snoops = snoopsTest;
     const noResults = (
       <div className={classes.noResultsContainer}>
-        {text.texts.noResultsSnoops}
+        {localisation.noResultsSnoops}
       </div>
     );
     return (
       <div>
         <Typography className={classes.title} variant='title' gutterBottom>
-          {text.texts.snoops}
+          {localisation.snoops}
         </Typography>
         <List>
           { Array.isArray(snoops) && snoops.length > 0
@@ -101,13 +101,13 @@ class SnoopsList extends React.Component {
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-          <DialogTitle id="alert-dialog-title">{"Are yor sure?"}</DialogTitle>
+          <DialogTitle id="alert-dialog-title">{localisation.reask}</DialogTitle>
           <DialogActions>
             <Button onClick={this.handleClose} color="primary">
-              Disagree
+              {localisation.cancel}
             </Button>
             <Button onClick={this.handleClose} color="primary" autoFocus>
-              Agree
+              {localisation.submit}
             </Button>
           </DialogActions>
         </Dialog>
@@ -121,4 +121,11 @@ SnoopsList.propTypes = {
   updateForm: PropTypes.func.isRequired
 };
 
-export default withStyles(styles)(SnoopsList);
+const mapStateToProps = state => {
+  return {
+    login: state.login,
+    localisationCode: state.localisation.result
+  }
+};
+
+export default withStyles(styles)(connect(mapStateToProps)(SnoopsList));

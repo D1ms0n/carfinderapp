@@ -33,7 +33,8 @@ const styles = (theme) => ({
     color: theme.palette.text.secondary[500]
   },
   menuLinkWrap: {
-    padding: 0
+    padding: 0,
+    marginBottom: 10
   },
   appBar: {
     backgroundColor: 'transparent',
@@ -59,6 +60,9 @@ const styles = (theme) => ({
   },
   'appBarShift-left': {
     marginLeft: drawerWidth,
+  },
+  flagIcon: {
+    width: 20,
   }
 });
 

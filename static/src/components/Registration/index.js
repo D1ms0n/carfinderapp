@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from "react-redux";
 import { withStyles } from '@material-ui/core/styles/index';
 import { Link } from 'react-router-dom';
 import { Route } from 'react-router-dom';
@@ -7,7 +8,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import texts from '../../services/texts/index';
+import localisation from "../../services/translations";
 import Grid from '@material-ui/core/Grid';
 import validator from 'validator';
 import FormHelperText from '@material-ui/core/FormHelperText';
@@ -28,7 +29,6 @@ class Registration extends Component {
 
   constructor(props) {
     super(props);
-    this.texts = texts.texts;
     this.state = {
       password: '',
       rePassword: '',
@@ -58,6 +58,7 @@ class Registration extends Component {
       [name]: value
     }, () => { this.validateField(name,value) });
   };
+
   validateField(fieldName, value) {
 
     let fieldValidationErrors = this.state.formErrors;
@@ -69,23 +70,23 @@ class Registration extends Component {
     switch(fieldName) {
       case 'name':
         nameValid = validator.isLength(value,{min:2, max: undefined});
-        fieldValidationErrors.name = nameValid ? '' : 'is invalid';
+        fieldValidationErrors.name = nameValid ? '' : localisation.isInvalid;
         break;
       case 'email':
         emailValid = validator.isEmail(value);
-        fieldValidationErrors.email = emailValid ? '' : 'is invalid';
+        fieldValidationErrors.email = emailValid ? '' : localisation.isInvalid;
         break;
       case 'password':
         passwordValid = validator.isAlphanumeric(value)
           && validator.isLength(value,{min:5, max: undefined});
-        fieldValidationErrors.password = passwordValid ? '' : 'is invalid';
+        fieldValidationErrors.password = passwordValid ? '' : localisation.isInvalid;
         break;
       case 'rePassword':
         rePasswordValid = validator.isAlphanumeric(value)
           && validator.isLength(value,{min:5, max: undefined});
         fieldValidationErrors.rePassword =
           rePasswordValid && this.state.rePassword === this.state.password
-            ? '' : 'is invalid';
+            ? '' : localisation.isInvalid;
         break;
       default:
         break;
@@ -115,7 +116,7 @@ class Registration extends Component {
     this.setState({
       snackBarOpen: true,
       variant: "error",
-      message: "Fill all fields!"
+      message: localisation.emptyFieldsMss
     });
   }
 
@@ -124,7 +125,7 @@ class Registration extends Component {
   }
 
   register(){
-    ( this.state.formValid ? this.saveUser(): this.showMss())
+    ( this.state.formValid ? this.saveUser(): this.showMss() )
   }
 
   render(){
@@ -134,7 +135,7 @@ class Registration extends Component {
         <Grid item lg={4} md={4} sm={4} xs={11}>
           <div className={classes.root}>
             <DialogTitle id="form-dialog-title">
-              Registration
+              {localisation.registration}
             </DialogTitle>
             <DialogContent>
               <TextField
@@ -142,7 +143,7 @@ class Registration extends Component {
                 margin="dense"
                 id="name"
                 name="name"
-                label="name"
+                label={localisation.name}
                 type="text"
                 fullWidth
                 onChange={this.handleChange}
@@ -153,7 +154,7 @@ class Registration extends Component {
                 margin="dense"
                 id="email"
                 name="email"
-                label="Email Address"
+                label={localisation.emailText}
                 type="email"
                 fullWidth
                 onChange={this.handleChange}
@@ -164,7 +165,7 @@ class Registration extends Component {
                 margin="dense"
                 id="password"
                 name="password"
-                label="Password"
+                label={localisation.password}
                 type="password"
                 value={this.state.password}
                 fullWidth
@@ -176,7 +177,7 @@ class Registration extends Component {
                 margin="dense"
                 id="rePassword"
                 name="rePassword"
-                label="Re-Password"
+                label={localisation.rePassword}
                 type="password"
                 value={this.state.rePassword}
                 fullWidth
@@ -184,14 +185,14 @@ class Registration extends Component {
               />
               <FormHelperText error>{this.state.formErrors.rePassword}</FormHelperText>
 
-              <Link className={classes.routeLink} replace to="/login">{this.texts.login}</Link>
+              <Link className={classes.routeLink} replace to="/login">{localisation.login}</Link>
             </DialogContent>
             <DialogActions>
               <Button color="primary" onClick={()=>{this.cancel(history)}}>
-                {this.texts.cancel}
+                {localisation.cancel}
               </Button>
               <Button color="primary" onClick={()=>{this.register()}}>
-                {this.texts.submit}
+                {localisation.submit}
               </Button>
             </DialogActions>
           </div>
@@ -216,4 +217,10 @@ class Registration extends Component {
   }
 }
 
-export default withStyles(styles)(Registration);
+const mapStateToProps = state => {
+  return {
+    localisationCode: state.localisation.result
+  }
+};
+
+export default withStyles(styles)(connect(mapStateToProps)(Registration));

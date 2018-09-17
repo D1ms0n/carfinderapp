@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
+import {connect} from "react-redux";
 import {Link} from 'react-router-dom';
-import {connect} from 'react-redux';
 import {withStyles} from '@material-ui/core/styles/index';
 import {bindActionCreators} from "redux";
 import {CookiesService} from './../../services/cookies';
+import localisation from "../../services/translations";
 
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -13,7 +14,6 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Snackbar from '@material-ui/core/Snackbar';
 import MySnackbarContentWrapper from './../../components/Snackbar';
-import texts from '../../services/texts/index';
 import * as LoginActions from '../../actions/LoginActions';
 import PropTypes from "prop-types";
 import validator from 'validator';
@@ -36,7 +36,6 @@ class Login extends Component {
 
   constructor(props) {
     super(props);
-    this.texts = texts.texts;
     this.props = props;
     this.state = {
       email: '',
@@ -79,11 +78,11 @@ class Login extends Component {
       case 'password':
         passwordValid = validator.isAlphanumeric(value)
           && validator.isLength(value,{min:5, max: undefined});
-        fieldValidationErrors.password = passwordValid ? '' : 'is invalid';
+        fieldValidationErrors.password = passwordValid ? '' : localisation.isInvalid;
         break;
       case 'email':
         emailValid = validator.isEmail(value);
-        fieldValidationErrors.email = emailValid ? '' : 'is invalid';
+        fieldValidationErrors.email = emailValid ? '' : localisation.isInvalid;
         break;
       default:
         break;
@@ -113,7 +112,7 @@ class Login extends Component {
     this.setState({
       snackBarOpen: true,
       variant: "error",
-      message: "Fill all fields!"
+      message: localisation.emptyFieldsMss
     });
   }
 
@@ -126,6 +125,7 @@ class Login extends Component {
     const userInfo = {
       "name": "Werner Heisenberg",
       "email": data.name,
+      "language": this.props.localisationCode,
       "img":"https://juststickers.in/wp-content/uploads/2015/04/Heisenberg.png",
     };
     CookiesService.setCookie('user',JSON.stringify(userInfo),'1');
@@ -142,7 +142,7 @@ class Login extends Component {
       <Grid item lg={4} md={4} sm={4} xs={11}>
         <div className={classes.root} >
           <DialogTitle id="form-dialog-title">
-            Login
+            {localisation.login}
           </DialogTitle>
           <DialogContent>
 
@@ -150,7 +150,7 @@ class Login extends Component {
               autoFocus
               margin="dense"
               id="email"
-              label="Email Address"
+              label={localisation.emailText}
               type="email"
               name="email"
               onChange={this.handleChange}
@@ -161,7 +161,7 @@ class Login extends Component {
             <TextField
               margin="dense"
               id="password"
-              label="Password"
+              label={localisation.password}
               type="password"
               name="password"
               onChange={this.handleChange}
@@ -169,15 +169,15 @@ class Login extends Component {
             />
             <FormHelperText error>{this.state.formErrors.password}</FormHelperText>
 
-            <Link className={classes.routeLink} replace to="/registration">{this.texts.registration}</Link>
+            <Link className={classes.routeLink} replace to="/registration">{localisation.registration}</Link>
 
           </DialogContent>
           <DialogActions>
             <Button color="primary" onClick={this.cancel}>
-              {this.texts.cancel}
+              {localisation.cancel}
             </Button>
             <Button color="primary" onClick={this.login}>
-              {this.texts.submit}
+              {localisation.submit}
             </Button>
           </DialogActions>
         </div>
@@ -211,6 +211,7 @@ Login.propTypes = {
 const mapStateToProps = state => {
   return {
     login: state.login.result,
+    localisationCode: state.localisation.result
   }
 };
 

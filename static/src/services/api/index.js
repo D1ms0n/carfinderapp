@@ -12,7 +12,7 @@ export default class ApiService {
    */
 
   constructor() {
-    this.config = config();
+    this.config = config;
   }
 
   /**
