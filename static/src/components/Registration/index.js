@@ -101,23 +101,21 @@ class Registration extends Component {
   }
 
   validateForm() {
-
-    this.setState({
+    this.setState( ()=> ({
       formValid:
       this.state.nameValid
       && this.state.emailValid
       && this.state.passwordValid
       && this.state.rePasswordValid
-    });
-
+    }));
   }
 
   showMss(){
-    this.setState({
+    this.setState( ()=> ({
       snackBarOpen: true,
       variant: "error",
       message: localisation.emptyFieldsMss
-    });
+    }));
   }
 
   saveUser(){

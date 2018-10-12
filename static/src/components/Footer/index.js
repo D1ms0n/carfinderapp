@@ -24,13 +24,13 @@ class Footer extends Component {
   }
   showScrollToTop(){
     if ( scroll.getScrollY() > this.state.scrollPositionToShowScroll ){
-      this.setState({
+      this.setState( ()=> ({
         scrollToTopIsShown: true
-      });
+      }));
     } else {
-      this.setState({
+      this.setState( ()=> ({
         scrollToTopIsShown: false
-      });
+      }));
     }
   }
   scrollToTop(){

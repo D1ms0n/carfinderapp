@@ -45,6 +45,7 @@ class Form extends Component {
   constructor(props) {
     super(props);
     this.config = config;
+    this.apiService =  new ApiService();
     this.state = {
       redirect: true,
       formHidden: false,
@@ -71,20 +72,22 @@ class Form extends Component {
     if (reason === 'clickaway') {
       return;
     }
-    this.setState({ snackBarOpen: false });
+    this.setState( ()=> ({ snackBarOpen: false }));
   };
 
   handleMillageChange = event => {
-    this.setState({
-      [event.target.name]: event.target.value
-    });
+    const name = event.target.name;
+    const value = event.target.value;
+    this.setState( ()=> ({
+        [name]: value
+    }));
   };
 
   handleRangeYearsChange = value => {
-    this.setState({
+    this.setState( ()=> ({
       year_min: value[0],
       year_max: value[1]
-    });
+    }));
   };
 
   toggleFrom = () =>{
@@ -92,9 +95,9 @@ class Form extends Component {
     if ( window.innerWidth > mobileDevisesWidth ){
       return
     }
-    this.setState({
+    this.setState( ()=> ({
       formHidden: !this.state.formHidden
-    })
+    }));
   };
 
   updateForm = params => {
@@ -102,14 +105,16 @@ class Form extends Component {
       && params.constructor === Object){
       return;
     }
-    this.setState({
+
+    this.setState( ()=> ({
       manufacturer: params['manufacturer'],
       model: params['model'],
       mileage_min: params['mileage_min'],
       mileage_max: params['mileage_max'],
       year_min: params['year_min'],
       year_max: params['year_max']
-    });
+    }));
+
     this.searchCars();
   };
 
@@ -119,10 +124,12 @@ class Form extends Component {
     valMax = Number(valMax);
 
     const setNewState = (newValues) => {
-      this.setState({
+
+      this.setState( ()=> ({
         mileage_min: newValues[0],
-        mileage_max: newValues[1],
-      });
+        mileage_max: newValues[1]
+      }));
+
     };
     if ( valMin > valMax ){
       setNewState([valMax,valMin]);
@@ -134,10 +141,11 @@ class Form extends Component {
     this.props.submitForm([]);
     this.props.togglePreLoader(true);
     const searchParams = serialize(this.searchForm);
-    const apiService = new ApiService();
-    apiService.getRequest(`${this.config.cars}?${searchParams}`)
+    this.toggleFrom();
+    this.apiService.getRequest(`${this.config.cars}?${searchParams}`)
       .then((result)=>{
-      }).catch((e)=>{
+      })
+      .catch((e)=>{
         console.log(e);
       });
     setTimeout( () => {
@@ -152,11 +160,12 @@ class Form extends Component {
     } else {
       this.props.submitForm([]);
       this.props.togglePreLoader(true);
+      this.toggleFrom();
       const searchParams = serialize(this.searchForm);
-      const apiService = new ApiService();
-      apiService.getRequest(`${this.config.snoops}?${searchParams}`)
+      this.apiService.getRequest(`${this.config.snoops}?${searchParams}`)
         .then((result)=>{
-        }).catch((e)=>{
+        })
+        .catch((e)=>{
         console.log(e);
       });
       setTimeout( () => {
@@ -170,14 +179,15 @@ class Form extends Component {
     const userData = CookiesService.getCookie('user');
     if ( userData.length ) {
       this.props.LoginActions.login(JSON.parse(userData));
-      this.setState({
+
+      this.setState( ()=> ({
         redirect: false,
         userInfo: this.props.login,
         login: JSON.parse(userData),
         snackBarOpen: true,
         variant: "success",
         message: `${localisation.welcome}, ${JSON.parse(userData).name}!`
-      });
+      }));
     }
   }
 

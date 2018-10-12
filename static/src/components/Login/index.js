@@ -57,7 +57,9 @@ class Login extends Component {
     if (reason === 'clickaway') {
       return;
     }
-    this.setState({ snackBarOpen: false });
+    this.setState( ()=> ({
+      snackBarOpen: false
+    }));
   };
 
   handleChange = (event) => {
@@ -95,13 +97,11 @@ class Login extends Component {
   }
 
   validateForm() {
-
-    this.setState({
+    this.setState( ()=> ({
       formValid:
       this.state.passwordValid
       && this.state.emailValid
-    });
-
+    }));
   }
 
   cancel(){
@@ -109,11 +109,11 @@ class Login extends Component {
   }
 
   showMss(){
-    this.setState({
+    this.setState( ()=> ({
       snackBarOpen: true,
       variant: "error",
       message: localisation.emptyFieldsMss
-    });
+    }));
   }
 
   saveUser(){

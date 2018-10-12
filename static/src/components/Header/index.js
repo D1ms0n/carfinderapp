@@ -33,11 +33,16 @@ class Header extends Component {
   }
 
   handleClick = event => {
-    this.setState({ anchorEl: event.currentTarget });
+    const target = event.currentTarget;
+    this.setState( ()=> ({
+      anchorEl: target
+    }));
   };
 
   handleClose = () => {
-    this.setState({ anchorEl: null });
+    this.setState( ()=> ({
+      anchorEl: null
+    }))
   };
 
   changeLang = (langCode) => {
