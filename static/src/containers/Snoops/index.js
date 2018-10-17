@@ -4,7 +4,7 @@ import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import * as UpdateForm from "../../actions/UpdateForm";
 
-import ApiService from './../../services/api';
+// import ApiService from './../../services/api';
 import config from './../../configs';
 import SnoopsList from './../../components/SnoopsList';
 
