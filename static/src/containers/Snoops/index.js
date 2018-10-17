@@ -13,21 +13,21 @@ class SnoopsListContainer extends Component {
   constructor(props) {
     super(props);
     this.config = config;
+    // this.apiService =  new ApiService();
     this.state = {
       snoops: []
     };
   }
 
   componentDidMount() {
-    const apiService = new ApiService();
-    apiService.getRequest(this.config.snoops)
-      .then((result)=>{
-        this.setState({
-          snoops: result || []
-        })
-      }).catch((e)=>{
-        console.log(e);
-      });
+    // this.apiService.getRequest(this.config.snoops)
+    //   .then((result)=>{
+    //     this.setState({
+    //       snoops: result || []
+    //     })
+    //   }).catch((e)=>{
+    //     console.log(e);
+    //   });
   }
 
   render() {

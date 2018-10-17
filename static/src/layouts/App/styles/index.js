@@ -50,7 +50,7 @@ const styles = theme => ({
     }),
     borderRadius: theme.radius,
     boxShadow: theme.shadows[5],
-    backgroundColor: '#ffffff'
+    backgroundColor: theme.palette.backgroundLayout
   },
   'content-left': {
     marginLeft: -drawerWidth,

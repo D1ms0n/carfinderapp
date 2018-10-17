@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import * as FormActions from '../../actions/FormActions';
-import * as PreLoaderActions from '../../actions/PreLoaderActions';
 
 import Form from '../../components/Form/index';
 import Results from '../../components/Results/index';
@@ -27,7 +26,6 @@ class FormContainer extends Component {
 
   render() {
     const {submitForm} = this.props.FormActions;
-    const {togglePreLoader} = this.props.PreLoaderActions;
     const {items,loading,history} = this.props;
     return (
       <Grid
@@ -39,7 +37,6 @@ class FormContainer extends Component {
           <Form
             history={history}
             submitForm={submitForm}
-            togglePreLoader={togglePreLoader}
           />
         </Grid>
         <Grid item lg={9} md={8} sm={7} xs={11}>
@@ -55,20 +52,17 @@ class FormContainer extends Component {
 
 FormContainer.propTypes = {
   FormActions: PropTypes.object.isRequired,
-  PreLoaderActions: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => {
   return {
-    items: state.form.result,
-    loading: state.loading.result,
+    items: state.form.result
   }
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    FormActions: bindActionCreators(FormActions, dispatch),
-    PreLoaderActions: bindActionCreators(PreLoaderActions, dispatch)
+    FormActions: bindActionCreators(FormActions, dispatch)
   }
 };
 

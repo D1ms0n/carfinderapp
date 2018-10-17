@@ -5,14 +5,15 @@ import { bindActionCreators } from "redux";
 import { withStyles } from '@material-ui/core/styles';
 import * as LoginActions from "../../actions/LoginActions";
 import styles from './styles';
-import ApiService from './../../services/api';
-import {CookiesService} from './../../services/cookies';
-import serialize from './../../services/serialize';
+import { CookiesService } from './../../services/cookies';
+// import ApiService from './../../services/api';
+// import serialize from './../../services/serialize';
 import config from './../../configs';
 
 import testResults from './testResults';
 import localisation from "../../services/translations";
 import countYears from './modules/CountYears';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 import 'rc-slider/assets/index.css';
 import 'react-select/dist/react-select.css';
@@ -45,10 +46,11 @@ class Form extends Component {
   constructor(props) {
     super(props);
     this.config = config;
-    this.apiService =  new ApiService();
+    // this.apiService =  new ApiService();
     this.state = {
       redirect: true,
       formHidden: false,
+      loading: false,
       login: false,
       years: null,
       manufacturers: null,
@@ -61,20 +63,17 @@ class Form extends Component {
       year_max: endYear
     };
   }
-
   handleChange = name => value => {
     this.setState({
       [name]: value
     });
   };
-
   handleCloseSnackbar = (event, reason) => {
     if (reason === 'clickaway') {
       return;
     }
     this.setState( ()=> ({ snackBarOpen: false }));
   };
-
   handleMillageChange = event => {
     const name = event.target.name;
     const value = event.target.value;
@@ -82,14 +81,12 @@ class Form extends Component {
         [name]: value
     }));
   };
-
   handleRangeYearsChange = value => {
     this.setState( ()=> ({
       year_min: value[0],
       year_max: value[1]
     }));
   };
-
   toggleFrom = () =>{
     const mobileDevisesWidth = 600;
     if ( window.innerWidth > mobileDevisesWidth ){
@@ -99,7 +96,6 @@ class Form extends Component {
       formHidden: !this.state.formHidden
     }));
   };
-
   updateForm = params => {
     if (Object.keys(params).length === 0 
       && params.constructor === Object){
@@ -117,64 +113,39 @@ class Form extends Component {
 
     this.searchCars();
   };
-
-  compareValues = (valMin,valMax) =>{
-
-    valMin = Number(valMin);
-    valMax = Number(valMax);
-
-    const setNewState = (newValues) => {
-
-      this.setState( ()=> ({
-        mileage_min: newValues[0],
-        mileage_max: newValues[1]
-      }));
-
-    };
-    if ( valMin > valMax ){
-      setNewState([valMax,valMin]);
-    }
-
-  };
-
   searchCars = () => {
-    this.props.submitForm([]);
-    this.props.togglePreLoader(true);
-    const searchParams = serialize(this.searchForm);
-    this.toggleFrom();
-    this.apiService.getRequest(`${this.config.cars}?${searchParams}`)
-      .then((result)=>{
-      })
-      .catch((e)=>{
-        console.log(e);
-      });
-    setTimeout( () => {
-      this.props.submitForm(resultCars);
-      this.props.togglePreLoader(false);
-    },1000);
-  };
 
+    this.setState( ()=> ({
+      loading: true
+    }));
+
+    this.toggleFrom();
+
+    setTimeout( () => {
+      this.setState( ()=> ({
+        loading: false
+      }));
+      this.props.submitForm(resultCars);
+    },1000);
+
+  };
   createSnoop = () => {
     if (this.state.redirect) {
       this.props.history.push('login',null);
     } else {
-      this.props.submitForm([]);
-      this.props.togglePreLoader(true);
       this.toggleFrom();
-      const searchParams = serialize(this.searchForm);
-      this.apiService.getRequest(`${this.config.snoops}?${searchParams}`)
-        .then((result)=>{
-        })
-        .catch((e)=>{
-        console.log(e);
-      });
+      // const searchParams = serialize(this.searchForm);
+      // this.apiService.getRequest(`${this.config.cars}?${searchParams}`)
+      //   .then((result)=>{
+      //   })
+      //   .catch((e)=>{
+      //     console.log(e);
+      //   });
       setTimeout( () => {
         this.props.submitForm(resultCars);
-        this.props.togglePreLoader(false);
       },1000);
     }
   };
-
   componentDidMount() {
     const userData = CookiesService.getCookie('user');
     if ( userData.length ) {
@@ -190,14 +161,12 @@ class Form extends Component {
       }));
     }
   }
-
   componentWillReceiveProps(nextProps) {
     this.updateForm(nextProps.updatedParams)
   }
-
   render() {
     const {classes} = this.props;
-    const {year_min,year_max} = this.state;
+    const {year_min,year_max,loading} = this.state;
     const rangeValue = [year_min, year_max];
     const formTitle = ( this.state.login ? this.state.login.name : localisation.formTitle);
     return (
@@ -382,6 +351,8 @@ class Form extends Component {
                 >
                   {localisation.createSnoops}
                 </Button>
+
+                { loading ? <LinearProgress /> : null}
               </Grid>
             </Grid>
           </CardFooter>
@@ -409,7 +380,6 @@ class Form extends Component {
 Form.propTypes = {
   classes: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
-  togglePreLoader: PropTypes.func.isRequired,
   LoginActions: PropTypes.object.isRequired,
   submitForm: PropTypes.func.isRequired,
   updatedParams: PropTypes.object

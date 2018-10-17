@@ -61,7 +61,6 @@ class Login extends Component {
       snackBarOpen: false
     }));
   };
-
   handleChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
@@ -69,7 +68,6 @@ class Login extends Component {
       [name]: value
     }, () => { this.validateField(name,value) });
   };
-
   validateField(fieldName, value) {
 
     let fieldValidationErrors = this.state.formErrors;
@@ -95,7 +93,6 @@ class Login extends Component {
       emailValid: emailValid
     }, this.validateForm);
   }
-
   validateForm() {
     this.setState( ()=> ({
       formValid:
@@ -103,11 +100,9 @@ class Login extends Component {
       && this.state.emailValid
     }));
   }
-
   cancel(){
     this.props.history.push('/');
   }
-
   showMss(){
     this.setState( ()=> ({
       snackBarOpen: true,
@@ -115,7 +110,6 @@ class Login extends Component {
       message: localisation.emptyFieldsMss
     }));
   }
-
   saveUser(){
     const data = {
       name: this.state.email,
@@ -131,11 +125,9 @@ class Login extends Component {
     CookiesService.setCookie('user',JSON.stringify(userInfo),'1');
     this.props.history.push('/');
   }
-
   login(){
     ( this.state.formValid ? this.saveUser(): this.showMss())
   }
-
   render(){
     const {classes} = this.props;
     return (

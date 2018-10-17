@@ -5,6 +5,9 @@ const styles = theme => ({
     margin: 0,
     padding: 0
   },
+  loader: {
+    marginBottom: 20
+  },
   listItem: {
     padding: 0,
     margin: 0,

@@ -31,20 +31,17 @@ class Header extends Component {
       openRegistration: false
     };
   }
-
   handleClick = event => {
     const target = event.currentTarget;
     this.setState( ()=> ({
       anchorEl: target
     }));
   };
-
   handleClose = () => {
     this.setState( ()=> ({
       anchorEl: null
     }))
   };
-
   changeLang = (langCode) => {
     localisation.setLanguage(langCode);
     this.props.changeLangActions.changeLang(langCode);

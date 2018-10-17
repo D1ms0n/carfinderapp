@@ -11,7 +11,6 @@ import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Paper from '@material-ui/core/Paper';
-import LinearProgress from '@material-ui/core/LinearProgress';
 import Card from "./../Card/Card.jsx";
 import CardBody from "./../Card/CardBody.jsx";
 import CardHeader from "./../Card/CardHeader.jsx";
@@ -25,16 +24,17 @@ import BatteryFull from '@material-ui/icons/BatteryFull';
 import DirectionsWalk from '@material-ui/icons/DirectionsWalk';
 import DirectionsCar from '@material-ui/icons/DirectionsCar';
 
-
 class Results extends Component {
 
   constructor(props) {
     super(props);
     this.props = props;
   }
-
+  shouldComponentUpdate(nextProps) {
+    return !( nextProps.items === this.props.items );
+  }
   render() {
-    const {items,classes,loading} = this.props;
+    const {items,classes} = this.props;
     const noResults = localisation.noResults;
     return (
       <Paper className={classes.paper}>
@@ -50,7 +50,6 @@ class Results extends Component {
                       {item.price}, <Room /> {item.place}
                     </Typography>
                   </CardHeader>
-
                   <CardBody>
                     <CardMedia
                       className={classes.cover}
@@ -103,7 +102,6 @@ class Results extends Component {
               </ListItem>
             )})}
         </List>
-        { loading ? <LinearProgress /> : null}
       </Paper>
     );
   }
@@ -111,7 +109,6 @@ class Results extends Component {
 
 Results.propTypes = {
   items: PropTypes.array.isRequired,
-  loading: PropTypes.bool.isRequired,
   classes: PropTypes.object.isRequired
 };
 

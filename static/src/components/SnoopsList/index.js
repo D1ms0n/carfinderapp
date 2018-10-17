@@ -31,23 +31,19 @@ class SnoopsList extends React.Component {
       open: false,
     };
   }
-
   handleClickOpen = () => {
     this.setState( ()=> ({
       open: true
     }));
   };
-
   handleClose = () => {
     this.setState( ()=> ({
       open: false
     }));
   };
-
   pushSearchItems = (params) => {
     this.props.updateForm(params);
   };
-
   render() {
     const {classes} = this.props;
     const snoops = snoopsTest;
